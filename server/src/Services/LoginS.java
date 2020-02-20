@@ -7,7 +7,7 @@ public class LoginS extends Service {
     /**
      *
      */
-    public LoginS() {
+    public LoginS() throws DataAccessException {
         super();
     }
 

@@ -7,7 +7,7 @@ public class EventsS extends Service {
     /**
      *
      */
-    public EventsS() {
+    public EventsS() throws DataAccessException {
         super();
     }
 

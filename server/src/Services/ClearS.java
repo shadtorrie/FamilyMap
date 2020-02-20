@@ -17,7 +17,7 @@ public class ClearS extends Service{
     /**
      *
      */
-    public ClearS() {
+    public ClearS() throws DataAccessException {
         super();
     }
 }

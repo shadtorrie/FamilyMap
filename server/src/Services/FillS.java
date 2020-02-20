@@ -7,7 +7,7 @@ public class FillS extends Service {
     /**
      *
      */
-    public FillS() {
+    public FillS() throws DataAccessException {
         super();
     }
 

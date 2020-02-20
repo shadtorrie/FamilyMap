@@ -1,7 +1,6 @@
 package Models;
 
 public class Event extends Model {
-    private String username;
     private String person;
     private float latitude;
     private float longitude;
@@ -13,7 +12,6 @@ public class Event extends Model {
     /**
      *
      * @param ID
-     * @param username
      * @param person
      * @param latitude
      * @param longitude
@@ -22,9 +20,8 @@ public class Event extends Model {
      * @param event_type
      * @param year
      */
-    public Event(String ID, String username, String person, float latitude, float longitude, String country, String city, String event_type, int year) {
+    public Event(String ID, String person, float latitude, float longitude, String country, String city, String event_type, int year) {
         super(ID);
-        this.username = username;
         this.person = person;
         this.latitude = latitude;
         this.longitude = longitude;
@@ -40,22 +37,6 @@ public class Event extends Model {
      */
     public Event(String ID) {
         super(ID);
-    }
-
-    /**
-     *
-     * @return
-     */
-    public String getUsername() {
-        return username;
-    }
-
-    /**
-     *
-     * @param username
-     */
-    public void setUsername(String username) {
-        this.username = username;
     }
 
     /**
@@ -177,6 +158,28 @@ public class Event extends Model {
      */
     @Override
     public boolean equals(Object obj) {
-        return super.equals(obj);
+        if(obj.getClass()!=this.getClass()){
+            return false;
+        }
+        else if(obj==this){
+            return true;
+        }
+        Event objEvent = (Event)obj;
+        /*
+        private String person;
+    private float latitude;
+    private float longitude;
+    private String country;
+    private String city;
+    private String event_type;
+    private int year;
+        */
+        if(!objEvent.person.equals(this.person) || !objEvent.ID.equals(this.ID) || objEvent.latitude!=this.latitude
+                || objEvent.longitude!=this.longitude|| !objEvent.country.equals(this.country)|| !objEvent.city.equals(this.city)
+                || !objEvent.event_type.equals(this.event_type)|| objEvent.year!=this.year){
+            return false;
+        }
+
+        return true;
     }
 }

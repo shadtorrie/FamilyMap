@@ -1,12 +1,18 @@
 package DAOs;
 
 import Models.Model;
+import Services.DataAccessException;
 import Services.Database;
+
+import java.util.ArrayList;
 
 /**
  *
  */
 public class PersonDAO extends DAO{
+    public PersonDAO() {
+        super();
+    }
     /**
      *
      * @param database
@@ -34,6 +40,12 @@ public class PersonDAO extends DAO{
     public Model find(String searchString) {
         return null;
     }
+
+    @Override
+    public ArrayList<Model> find() throws DataAccessException {
+        return null;
+    }
+
 
     /**
      *

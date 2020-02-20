@@ -7,7 +7,7 @@ public class PeopleS extends Service {
     /**
      *
      */
-    public PeopleS() {
+    public PeopleS() throws DataAccessException {
         super();
     }
 

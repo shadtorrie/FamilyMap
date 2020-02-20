@@ -7,7 +7,7 @@ public class RegisterS extends Service {
     /**
      *
      */
-    public RegisterS() {
+    public RegisterS() throws DataAccessException {
         super();
     }
 

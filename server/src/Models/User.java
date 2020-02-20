@@ -63,6 +63,17 @@ public class User extends Model {
      */
     @Override
     public boolean equals(Object obj) {
-        return super.equals(obj);
+        if(obj.getClass()!=this.getClass()){
+            return false;
+        }
+        else if(obj==this){
+            return true;
+        }
+        User objUsers = (User)obj;
+        if(!objUsers.email.equals(this.email) || !objUsers.ID.equals(this.ID) || !objUsers.password.equals(this.password)){
+            return false;
+        }
+
+        return true;
     }
 }

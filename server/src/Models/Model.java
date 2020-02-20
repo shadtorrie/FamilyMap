@@ -1,7 +1,7 @@
 package Models;
 
 public class Model {
-    private String ID;
+    protected String ID;
     public Model(String ID){
         this.ID=ID;
     }

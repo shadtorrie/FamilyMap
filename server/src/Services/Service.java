@@ -5,7 +5,7 @@ import Result.Results;
 
 public abstract class Service {
     private Database dbConnection;
-    public Service() {
+    public Service() throws DataAccessException {
         this.dbConnection = new Database();
         dbConnection.getConnection();
     }

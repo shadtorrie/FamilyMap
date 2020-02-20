@@ -13,7 +13,8 @@ public class LoadS extends Service{
     private ArrayList<Person> persons;
     private ArrayList<Event> events;
 
-    public LoadS(ArrayList<User> users, ArrayList<Person> persons, ArrayList<Event> events) {
+    public LoadS(ArrayList<User> users, ArrayList<Person> persons, ArrayList<Event> events) throws DataAccessException {
+        super();
         this.users = users;
         this.persons = persons;
         this.events = events;
@@ -22,7 +23,7 @@ public class LoadS extends Service{
     /**
      *Load service constructor.
      */
-    public LoadS() {
+    public LoadS() throws DataAccessException {
         super();
     }
 

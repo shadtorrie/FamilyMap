@@ -4,7 +4,7 @@ import com.sun.net.httpserver.HttpExchange;
 
 import java.io.IOException;
 
-public class People extends Handler  {
+public class Load extends Handler {
     @Override
     public void handle(HttpExchange exchange) throws IOException {
 

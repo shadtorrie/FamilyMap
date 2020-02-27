@@ -38,21 +38,20 @@ public abstract class DAOTest {
 
     public void insertPass() throws Exception {
         Model compareTest = null;
-        Database database = new Database();
         try {
-            database.openConnection();
-            Dao.setDbConnection(database);
+            db.openConnection();
+            Dao.setDbConnection(db);
             Dao.insert(getModel());
             compareTest = Dao.find(model.getID());
         }
         catch(DataAccessException e){
             db.closeConnection(false);
-            database.closeConnection(false);
-            database = null;
+            db.closeConnection(false);
+            db = null;
         }
         finally{
-            if(database!=null)
-                database.closeConnection(true);
+            if(db!=null)
+                db.closeConnection(true);
         }
         assertNotNull(compareTest);
         assertEquals(model,compareTest);
@@ -60,78 +59,71 @@ public abstract class DAOTest {
 
     public void insertFail() throws Exception {
         Model compareTest = null;
-        Database database = new Database();
         boolean inserted =true;
         try {
-            database.openConnection();
-            Dao.setDbConnection(database);
+            db.openConnection();
+            Dao.setDbConnection(db);
             Dao.insert(getModel());
             Dao.insert(getModel());
         }
         catch(DataAccessException e){
-            database.closeConnection(false);
+            db.closeConnection(false);
             inserted=false;
         }
         finally{
-            database.closeConnection(true);
+            db.closeConnection(true);
         }
         assertFalse(inserted);
         try{
-            database.openConnection();
+            db.openConnection();
             compareTest = Dao.find(getModel().getID());
-            database.closeConnection(true);
+            db.closeConnection(true);
         }
         catch (DataAccessException e){
-            database.closeConnection(false);
+            db.closeConnection(false);
         }
         assertNull(compareTest);
     }
 
     public void findPass() throws Exception {
         Model compareTest = null;
-        Database database = new Database();
         try {
-            database.openConnection();
-            Dao.setDbConnection(database);
+            db.openConnection();
+            Dao.setDbConnection(db);
             Dao.insert(getModel());
             compareTest = Dao.find(model.getID());
         }
         catch(DataAccessException e){
             db.closeConnection(false);
-            database.closeConnection(false);
-            database = null;
         }
         finally{
-            if(database!=null)
-               database.closeConnection(true);
+            db.closeConnection(true);
         }
         assertNotNull(compareTest);
     }
 
     public void findFail() throws Exception {
         Model compareTest = null;
-        Database database = new Database();
         try {
-            database.openConnection();
-            Dao.setDbConnection(database);
+            db.openConnection();
+            Dao.setDbConnection(db);
             compareTest = Dao.find(model.getID());
         }
         catch(DataAccessException e){
             db.closeConnection(false);
-            database.closeConnection(false);
+            db.closeConnection(false);
         }
         finally{
-            database.closeConnection(true);
+            db.closeConnection(true);
         }
         assertNull(compareTest);
     }
 
     public void clear() throws Exception {
         ArrayList<Model> compareTest = null;
-        Database database = new Database();
         try {
-            database.openConnection();
-            Dao.setDbConnection(database);
+            db.openConnection();
+            Dao.setDbConnection(db);
             Dao.insert(model);
             Dao.clear();
             compareTest = Dao.find();
@@ -140,7 +132,7 @@ public abstract class DAOTest {
             db.closeConnection(false);
         }
         finally{
-            database.closeConnection(true);
+            db.closeConnection(true);
         }
         assert compareTest != null;
         assertEquals(0,compareTest.size());

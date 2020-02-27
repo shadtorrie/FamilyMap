@@ -14,7 +14,7 @@ public abstract class DAO {
     }
     public DAO(){
     }
-
+//UUID can create string unique identifiers.
     public abstract Model insert(Model insertModel) throws DataAccessException, SQLException;
     public abstract Model find(String searchString) throws DataAccessException;
     public abstract ArrayList<Model> find() throws DataAccessException;

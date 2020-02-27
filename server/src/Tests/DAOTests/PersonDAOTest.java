@@ -1,20 +1,23 @@
 package Tests.DAOTests;
 
-import DAOs.EventDAO;
-import Models.Event;
+import DAOs.PersonDAO;
+import DAOs.UserDAO;
+import Models.Person;
 import Models.User;
 import Services.Database;
 import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
-class EventDAOTest extends DAOTest {
+import static org.junit.jupiter.api.Assertions.*;
 
+class PersonDAOTest extends DAOTest{
     @BeforeEach
     @Override
     public void setUp() throws Exception {
         setDb(new Database());
-        setModel(new Event("123A","test",123.1f,234.2f,"USA","Provo","Birth",1997));
+        setModel(new Person("1234a","shadtorrie","first","last",
+                'm',"12345a", "123456a","1234567a"));
     }
     @AfterEach
     public void tearDown() throws Exception {
@@ -22,27 +25,27 @@ class EventDAOTest extends DAOTest {
     }
     @Test
     public void insertPass() throws Exception {
-        Dao = new EventDAO();
+        Dao = new PersonDAO();
         super.insertPass();
     }
     @Test
     public void insertFail() throws Exception {
-        Dao = new EventDAO();
+        Dao = new PersonDAO();
         super.insertFail();
     }
     @Test
     public void findPass() throws Exception {
-        Dao = new EventDAO();
+        Dao = new PersonDAO();
         super.findPass();
     }
     @Test
     public void findFail() throws Exception {
-        Dao = new EventDAO();
+        Dao = new PersonDAO();
         super.findFail();
     }
     @Test
     public void clear() throws Exception {
-        Dao = new EventDAO();
+        Dao = new PersonDAO();
         super.clear();
     }
 }

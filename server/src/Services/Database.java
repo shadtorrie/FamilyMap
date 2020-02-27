@@ -54,6 +54,9 @@ public class Database {
      * @param
      */
     public void closeConnection(boolean commit) throws DataAccessException {
+        if(connection==null){
+            return;
+        }
         try{
             if(commit){
                 connection.commit();
@@ -75,6 +78,10 @@ public class Database {
             String sql="DELETE FROM Users";
             statement.executeUpdate(sql);
             sql="DELETE FROM Event";
+            statement.executeUpdate(sql);
+            sql="DELETE FROM Person";
+            statement.executeUpdate(sql);
+            sql="DELETE FROM Authorization_Token";
             statement.executeUpdate(sql);
         }
         catch(SQLException e){

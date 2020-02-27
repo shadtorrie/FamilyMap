@@ -9,6 +9,7 @@ import org.junit.jupiter.api.Test;
 
 class UserDAOTest extends DAOTest{
     @BeforeEach
+    @Override
     public void setUp() throws Exception {
         setDb(new Database());
         setModel(new User("testUser","Password123","test@gmail.com"));

@@ -165,15 +165,6 @@ public class Event extends Model {
             return true;
         }
         Event objEvent = (Event)obj;
-        /*
-        private String person;
-    private float latitude;
-    private float longitude;
-    private String country;
-    private String city;
-    private String event_type;
-    private int year;
-        */
         if(!objEvent.person.equals(this.person) || !objEvent.ID.equals(this.ID) || objEvent.latitude!=this.latitude
                 || objEvent.longitude!=this.longitude|| !objEvent.country.equals(this.country)|| !objEvent.city.equals(this.city)
                 || !objEvent.event_type.equals(this.event_type)|| objEvent.year!=this.year){

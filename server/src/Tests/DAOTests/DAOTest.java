@@ -4,7 +4,6 @@ import DAOs.DAO;
 import Models.Model;
 import Services.DataAccessException;
 import Services.Database;
-
 import java.util.ArrayList;
 
 import static org.junit.jupiter.api.Assertions.*;
@@ -71,14 +70,21 @@ public abstract class DAOTest {
         }
         catch(DataAccessException e){
             database.closeConnection(false);
-            database = null;
             inserted=false;
         }
         finally{
-            if(database!=null)
-                database.closeConnection(true);
+            database.closeConnection(true);
         }
         assertFalse(inserted);
+        try{
+            database.openConnection();
+            compareTest = Dao.find(getModel().getID());
+            database.closeConnection(true);
+        }
+        catch (DataAccessException e){
+            database.closeConnection(false);
+        }
+        assertNull(compareTest);
     }
 
     public void findPass() throws Exception {
@@ -115,8 +121,7 @@ public abstract class DAOTest {
             database.closeConnection(false);
         }
         finally{
-            if(database!=null)
-                database.closeConnection(true);
+            database.closeConnection(true);
         }
         assertNull(compareTest);
     }
@@ -137,6 +142,7 @@ public abstract class DAOTest {
         finally{
             database.closeConnection(true);
         }
+        assert compareTest != null;
         assertEquals(0,compareTest.size());
     }
 }

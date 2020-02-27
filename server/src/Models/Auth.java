@@ -47,6 +47,16 @@ public class Auth extends Model {
      */
     @Override
     public boolean equals(Object obj) {
-        return super.equals(obj);
+        if(obj.getClass()!=this.getClass()){
+            return false;
+        }
+        else if(obj==this){
+            return true;
+        }
+        Auth objAuth = (Auth)obj;
+        if(!objAuth.ID.equals(this.ID)||!objAuth.username.equals(this.username)){
+            return false;
+        }
+        return true;
     }
 }

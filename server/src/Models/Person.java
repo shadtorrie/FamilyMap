@@ -172,8 +172,31 @@ public class Person extends Model {
      * @param obj
      * @return
      */
+    /*
+    private String username;
+    private String first_name;
+    private String last_name;
+    private char gender;
+    private String father_id;
+    private String mother_id;
+    private String spouse_id;
+     */
     @Override
     public boolean equals(Object obj) {
-        return super.equals(obj);
+        if(obj.getClass()!=this.getClass()){
+            return false;
+        }
+        else if(obj==this){
+            return true;
+        }
+        Person objPerson = (Person)obj;
+        if(!objPerson.username.equals(this.username) || !objPerson.ID.equals(this.ID)
+                ||!objPerson.first_name.equals(this.first_name)|| !objPerson.last_name.equals(this.last_name)
+                || objPerson.gender!=this.gender || !objPerson.father_id.equals(this.father_id)
+                ||!objPerson.mother_id.equals(this.mother_id) ||!objPerson.spouse_id.equals(this.spouse_id)){
+            return false;
+        }
+
+        return true;
     }
 }

@@ -35,7 +35,7 @@ public class PeopleS extends Service {
             String username= super.authenticate(personRequest.getAuthentication());
             if(username.equals("")){
                 dbConnection.closeConnection(false);
-                return new Result.Person("Invalid auth token",false);
+                return new Result.Person("Error: Invalid auth token",false);
             }
             DAO personDao = new PersonDAO(dbConnection);
             Results result = null;

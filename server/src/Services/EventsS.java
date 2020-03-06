@@ -37,7 +37,7 @@ public class EventsS extends Service {
             String username = super.authenticate(eventRequest.getAuthentication());
             if(username.equals("")){
                 dbConnection.closeConnection(false);
-                return new Result.Event("Invalid auth token",false);
+                return new Result.Event("Error: Invalid auth token",false);
             }
             DAO eventDao = new EventDAO(dbConnection);
             Results result = null;

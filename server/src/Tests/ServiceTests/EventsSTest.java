@@ -93,7 +93,7 @@ class EventsSTest extends ServiceTest {
         }
         assertNotNull(results,"Result was not received.");
         assertFalse(results.isSuccess(),"The authentication token should be invalid");
-        assertEquals("Invalid auth token",results.getMessage(),"The error message was incorrect.");
+        assertEquals("Error: Invalid auth token",results.getMessage(),"The error message was incorrect.");
     }
     @Test
     public void testFindEventFail(){

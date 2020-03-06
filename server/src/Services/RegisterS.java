@@ -33,7 +33,7 @@ public class RegisterS extends Service {
             if(registerRequest.getUserName().length()==0||registerRequest.getPassword().length()==0
                     ||registerRequest.getEmail().length()==0||registerRequest.getFirstName().length()==0
                     ||registerRequest.getLastName().length()==0||(Character.toLowerCase(registerRequest.getGender())!='m'&&Character.toLowerCase(registerRequest.getGender())!='f')){
-                return new Result.Register("Request property missing or has invalid value",false);
+                return new Result.Register("Error: Request property missing or has invalid value",false);
             }
 
             User result = (ModelsServer.User) dao.find(registerRequest.getUserName());
@@ -45,7 +45,7 @@ public class RegisterS extends Service {
             User userResultModel = (ModelsServer.User) dao.insert(new User(registerRequest.getUserName(),registerRequest.getPassword(),registerRequest.getEmail()));
             if(userResultModel==null){
                 dbConnection.closeConnection(false);
-                return new Result.Register("Request property missing or has invalid value",false);
+                return new Result.Register("Error: Request property missing or has invalid value",false);
             }
             dbConnection.closeConnection(true);
             Service fillService = new FillS();

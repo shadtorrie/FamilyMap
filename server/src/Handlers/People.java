@@ -21,7 +21,7 @@ public class People extends Handler  {
     @Override
     public void handle(HttpExchange exchange) throws IOException {
         boolean success = false;
-
+        Results respData = null;
         try {
             if (exchange.getRequestMethod().toLowerCase().equals("get")) {
                 Headers reqHeaders = exchange.getRequestHeaders();
@@ -29,23 +29,26 @@ public class People extends Handler  {
                 Service service = new PeopleS();
                 String path=exchange.getRequestURI().getPath();
                 String personID=path.substring(path.lastIndexOf("person")+"person".length());
-                Results respData = null;
+
                 if(personID.length()>0){
                     respData = service.requestService(new Person(personID,authToken));
+                    if(((Result.Person)respData).isSuccess()) {
+                        exchange.sendResponseHeaders(HttpURLConnection.HTTP_OK, 0);
+                    }
+                    else{
+                        exchange.sendResponseHeaders(HttpURLConnection.HTTP_BAD_REQUEST, 0);
+                    }
                 }
                 else {
                     respData = service.requestService(new Person(authToken));
+                    if(((Result.PersonList)respData).isSuccess()) {
+                        exchange.sendResponseHeaders(HttpURLConnection.HTTP_OK, 0);
+                    }
+                    else{
+                        exchange.sendResponseHeaders(HttpURLConnection.HTTP_BAD_REQUEST, 0);
+                    }
                 }
-                if(((Result.PersonList)respData).isSuccess()) {
-                    exchange.sendResponseHeaders(HttpURLConnection.HTTP_OK, 0);
-                }
-                else{
-                    exchange.sendResponseHeaders(HttpURLConnection.HTTP_BAD_REQUEST, 0);
-                }
-                OutputStream respBody = exchange.getResponseBody();
-                Gson gson = new Gson();
-                respBody.write(gson.toJson(respData).getBytes(StandardCharsets.UTF_8));
-                respBody.close();
+
                 success = true;
             }
 
@@ -56,8 +59,15 @@ public class People extends Handler  {
         }
         catch (IOException | DataAccessException e) {
             exchange.sendResponseHeaders(HttpURLConnection.HTTP_INTERNAL_ERROR, 0);
-            exchange.getResponseBody().close();
+            OutputStream respBody = exchange.getResponseBody();
+            Gson gson = new Gson();
+            respBody.write(gson.toJson(respData).getBytes(StandardCharsets.UTF_8));
+            respBody.close();
             e.printStackTrace();
         }
+        OutputStream respBody = exchange.getResponseBody();
+        Gson gson = new Gson();
+        respBody.write(gson.toJson(respData).getBytes(StandardCharsets.UTF_8));
+        respBody.close();
     }
 }

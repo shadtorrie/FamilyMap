@@ -18,4 +18,8 @@ public class EventList extends Results {
     public void setData(ArrayList<Event> data) {
         this.data = data;
     }
+
+    public boolean isSuccess() {
+        return success;
+    }
 }

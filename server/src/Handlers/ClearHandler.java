@@ -21,7 +21,7 @@ public class ClearHandler extends Handler {
         boolean success = false;
 
         try {
-            if (exchange.getRequestMethod().toLowerCase().equals("get")) {
+            if (exchange.getRequestMethod().toLowerCase().equals("post")) {
                 Headers reqHeaders = exchange.getRequestHeaders();
                 Service service = new ClearS();
                 Results respData = service.requestService(new Request.Clear());

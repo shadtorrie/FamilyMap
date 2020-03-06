@@ -20,7 +20,7 @@ public class Events extends Handler {
     @Override
     public void handle(HttpExchange exchange) throws IOException {
         boolean success = false;
-
+        Results respData = null;
         try {
             if (exchange.getRequestMethod().toLowerCase().equals("get")) {
                 Headers reqHeaders = exchange.getRequestHeaders();
@@ -28,30 +28,42 @@ public class Events extends Handler {
                 Service service = new EventsS();
                 String path=exchange.getRequestURI().getPath();
                 String eventID=path.substring(path.lastIndexOf("event")+"event".length());
-                Results respData = null;
                 if(eventID.length()>0){
                     respData = service.requestService(new Event(eventID,authToken));
+                    if(((Result.Event)respData).isSuccess()) {
+                        exchange.sendResponseHeaders(HttpURLConnection.HTTP_OK, 0);
+                    }
+                    else{
+                        exchange.sendResponseHeaders(HttpURLConnection.HTTP_BAD_REQUEST, 0);
+                    }
                 }
                 else {
                     respData = service.requestService(new Event(authToken));
+                    if(((Result.EventList)respData).isSuccess()) {
+                        exchange.sendResponseHeaders(HttpURLConnection.HTTP_OK, 0);
+                    }
+                    else{
+                        exchange.sendResponseHeaders(HttpURLConnection.HTTP_BAD_REQUEST, 0);
+                    }
                 }
-                exchange.sendResponseHeaders(HttpURLConnection.HTTP_OK, 0);
-                OutputStream respBody = exchange.getResponseBody();
-                Gson gson = new Gson();
-                respBody.write(gson.toJson(respData).getBytes(StandardCharsets.UTF_8));
-                respBody.close();
                 success = true;
             }
 
             if (!success) {
                 exchange.sendResponseHeaders(HttpURLConnection.HTTP_BAD_REQUEST, 0);
-                exchange.getResponseBody().close();
             }
         }
         catch (IOException | DataAccessException e) {
             exchange.sendResponseHeaders(HttpURLConnection.HTTP_INTERNAL_ERROR, 0);
-            exchange.getResponseBody().close();
+            OutputStream respBody = exchange.getResponseBody();
+            Gson gson = new Gson();
+            respBody.write(gson.toJson(respData).getBytes(StandardCharsets.UTF_8));
+            respBody.close();
             e.printStackTrace();
         }
+        OutputStream respBody = exchange.getResponseBody();
+        Gson gson = new Gson();
+        respBody.write(gson.toJson(respData).getBytes(StandardCharsets.UTF_8));
+        respBody.close();
     }
 }

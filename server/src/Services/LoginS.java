@@ -40,13 +40,13 @@ public class LoginS extends Service {
             User resultModel = (ModelsServer.User) dao.find(loginRequest.getUserName());
             if(resultModel==null){
                 dbConnection.closeConnection(false);
-                return new Result.Login("Request property missing or has invalid value",false);
+                return new Result.Login("Error: Request property missing or has invalid value",false);
             }
             dao=new PersonDAO(dbConnection);
             ArrayList<Model> personResultModel = dao.findMultiple(resultModel.getID());
             if(personResultModel.size()==0||personResultModel.get(0)==null){
                 dbConnection.closeConnection(false);
-                return new Result.Login("Request property missing or has invalid value",false);
+                return new Result.Login("Error: Request property missing or has invalid value",false);
             }
             dao = new AuthDAO(dbConnection);
             Auth authModel = (Auth) dao.insert(new Auth(UUID.randomUUID().toString(),resultModel.getID()));

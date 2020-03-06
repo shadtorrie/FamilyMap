@@ -80,7 +80,7 @@ class LoginSTest extends ServiceTest {
         }
         assertNotNull(result,"Login in service failed.");
         assertFalse(result.isSuccess(),"Login should have failed");
-        assertEquals("Request property missing or has invalid value",result.getMessage(),"Incorrect Message");
+        assertEquals("Error: Request property missing or has invalid value",result.getMessage(),"Incorrect Message");
 
         ArrayList<Model> auths=null;
         try{

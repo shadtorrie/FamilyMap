@@ -2,7 +2,7 @@ package Services;
 
 import DAOs.AuthDAO;
 import DAOs.DAO;
-import ModelsServer.Auth;
+import Models.AuthModel;
 import Request.Requests;
 import Result.Results;
 
@@ -17,7 +17,7 @@ public abstract class Service {
 
     protected String authenticate(String authentication) throws DataAccessException {
         DAO authenticateDAO = new AuthDAO(dbConnection);
-        Auth auth = (Auth) authenticateDAO.find(authentication);
+        AuthModel auth = (AuthModel) authenticateDAO.find(authentication);
         if(auth!=null){
             return auth.getUserName();
         }

@@ -3,11 +3,12 @@ package Tests.ServiceTests;
 import DAOs.AuthDAO;
 import DAOs.PersonDAO;
 import DAOs.UserDAO;
-import ModelsServer.Auth;
-import ModelsServer.Model;
-import ModelsServer.Person;
-import ModelsServer.User;
-import Request.Login;
+import Models.AuthModel;
+import Models.Model;
+import Models.PersonModel;
+import Models.UserModel;
+import Request.LoginRequest;
+import Result.LoginResult;
 import Services.DataAccessException;
 import Services.LoginS;
 import org.junit.jupiter.api.AfterEach;
@@ -29,18 +30,18 @@ class LoginSTest extends ServiceTest {
     }
     @Test
     public void testLoginPass(){
-        Result.Login result=null;
-        User user= null;
-        Person person = null;
+        LoginResult result=null;
+        UserModel user= null;
+        PersonModel person = null;
         try{
             String personID = "test";
-            user = new User("shad","testing123","test@gmail.com",personID);
+            user = new UserModel("shad","testing123","test@gmail.com",personID);
             dao.insert(user);
             dao=new PersonDAO(db);
-            person = new Person(personID,user.getID(),"shad","Torrie","m");
+            person = new PersonModel(personID,user.getID(),"shad","Torrie","m");
             dao.insert(person);
             db.closeConnection(true);
-            result = (Result.Login) service.requestService(new Login(user.getID(),user.getPassword()));
+            result = (LoginResult) service.requestService(new LoginRequest(user.getID(),user.getPassword()));
         }
         catch(SQLException | DataAccessException e){
             e.printStackTrace();
@@ -61,20 +62,20 @@ class LoginSTest extends ServiceTest {
         }
         assertNotNull(auths,"Getting auth token failed.");
         assertEquals(1,auths.size(),"Incorrect amount of auth tokens");
-        assertEquals(((Auth)auths.get(0)).getID(),result.getAuthToken(),"Auth token not saved correctly.");
+        assertEquals(((AuthModel)auths.get(0)).getID(),result.getAuthToken(),"Auth token not saved correctly.");
     }
     @Test
     public void testLoginFail(){
-        Result.Login result=null;
-        User user= null;
-        Person person = null;
+        LoginResult result=null;
+        UserModel user= null;
+        PersonModel person = null;
         try{
-            user = new User("shad","testing123","test@gmail.com");
+            user = new UserModel("shad","testing123","test@gmail.com");
             dao=new PersonDAO(db);
-            person = new Person("testID",user.getID(),"shad","Torrie","m");
+            person = new PersonModel("testID",user.getID(),"shad","Torrie","m");
             dao.insert(person);
             db.closeConnection(true);
-            result = (Result.Login) service.requestService(new Login(user.getID(),user.getPassword()));
+            result = (LoginResult) service.requestService(new LoginRequest(user.getID(),user.getPassword()));
         }
         catch(SQLException | DataAccessException e){
             e.printStackTrace();

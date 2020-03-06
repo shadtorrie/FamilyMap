@@ -1,22 +1,12 @@
 package Handlers;
 
-import Request.Event;
-import Result.Results;
-import Services.DataAccessException;
-import Services.EventsS;
-import Services.Service;
-import com.google.gson.Gson;
-import com.sun.net.httpserver.Headers;
 import com.sun.net.httpserver.HttpExchange;
 
 import java.io.File;
 import java.io.IOException;
 import java.io.OutputStream;
 import java.net.HttpURLConnection;
-import java.nio.charset.StandardCharsets;
 import java.nio.file.Files;
-import java.nio.file.Path;
-import java.nio.file.Paths;
 
 public class FileHandler extends Handler {
     @Override

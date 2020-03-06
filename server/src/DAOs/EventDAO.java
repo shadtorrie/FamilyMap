@@ -1,7 +1,7 @@
 package DAOs;
 
-import ModelsServer.Event;
-import ModelsServer.Model;
+import Models.EventModel;
+import Models.Model;
 import Services.DataAccessException;
 import Services.Database;
 
@@ -29,10 +29,10 @@ public class EventDAO extends DAO {
      */
     @Override
     public Model insert(Model insertModel) throws DataAccessException {
-        if(insertModel.getClass()!= Event.class){
+        if(insertModel.getClass()!= EventModel.class){
             return null;
         }
-        Event event = (Event)insertModel;
+        EventModel event = (EventModel)insertModel;
         String sql = "INSERT INTO Event (event_id,person, latitude, longitude, country, city, event_type, year) VALUES(?,?,?,?,?,?,?,?)";
         try (PreparedStatement stmt = super.getDbConnection().getPreparedStatement(sql)){
             stmt.setString(1,event.getID());
@@ -60,14 +60,14 @@ public class EventDAO extends DAO {
      */
     @Override
     public Model find(String searchString) throws DataAccessException {
-        Event event;
+        EventModel event;
         String sql="SELECT Event.Event_id, Event.person, Event.latitude,Event.longitude,Event.country,Event.city,Event.event_type,Event.year,Person.username FROM Event INNER JOIN Person ON Event.person=person.person_id where Event.event_id = ?;";
         ResultSet result = null;
         try (PreparedStatement stmt = super.getDbConnection().getPreparedStatement(sql)){
             stmt.setString(1,searchString);
             result=stmt.executeQuery();
             if(result.next()){
-                event=new Event(result.getString("event_id"),result.getString("person"),result.getString("username"),result.getFloat("latitude"),result.getFloat("longitude"),result.getString("country"),result.getString("city"),result.getString("event_type"),result.getInt("year"));
+                event=new EventModel(result.getString("event_id"),result.getString("person"),result.getString("username"),result.getFloat("latitude"),result.getFloat("longitude"),result.getString("country"),result.getString("city"),result.getString("event_type"),result.getInt("year"));
                 return event;
             }
         }
@@ -87,7 +87,7 @@ public class EventDAO extends DAO {
             stmt.setString(1,username);
             result=stmt.executeQuery();
             while(result.next()){
-                events.add(new Event(result.getString("event_id"),result.getString("person"),username,result.getFloat("latitude"),result.getFloat("longitude"),result.getString("country"),result.getString("city"),result.getString("event_type"),result.getInt("year")));
+                events.add(new EventModel(result.getString("event_id"),result.getString("person"),username,result.getFloat("latitude"),result.getFloat("longitude"),result.getString("country"),result.getString("city"),result.getString("event_type"),result.getInt("year")));
             }
         }
         catch(SQLException e){

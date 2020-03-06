@@ -3,8 +3,10 @@ package Tests.ServiceTests;
 import DAOs.AuthDAO;
 import DAOs.DAO;
 import DAOs.PersonDAO;
-import ModelsServer.Auth;
-import ModelsServer.Person;
+import Models.AuthModel;
+import Models.PersonModel;
+import Request.PersonRequest;
+import Result.PersonResult;
 import Services.DataAccessException;
 import Services.PeopleS;
 import com.google.gson.Gson;
@@ -26,16 +28,16 @@ class PeopleSTest extends ServiceTest {
     }
     @Test
     public void testFindPersonPass(){
-        Result.Person results = null;
+        PersonResult results = null;
         try {
             String personID = "pers";
             String username = "test1";
-            dao.insert(new Person(personID,username,"Shad","Torrie","m"));
+            dao.insert(new PersonModel(personID,username,"Shad","Torrie","m"));
             DAO authDao = new AuthDAO(db);
             String authID = "test1234";
-            authDao.insert(new Auth(authID,username));
+            authDao.insert(new AuthModel(authID,username));
             db.closeConnection(true);
-            results = (Result.Person) service.requestService(new Request.Person(personID, authID));
+            results = (PersonResult) service.requestService(new PersonRequest(personID, authID));
         } catch (DataAccessException | SQLException e) {
             e.printStackTrace();
         }
@@ -49,15 +51,15 @@ class PeopleSTest extends ServiceTest {
             String personID = "pers";
             String personID2 = "pers2";
             String username = "test1";
-            Person firstPerson = new Person(personID,username,"Shad","Torrie","m");
-            Person secondPerson = new Person(personID2,username,"Shad","Torrie","m");
+            PersonModel firstPerson = new PersonModel(personID,username,"Shad","Torrie","m");
+            PersonModel secondPerson = new PersonModel(personID2,username,"Shad","Torrie","m");
             dao.insert(firstPerson);
             dao.insert(secondPerson);
             DAO authDao = new AuthDAO(db);
             String authID = "test1234";
-            authDao.insert(new Auth(authID,username));
+            authDao.insert(new AuthModel(authID,username));
             db.closeConnection(true);
-            results = (Result.PersonList) service.requestService(new Request.Person(authID));
+            results = (Result.PersonList) service.requestService(new PersonRequest(authID));
         } catch (DataAccessException | SQLException e) {
             e.printStackTrace();
         }
@@ -68,14 +70,14 @@ class PeopleSTest extends ServiceTest {
     }
     @Test
     public void testFindPersonFailAuth(){
-        Result.Person results = null;
+        PersonResult results = null;
         try {
             String personID = "pers";
-            dao.insert(new Person(personID,"test","Shad","Torrie","m"));
+            dao.insert(new PersonModel(personID,"test","Shad","Torrie","m"));
             String authID = "test1234";
             String username = "test1";
             db.closeConnection(true);
-            results = (Result.Person) service.requestService(new Request.Person(personID, authID));
+            results = (PersonResult) service.requestService(new PersonRequest(personID, authID));
         } catch (DataAccessException | SQLException e) {
             e.printStackTrace();
         }
@@ -85,14 +87,14 @@ class PeopleSTest extends ServiceTest {
     }
     @Test
     public void testFindPersonFail(){
-        Result.Person results = null;
+        PersonResult results = null;
         try {
             DAO authDao = new AuthDAO(db);
             String authID = "test1234";
             String username = "test1";
-            authDao.insert(new Auth(authID,username));
+            authDao.insert(new AuthModel(authID,username));
             db.closeConnection(true);
-            results = (Result.Person) service.requestService(new Request.Person("test123", authID));
+            results = (PersonResult) service.requestService(new PersonRequest("test123", authID));
         } catch (DataAccessException | SQLException e) {
             e.printStackTrace();
         }

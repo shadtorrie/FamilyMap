@@ -1,8 +1,9 @@
 package Services;
 
 import DAOs.*;
-import Request.Clear;
+import Request.ClearRequest;
 import Request.Requests;
+import Result.ClearResult;
 import Result.Results;
 
 public class ClearS extends Service{
@@ -13,7 +14,7 @@ public class ClearS extends Service{
      */
     @Override
     public Results requestService(Requests request) {
-        if(request.getClass()!= Clear.class){
+        if(request.getClass()!= ClearRequest.class){
             return null;
         }
         dbConnection = new Database();
@@ -28,7 +29,7 @@ public class ClearS extends Service{
             userDao.clear();
             authDao.clear();
             dbConnection.closeConnection(true);
-            return new Result.Clear("Clear succeeded.",true);
+            return new ClearResult("Clear succeeded.",true);
         } catch (DataAccessException e) {
             try {
                 dbConnection.closeConnection(false);
@@ -36,7 +37,7 @@ public class ClearS extends Service{
                 ex.printStackTrace();
             }
             e.printStackTrace();
-            return new Result.Clear("Internal server error",false);
+            return new ClearResult("Internal server error",false);
         }
     }
 

@@ -1,6 +1,6 @@
 package DAOs;
 
-import ModelsServer.Model;
+import Models.Model;
 import Services.DataAccessException;
 import Services.Database;
 

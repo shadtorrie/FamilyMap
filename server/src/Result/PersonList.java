@@ -3,22 +3,22 @@ package Result;
 import java.util.ArrayList;
 
 public class PersonList extends Results {
-    ArrayList<Person> data;
+    ArrayList<PersonResult> data;
     boolean success;
 
-    public PersonList(ArrayList<Person> people,boolean success) {
+    public PersonList(ArrayList<PersonResult> people, boolean success) {
         this.data = people;
         this.success = success;
     }
 
-    public ArrayList<Person> getData() {
+    public ArrayList<PersonResult> getData() {
         return data;
     }
     public boolean isSuccess(){
         return success;
     }
 
-    public void setData(ArrayList<Person> data) {
+    public void setData(ArrayList<PersonResult> data) {
         this.data = data;
     }
 }

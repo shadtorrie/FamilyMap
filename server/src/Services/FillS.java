@@ -5,10 +5,11 @@ import DAOs.EventDAO;
 import DAOs.PersonDAO;
 import DAOs.UserDAO;
 import Data.*;
-import ModelsServer.Event;
-import ModelsServer.Person;
-import Request.Fill;
+import Models.EventModel;
+import Models.PersonModel;
+import Request.FillRequest;
 import Request.Requests;
+import Result.FillResult;
 import Result.Results;
 import com.google.gson.Gson;
 
@@ -36,10 +37,10 @@ public class FillS extends Service {
 
     @Override
     public Results requestService(Requests request) {
-        if(request.getClass()!= Fill.class){
+        if(request.getClass()!= FillRequest.class){
             return null;
         }
-        Fill fillRequest = (Fill) request;
+        FillRequest fillRequest = (FillRequest) request;
         eventDao = new EventDAO(dbConnection);
         personDao = new PersonDAO(dbConnection);
         userDao = new UserDAO(dbConnection);
@@ -50,16 +51,16 @@ public class FillS extends Service {
             genCount = fillRequest.getGenCount();
             if(userDao.find(username)==null||genCount<0){
                 dbConnection.closeConnection(false);
-                return new Result.Fill("Invalid username or generations parameter",false);
+                return new FillResult("Invalid username or generations parameter",false);
             }
             eventDao.deleteByUsername(username);
             personDao.deleteByUsername(username);
             grabInfo();
             generateFirstPerson(fillRequest);
             if(genCount!=0)
-                result = new Result.Fill("Successfully added "  +getPersonCount() + " persons and " + getEventCount() + " events to the database.",true);
+                result = new FillResult("Successfully added "  +getPersonCount() + " persons and " + getEventCount() + " events to the database.",true);
             else{
-                result = new Result.Fill("Successfully added "  + 1 + " persons and " + 1 + " events to the database.",true);
+                result = new FillResult("Successfully added "  + 1 + " persons and " + 1 + " events to the database.",true);
 
             }
             dbConnection.closeConnection(true);
@@ -71,7 +72,7 @@ public class FillS extends Service {
                 ex.printStackTrace();
             }
             e.printStackTrace();
-            return new Result.Fill(" Internal server error",false);
+            return new FillResult(" Internal server error",false);
         }
     }
 
@@ -100,8 +101,8 @@ public class FillS extends Service {
 
     }
 
-    private void generateFirstPerson(Fill request) throws DataAccessException, SQLException {
-        Person person;
+    private void generateFirstPerson(FillRequest request) throws DataAccessException, SQLException {
+        PersonModel person;
         if(request.getFirstName()==null){
             boolean male = isMale();
             if(male){
@@ -112,11 +113,11 @@ public class FillS extends Service {
             }
         }
         else{
-            person = new Person(UUID.randomUUID().toString(),username,request.getFirstName(),request.getLastName(),request.getGender());
+            person = new PersonModel(UUID.randomUUID().toString(),username,request.getFirstName(),request.getLastName(),request.getGender());
         }
         Location location = locations.getRandom();
         Random random = new Random();
-        Event event = new Event(UUID.randomUUID().toString(),person.getID(),username,location.latitude,location.longitude,
+        EventModel event = new EventModel(UUID.randomUUID().toString(),person.getID(),username,location.latitude,location.longitude,
                 location.country,location.city,"Birth", Calendar.getInstance().get(Calendar.YEAR)-random.nextInt(119));
         eventDao.insert(event);
         if(genCount>0){
@@ -126,9 +127,9 @@ public class FillS extends Service {
         personDao.insert(person);
     }
 
-    private void createParents(Person child, int birthOfChild, int currentGenCount) throws DataAccessException, SQLException {
-        Person mom = createFemale();
-        Person dad = createMale(child.getLastName());
+    private void createParents(PersonModel child, int birthOfChild, int currentGenCount) throws DataAccessException, SQLException {
+        PersonModel mom = createFemale();
+        PersonModel dad = createMale(child.getLastName());
         mom.setSpouseID(dad.getID());
         dad.setSpouseID(mom.getID());
         child.setFatherID(dad.getID());
@@ -136,22 +137,22 @@ public class FillS extends Service {
         createEvents(mom,dad,birthOfChild,currentGenCount);
     }
 
-    private void createEvents(Person mom, Person dad, int birthOfChild, int currentGenCount) throws DataAccessException, SQLException {
+    private void createEvents(PersonModel mom, PersonModel dad, int birthOfChild, int currentGenCount) throws DataAccessException, SQLException {
         Random random = new Random();
         //Births
         Location momBirth =locations.getRandom();
-        Event momBirthEvent = new Event(UUID.randomUUID().toString(),mom.getID(),username,momBirth.latitude,momBirth.longitude,
+        EventModel momBirthEvent = new EventModel(UUID.randomUUID().toString(),mom.getID(),username,momBirth.latitude,momBirth.longitude,
                 momBirth.country,momBirth.city,"Birth", birthOfChild-13-random.nextInt(37));
         Location dadBirth =locations.getRandom();
-        Event dadBirthEvent = new Event(UUID.randomUUID().toString(),dad.getID(),username,dadBirth.latitude,dadBirth.longitude,
+        EventModel dadBirthEvent = new EventModel(UUID.randomUUID().toString(),dad.getID(),username,dadBirth.latitude,dadBirth.longitude,
                 dadBirth.country,dadBirth.city,"Birth", birthOfChild-13-random.nextInt(106));
         eventDao.insert(momBirthEvent);
         eventDao.insert(dadBirthEvent);
         //Marriage
         Location marriageLocation =locations.getRandom();
-        Event dadMarriage = new Event(UUID.randomUUID().toString(),dad.getID(),username,marriageLocation.latitude,marriageLocation.longitude,
+        EventModel dadMarriage = new EventModel(UUID.randomUUID().toString(),dad.getID(),username,marriageLocation.latitude,marriageLocation.longitude,
                 marriageLocation.country,marriageLocation.city,"Marriage", birthOfChild);
-        Event momMarriage = new Event(UUID.randomUUID().toString(),mom.getID(),username,marriageLocation.latitude,marriageLocation.longitude,
+        EventModel momMarriage = new EventModel(UUID.randomUUID().toString(),mom.getID(),username,marriageLocation.latitude,marriageLocation.longitude,
                 marriageLocation.country,marriageLocation.city,"Marriage", birthOfChild);
         eventDao.insert(dadMarriage);
         eventDao.insert(momMarriage);
@@ -159,10 +160,10 @@ public class FillS extends Service {
         Location dadDeathLocation = locations.getRandom();
         Location momDeathLocation = locations.getRandom();
         int dadDeathDate = birthOfChild+random.nextInt(dadBirthEvent.getYear()-birthOfChild+120);
-        Event dadDeath = new Event(UUID.randomUUID().toString(),dad.getID(),username,dadDeathLocation.latitude,dadDeathLocation.longitude,
+        EventModel dadDeath = new EventModel(UUID.randomUUID().toString(),dad.getID(),username,dadDeathLocation.latitude,dadDeathLocation.longitude,
                 dadDeathLocation.country,dadDeathLocation.city,"Death", dadDeathDate);
         int momDeathDate = birthOfChild+random.nextInt(momBirthEvent.getYear()-birthOfChild+120);
-        Event momDeath = new Event(UUID.randomUUID().toString(),mom.getID(),username,momDeathLocation.latitude,momDeathLocation.longitude,
+        EventModel momDeath = new EventModel(UUID.randomUUID().toString(),mom.getID(),username,momDeathLocation.latitude,momDeathLocation.longitude,
                 momDeathLocation.country,momDeathLocation.city,"Death", momDeathDate);
         eventDao.insert(dadDeath);
         eventDao.insert(momDeath);
@@ -174,18 +175,18 @@ public class FillS extends Service {
         personDao.insert(mom);
     }
 
-    private Person createFemale() {
+    private PersonModel createFemale() {
         FirstName firstName = fnames;
-        return new Person(UUID.randomUUID().toString(),username,firstName.getRandom(),snames.getRandom(),"f");
+        return new PersonModel(UUID.randomUUID().toString(),username,firstName.getRandom(),snames.getRandom(),"f");
     }
 
-    private Person createMale(String last_name) {
+    private PersonModel createMale(String last_name) {
         FirstName firstName = mnames;
-        return new Person(UUID.randomUUID().toString(),username,firstName.getRandom(),last_name,"m");
+        return new PersonModel(UUID.randomUUID().toString(),username,firstName.getRandom(),last_name,"m");
     }
-    private Person createMale() {
+    private PersonModel createMale() {
         FirstName firstName = mnames;
-        return new Person(UUID.randomUUID().toString(),username,firstName.getRandom(),snames.getRandom(),"m");
+        return new PersonModel(UUID.randomUUID().toString(),username,firstName.getRandom(),snames.getRandom(),"m");
     }
 
     private boolean isMale() {

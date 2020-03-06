@@ -3,11 +3,13 @@ package Services;
 import DAOs.DAO;
 import DAOs.EventDAO;
 import DAOs.PersonDAO;
-import ModelsServer.Model;
-import ModelsServer.Person;
-import Request.Event;
+import Models.EventModel;
+import Models.Model;
+import Models.PersonModel;
+import Request.EventRequest;
 import Request.Requests;
-import Result.EventList;
+import Result.EventListResult;
+import Result.EventResult;
 import Result.Results;
 
 import java.util.ArrayList;
@@ -27,46 +29,46 @@ public class EventsS extends Service {
      */
     @Override
     public Results requestService(Requests request) {
-        if(request.getClass()!= Event.class){
+        if(request.getClass()!= EventRequest.class){
             return null;
         }
-        Event eventRequest = (Event) request;
+        EventRequest eventRequest = (EventRequest) request;
         dbConnection = new Database();
         try {
             dbConnection.openConnection();
             String username = super.authenticate(eventRequest.getAuthentication());
             if(username.equals("")){
                 dbConnection.closeConnection(false);
-                return new Result.Event("Error: Invalid auth token",false);
+                return new EventResult("Error: Invalid auth token",false);
             }
             DAO eventDao = new EventDAO(dbConnection);
             Results result = null;
             if(eventRequest.getEventID()==null){
                 ArrayList<Model> events = eventDao.findMultiple(username);
-                ArrayList<Result.Event> eventResults = new ArrayList<>();
+                ArrayList<EventResult> eventResults = new ArrayList<>();
                 DAO personDao = new PersonDAO(dbConnection);
                 for(Model i:events){
-                    ModelsServer.Event j = (ModelsServer.Event)i;
-                    Person returnPerson = (Person) personDao.find(j.getPersonID());
-                    eventResults.add( new Result.Event(returnPerson.getAssociatedUsername(),j.getID(),j.getPersonID(),
+                    EventModel j = (EventModel)i;
+                    PersonModel returnPerson = (PersonModel) personDao.find(j.getPersonID());
+                    eventResults.add( new EventResult(returnPerson.getAssociatedUsername(),j.getID(),j.getPersonID(),
                             j.getLatitude(),j.getLongitude(),j.getCountry(),j.getCity(),
                             j.getEventType(),j.getYear(),true));
                 }
-                result = new EventList(eventResults,true);
+                result = new EventListResult(eventResults,true);
             }
             else{
-                ModelsServer.Event returnModel = (ModelsServer.Event) eventDao.find(eventRequest.getEventID());
+                EventModel returnModel = (EventModel) eventDao.find(eventRequest.getEventID());
                 if(returnModel==null){
                     dbConnection.closeConnection(false);
-                    return new Result.Event("Error: Invalid eventID parameter",false);
+                    return new EventResult("Error: Invalid eventID parameter",false);
                 }
                 DAO personDao = new PersonDAO(dbConnection);
-                Person returnPerson = (Person) personDao.find(returnModel.getPersonID());
+                PersonModel returnPerson = (PersonModel) personDao.find(returnModel.getPersonID());
                 if(!returnPerson.getAssociatedUsername().equals(username)){
                     dbConnection.closeConnection(false);
-                    return new Result.Event("Error: Requested event does not belong to this user",false);
+                    return new EventResult("Error: Requested event does not belong to this user",false);
                 }
-                result = new Result.Event(returnPerson.getAssociatedUsername(),returnModel.getID(),returnModel.getPersonID(),
+                result = new EventResult(returnPerson.getAssociatedUsername(),returnModel.getID(),returnModel.getPersonID(),
                         returnModel.getLatitude(),returnModel.getLongitude(),returnModel.getCountry(),returnModel.getCity(),
                         returnModel.getEventType(),returnModel.getYear(),true);
             }
@@ -81,7 +83,7 @@ public class EventsS extends Service {
                 ex.printStackTrace();
             }
             e.printStackTrace();
-            return new Result.Event("Internal server error",false);
+            return new EventResult("Internal server error",false);
         }
     }
 }

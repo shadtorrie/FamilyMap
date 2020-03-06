@@ -25,13 +25,13 @@ public class Server {
         }
         server.setExecutor(null);
         System.out.println("Creating contexts");
-        server.createContext("/user/register", new Register());
-        server.createContext("/user/login", new Login());
+        server.createContext("/user/register", new RegisterHandler());
+        server.createContext("/user/login", new LoginHandler());
         server.createContext("/clear", new ClearHandler());
-        server.createContext("/fill", new Fill());
-        server.createContext("/load", new Load());
-        server.createContext("/person", new People());
-        server.createContext("/event", new Events());
+        server.createContext("/fill", new FillHandler());
+        server.createContext("/load", new LoadHandler());
+        server.createContext("/person", new PeopleHandler());
+        server.createContext("/event", new EventsHandler());
         server.createContext("/", new FileHandler());
         System.out.println("Starting server");
         server.start();

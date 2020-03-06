@@ -1,11 +1,10 @@
 package Tests.DAOTests;
 
 import DAOs.DAO;
-import ModelsServer.Model;
-import ModelsServer.Person;
+import Models.Model;
+import Models.PersonModel;
 import Services.DataAccessException;
 import Services.Database;
-import java.util.ArrayList;
 
 import static org.junit.jupiter.api.Assertions.*;
 
@@ -132,7 +131,7 @@ public abstract class DAOTest {
     }
 
     public void clear() throws Exception {
-        Model compareTest = new Person("test");
+        Model compareTest = new PersonModel("test");
         try {
             db.openConnection();
             Dao.setDbConnection(db);

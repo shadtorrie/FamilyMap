@@ -1,7 +1,7 @@
 package DAOs;
 
-import ModelsServer.Model;
-import ModelsServer.User;
+import Models.Model;
+import Models.UserModel;
 import Services.DataAccessException;
 import Services.Database;
 
@@ -33,10 +33,10 @@ public class UserDAO extends DAO {
      */
     @Override
     public Model insert(Model insertModel) throws DataAccessException {
-        if(insertModel.getClass()!= User.class){
+        if(insertModel.getClass()!= UserModel.class){
             throw new DataAccessException("Unable to insert user.");
         }
-        User user = (User)insertModel;
+        UserModel user = (UserModel)insertModel;
         String sql = "INSERT INTO Users (username, password, email,person) VALUES(?,?,?,?)";
         try (PreparedStatement stmt = super.getDbConnection().getPreparedStatement(sql)){
             stmt.setString(1,user.getUserName());
@@ -53,7 +53,7 @@ public class UserDAO extends DAO {
     }
 
     public Model findByUsernameAndPassword(String username,String password) throws DataAccessException {
-        User user;
+        UserModel user;
         String sql = "SELECT * FROM Users WHERE username = ? and password = ?;";
         ResultSet result = null;
         try (PreparedStatement stmt = super.getDbConnection().getPreparedStatement(sql)){
@@ -61,7 +61,7 @@ public class UserDAO extends DAO {
             stmt.setString(2,password);
             result=stmt.executeQuery();
             if(result.next()){
-                user=new User(result.getString("username"),result.getString("password"),result.getString("email"),result.getString("person"));
+                user=new UserModel(result.getString("username"),result.getString("password"),result.getString("email"),result.getString("person"));
                 return user;
             }
         }
@@ -73,14 +73,14 @@ public class UserDAO extends DAO {
     }
     @Override
     public Model find(String searchString) throws DataAccessException {
-        User user;
+        UserModel user;
         String sql = "SELECT * FROM Users WHERE username = ?;";
         ResultSet result = null;
         try (PreparedStatement stmt = super.getDbConnection().getPreparedStatement(sql)){
             stmt.setString(1,searchString);
             result=stmt.executeQuery();
             if(result.next()){
-                user=new User(result.getString("username"),result.getString("password"),result.getString("email"));
+                user=new UserModel(result.getString("username"),result.getString("password"),result.getString("email"));
                 return user;
             }
         }
@@ -101,7 +101,7 @@ public class UserDAO extends DAO {
             stmt.setString(1,username);
             result=stmt.executeQuery();
             while(result.next()){
-                users.add(new User(result.getString("username"),result.getString("password"),result.getString("email")));
+                users.add(new UserModel(result.getString("username"),result.getString("password"),result.getString("email")));
             }
         }
         catch(SQLException e){

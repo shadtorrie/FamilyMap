@@ -1,7 +1,7 @@
 package DAOs;
 
-import ModelsServer.Auth;
-import ModelsServer.Model;
+import Models.AuthModel;
+import Models.Model;
 import Services.DataAccessException;
 import Services.Database;
 
@@ -32,10 +32,10 @@ public class AuthDAO extends DAO {
      */
     @Override
     public Model insert(Model insertModel) throws DataAccessException {
-        if(insertModel.getClass()!= Auth.class){
+        if(insertModel.getClass()!= AuthModel.class){
             return null;
         }
-        Auth auth = (Auth)insertModel;
+        AuthModel auth = (AuthModel)insertModel;
         String sql = "INSERT INTO Authorization_Token (auth_token,username) VALUES(?,?)";
         try (PreparedStatement stmt = super.getDbConnection().getPreparedStatement(sql)){
             stmt.setString(1,auth.getID());
@@ -57,14 +57,14 @@ public class AuthDAO extends DAO {
      */
     @Override
     public Model find(String searchString) throws DataAccessException {
-        Auth auth;
+        AuthModel auth;
         String sql = "SELECT * FROM Authorization_Token WHERE auth_token = ?;";
         ResultSet result = null;
         try (PreparedStatement stmt = super.getDbConnection().getPreparedStatement(sql)){
             stmt.setString(1,searchString);
             result=stmt.executeQuery();
             if(result.next()){
-                auth=new Auth(result.getString("auth_token"),result.getString("username"));
+                auth=new AuthModel(result.getString("auth_token"),result.getString("username"));
                 return auth;
             }
         }
@@ -84,7 +84,7 @@ public class AuthDAO extends DAO {
             stmt.setString(1,username);
             result=stmt.executeQuery();
             while(result.next()){
-                auths.add(new Auth(result.getString("auth_token"),result.getString("username")));
+                auths.add(new AuthModel(result.getString("auth_token"),result.getString("username")));
             }
         }
         catch(SQLException e){

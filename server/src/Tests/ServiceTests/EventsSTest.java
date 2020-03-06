@@ -4,9 +4,12 @@ import DAOs.AuthDAO;
 import DAOs.DAO;
 import DAOs.EventDAO;
 import DAOs.PersonDAO;
-import ModelsServer.Auth;
-import ModelsServer.Event;
-import ModelsServer.Person;
+import Models.AuthModel;
+import Models.EventModel;
+import Models.PersonModel;
+import Request.EventRequest;
+import Result.EventListResult;
+import Result.EventResult;
 import Services.DataAccessException;
 import Services.EventsS;
 import com.google.gson.Gson;
@@ -28,19 +31,19 @@ class EventsSTest extends ServiceTest {
     }
     @Test
     public void testFindEventPass(){
-        Result.Event results = null;
+        EventResult results = null;
         try {
             String eventID = "1234";
             String personID = "pers";
             String username = "test1";
-            dao.insert(new Event(eventID, personID,username,12.1f,11.1f,"USA","Provo","grad",2022));
+            dao.insert(new EventModel(eventID, personID,username,12.1f,11.1f,"USA","Provo","grad",2022));
             DAO authDao = new AuthDAO(db);
             String authID = "test1234";
-            authDao.insert(new Auth(authID,username));
+            authDao.insert(new AuthModel(authID,username));
             DAO personDao = new PersonDAO(db);
-            personDao.insert(new Person(personID,username,"Torrie","Test","m"));
+            personDao.insert(new PersonModel(personID,username,"Torrie","Test","m"));
             db.closeConnection(true);
-            results = (Result.Event) service.requestService(new Request.Event(eventID, authID));
+            results = (EventResult) service.requestService(new EventRequest(eventID, authID));
         } catch (DataAccessException | SQLException e) {
             e.printStackTrace();
         }
@@ -49,24 +52,24 @@ class EventsSTest extends ServiceTest {
     }
     @Test
     public void testFindEventMultiplePass(){
-        Result.EventList results = null;
+        EventListResult results = null;
         try {
             String eventID = "1234";
             String personID = "pers";
             String eventID2 = "12342";
             String personID2 = "pers2";
             String username = "test1";
-            Event firstEvent = new Event(eventID, personID,username,12.1f,11.1f,"USA","Provo","grad",2022);
-            Event secondEvent = new Event(eventID2, personID2,username, 12.12f,11.12f,"Canada","Orem","birth",2023);
+            EventModel firstEvent = new EventModel(eventID, personID,username,12.1f,11.1f,"USA","Provo","grad",2022);
+            EventModel secondEvent = new EventModel(eventID2, personID2,username, 12.12f,11.12f,"Canada","Orem","birth",2023);
             dao.insert(firstEvent);
             dao.insert(secondEvent);
             DAO authDao = new AuthDAO(db);
             String authID = "test1234";
-            authDao.insert(new Auth(authID,username));
+            authDao.insert(new AuthModel(authID,username));
             DAO personDao = new PersonDAO(db);
-            personDao.insert(new Person(personID,username,"Torrie","Test","m"));
+            personDao.insert(new PersonModel(personID,username,"Torrie","Test","m"));
             db.closeConnection(true);
-            results = (Result.EventList) service.requestService(new Request.Event(authID));
+            results = (EventListResult) service.requestService(new EventRequest(authID));
         } catch (DataAccessException | SQLException e) {
             e.printStackTrace();
         }
@@ -77,17 +80,17 @@ class EventsSTest extends ServiceTest {
     }
     @Test
     public void testFindEventFailAuth(){
-        Result.Event results = null;
+        EventResult results = null;
         try {
             String eventID = "1234";
             String personID = "pers";
             String username = "test1";
-            dao.insert(new Event(eventID, personID,username,12.1f,11.1f,"USA","Provo","grad",2022));
+            dao.insert(new EventModel(eventID, personID,username,12.1f,11.1f,"USA","Provo","grad",2022));
             String authID = "test1234";
             DAO personDao = new PersonDAO(db);
-            personDao.insert(new Person(personID,username,"Torrie","Test","m"));
+            personDao.insert(new PersonModel(personID,username,"Torrie","Test","m"));
             db.closeConnection(true);
-            results = (Result.Event) service.requestService(new Request.Event(eventID, authID));
+            results = (EventResult) service.requestService(new EventRequest(eventID, authID));
         } catch (DataAccessException | SQLException e) {
             e.printStackTrace();
         }
@@ -97,14 +100,14 @@ class EventsSTest extends ServiceTest {
     }
     @Test
     public void testFindEventFail(){
-        Result.Event results = null;
+        EventResult results = null;
         try {
             DAO authDao = new AuthDAO(db);
             String authID = "test1234";
             String username = "test1";
-            authDao.insert(new Auth(authID,username));
+            authDao.insert(new AuthModel(authID,username));
             db.closeConnection(true);
-            results = (Result.Event) service.requestService(new Request.Event("test123", authID));
+            results = (EventResult) service.requestService(new EventRequest("test123", authID));
         } catch (DataAccessException | SQLException e) {
             e.printStackTrace();
         }

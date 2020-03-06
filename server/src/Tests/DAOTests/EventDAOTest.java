@@ -1,7 +1,9 @@
 package Tests.DAOTests;
 
 import DAOs.EventDAO;
+import DAOs.PersonDAO;
 import ModelsServer.Event;
+import ModelsServer.Person;
 import Services.Database;
 import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.BeforeEach;
@@ -22,6 +24,8 @@ class EventDAOTest extends DAOTest {
     @Test
     public void insertPass() throws Exception {
         Dao = new EventDAO();
+        Dao2 = new PersonDAO();
+        model2 = new Person(((Event)model).getPersonID(),"test2","shad","Torrie","m");
         super.insertPass();
     }
     @Test
@@ -32,6 +36,8 @@ class EventDAOTest extends DAOTest {
     @Test
     public void findPass() throws Exception {
         Dao = new EventDAO();
+        Dao2 = new PersonDAO();
+        model2 = new Person(((Event)model).getPersonID(),"test2","shad","Torrie","m");
         super.findPass();
     }
     @Test

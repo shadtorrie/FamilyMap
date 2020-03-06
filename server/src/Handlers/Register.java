@@ -13,14 +13,6 @@ import java.net.HttpURLConnection;
 import java.nio.charset.StandardCharsets;
 
 public class Register extends Handler  {
-    static class RegisterBody {
-        String userName = null;
-        String password = null;
-        String email = null;
-        String firstName = null;
-        String lastName = null;
-        String gender;
-    }
     @Override
     public void handle(HttpExchange exchange) throws IOException {
         boolean success = false;
@@ -29,16 +21,16 @@ public class Register extends Handler  {
         try {
             if (exchange.getRequestMethod().toLowerCase().equals("post")) {
                 InputStream requestBody = exchange.getRequestBody();
-                RegisterBody registerBody = gson.fromJson(new InputStreamReader(requestBody),RegisterBody.class);
-                if(registerBody.userName!=null&&registerBody.password!=null
-                        &&registerBody.email!=null
-                        &&registerBody.firstName!=null&&registerBody.lastName!=null
-                        &&registerBody.gender!=null) {
+                Request.Register registerBody = gson.fromJson(new InputStreamReader(requestBody), Request.Register.class);
+                if(registerBody.getUserName()!=null&&registerBody.getPassword()!=null
+                        &&registerBody.getEmail()!=null
+                        &&registerBody.getFirstName()!=null&&registerBody.getLastName()!=null
+                        &&registerBody.getGender()!=null) {
                     Service service = new RegisterS();
-                    respData = service.requestService(new Request.Register(registerBody.userName,
-                            registerBody.password, registerBody.email,
-                            registerBody.firstName, registerBody.lastName,
-                            registerBody.gender));
+                    respData = service.requestService(new Request.Register(registerBody.getUserName(),
+                            registerBody.getPassword(), registerBody.getEmail(),
+                            registerBody.getFirstName(), registerBody.getLastName(),
+                            registerBody.getGender()));
                     if(respData.isSuccess()){
                         exchange.sendResponseHeaders(HttpURLConnection.HTTP_OK, 0);
                     }

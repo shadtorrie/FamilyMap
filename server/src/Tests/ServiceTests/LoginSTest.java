@@ -33,10 +33,11 @@ class LoginSTest extends ServiceTest {
         User user= null;
         Person person = null;
         try{
-            user = new User("shad","testing123","test@gmail.com");
+            String personID = "test";
+            user = new User("shad","testing123","test@gmail.com",personID);
             dao.insert(user);
             dao=new PersonDAO(db);
-            person = new Person("testID",user.getID(),"shad","Torrie","m");
+            person = new Person(personID,user.getID(),"shad","Torrie","m");
             dao.insert(person);
             db.closeConnection(true);
             result = (Result.Login) service.requestService(new Login(user.getID(),user.getPassword()));

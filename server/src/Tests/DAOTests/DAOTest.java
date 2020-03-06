@@ -13,6 +13,8 @@ public abstract class DAOTest {
     protected Database db;
     protected Model model;
     protected DAO Dao;
+    protected DAO Dao2;
+    protected Model model2;
 
     public Database getDb() {
         return db;
@@ -42,6 +44,10 @@ public abstract class DAOTest {
         try {
             db.openConnection();
             Dao.setDbConnection(db);
+            if(Dao2!=null){
+                Dao2.setDbConnection(db);
+                Dao2.insert(model2);
+            }
             Dao.insert(getModel());
             compareTest = Dao.find(model.getID());
         }
@@ -91,7 +97,12 @@ public abstract class DAOTest {
         try {
             db.openConnection();
             Dao.setDbConnection(db);
+            if(Dao2!=null){
+                Dao2.setDbConnection(db);
+                Dao2.insert(model2);
+            }
             Dao.insert(getModel());
+
             compareTest = Dao.find(model.getID());
         }
         catch(DataAccessException e){

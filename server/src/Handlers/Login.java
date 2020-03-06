@@ -13,10 +13,6 @@ import java.net.HttpURLConnection;
 import java.nio.charset.StandardCharsets;
 
 public class Login extends Handler  {
-    static class LoginBody{
-        String userName;
-        String password;
-    }
     @Override
     public void handle(HttpExchange exchange) throws IOException {
         boolean success = false;
@@ -25,10 +21,10 @@ public class Login extends Handler  {
         try {
             if (exchange.getRequestMethod().toLowerCase().equals("post")) {
                 InputStream requestBody = exchange.getRequestBody();
-                 LoginBody loginBody = gson.fromJson(new InputStreamReader(requestBody), LoginBody.class);
-                if(loginBody.userName!=null&&loginBody.password!=null) {
+                 Request.Login loginBody = gson.fromJson(new InputStreamReader(requestBody), Request.Login.class);
+                if(loginBody.getUserName()!=null&&loginBody.getPassword()!=null) {
                     Service service = new LoginS();
-                    respData = (Result.Login) service.requestService(new Request.Login(loginBody.userName,loginBody.password));
+                    respData = (Result.Login) service.requestService(new Request.Login(loginBody.getUserName(),loginBody.getPassword()));
                     if(respData.isSuccess()){
                         exchange.sendResponseHeaders(HttpURLConnection.HTTP_OK, 0);
                     }

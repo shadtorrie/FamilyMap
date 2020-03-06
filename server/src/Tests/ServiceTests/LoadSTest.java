@@ -69,11 +69,17 @@ class LoadSTest extends ServiceTest {
     public void testLoadEvent(){
         Result.Load result = null;
         boolean success = false;
-        Event event1 = new Event("1234","shad","test",12.2f,12.3f,"USA","Logan","Birth",1997);
-        Event event2 = new Event("12a345","Macy","test",13.2f,14.2f,"USA","Laguna Hills","Birth",1996);
+        String person1 = "Shad";
+        String person2 = "Macy";
+        Event event1 = new Event("1234",person1,"test",12.2f,12.3f,"USA","Logan","Birth",1997);
+        Event event2 = new Event("12a345",person2,"test",13.2f,14.2f,"USA","Laguna Hills","Birth",1996);
+        Person personModel = new Person(person1,"test","first","last","m");
+        Person personModel2 = new Person(person2,"test2","first2","last2","f");
         try {
             events.add(event1);
             events.add(event2);
+            people.add(personModel);
+            people.add(personModel2);
             result = (Result.Load) service.requestService(new Load(users,people,events));
             db.openConnection();
             dao = new EventDAO(db);

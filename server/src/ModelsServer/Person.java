@@ -187,7 +187,7 @@ public class Person extends Model {
         Person objPerson = (Person)obj;
         if(!objPerson.associatedUsername.equals(this.associatedUsername) || !objPerson.personID.equals(this.personID)
                 ||!objPerson.firstName.equals(this.firstName)|| !objPerson.lastName.equals(this.lastName)
-                || objPerson.gender!=this.gender){
+                || !objPerson.gender.equals(this.gender)){
             return false;
         }
         if(this.fatherID !=null){

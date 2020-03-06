@@ -158,7 +158,7 @@ public class UserDAO extends DAO {
     public void updatePersonID(String username,String personID) throws DataAccessException {
         String sql = "UPDATE Users set person = ? WHERE username = ?";
         try (PreparedStatement stmt = super.getDbConnection().getPreparedStatement(sql)){
-            stmt.setString(2,personID);
+            stmt.setString(1,personID);
             stmt.setString(2,username);
             stmt.executeUpdate();
         }

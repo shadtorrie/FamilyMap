@@ -7,10 +7,10 @@ import DAOs.UserDAO;
 import Data.*;
 import Models.EventModel;
 import Models.PersonModel;
-import Request.FillRequest;
-import Request.Requests;
-import Result.FillResult;
-import Result.Results;
+import Requests.FillRequest;
+import Requests.Requests;
+import Results.FillResult;
+import Results.Results;
 import com.google.gson.Gson;
 
 import java.io.IOException;

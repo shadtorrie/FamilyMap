@@ -5,14 +5,14 @@ import DAOs.PersonDAO;
 import DAOs.UserDAO;
 import Models.PersonModel;
 import Models.UserModel;
-import Request.FillRequest;
-import Request.LoginRequest;
-import Request.RegisterRequest;
-import Request.Requests;
-import Result.FillResult;
-import Result.LoginResult;
-import Result.RegisterResult;
-import Result.Results;
+import Requests.FillRequest;
+import Requests.LoginRequest;
+import Requests.RegisterRequest;
+import Requests.Requests;
+import Results.FillResult;
+import Results.LoginResult;
+import Results.RegisterResult;
+import Results.Results;
 
 import java.sql.SQLException;
 

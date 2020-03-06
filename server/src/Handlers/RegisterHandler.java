@@ -1,7 +1,7 @@
 package Handlers;
 
-import Request.RegisterRequest;
-import Result.Results;
+import Requests.RegisterRequest;
+import Results.Results;
 import Services.*;
 import com.google.gson.Gson;
 import com.sun.net.httpserver.HttpExchange;

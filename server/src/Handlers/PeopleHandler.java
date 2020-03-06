@@ -1,7 +1,7 @@
 package Handlers;
 
-import Request.PersonRequest;
-import Result.Results;
+import Requests.PersonRequest;
+import Results.Results;
 import Services.DataAccessException;
 import Services.PeopleS;
 import Services.Service;

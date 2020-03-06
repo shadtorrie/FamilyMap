@@ -1,10 +1,10 @@
 package Services;
 
 import DAOs.*;
-import Request.ClearRequest;
-import Request.Requests;
-import Result.ClearResult;
-import Result.Results;
+import Requests.ClearRequest;
+import Requests.Requests;
+import Results.ClearResult;
+import Results.Results;
 
 public class ClearS extends Service{
     /**

@@ -6,11 +6,11 @@ import DAOs.PersonDAO;
 import Models.EventModel;
 import Models.Model;
 import Models.PersonModel;
-import Request.EventRequest;
-import Request.Requests;
-import Result.EventListResult;
-import Result.EventResult;
-import Result.Results;
+import Requests.EventRequest;
+import Requests.Requests;
+import Results.EventListResult;
+import Results.EventResult;
+import Results.Results;
 
 import java.util.ArrayList;
 

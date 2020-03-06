@@ -5,10 +5,10 @@ import DAOs.DAO;
 import DAOs.UserDAO;
 import Models.AuthModel;
 import Models.UserModel;
-import Request.LoginRequest;
-import Request.Requests;
-import Result.LoginResult;
-import Result.Results;
+import Requests.LoginRequest;
+import Requests.Requests;
+import Results.LoginResult;
+import Results.Results;
 
 import java.sql.SQLException;
 import java.util.UUID;

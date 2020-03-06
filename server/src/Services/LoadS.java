@@ -7,11 +7,11 @@ import DAOs.UserDAO;
 import Models.EventModel;
 import Models.PersonModel;
 import Models.UserModel;
-import Request.LoadRequest;
-import Request.Requests;
-import Result.EventResult;
-import Result.LoadResult;
-import Result.Results;
+import Requests.LoadRequest;
+import Requests.Requests;
+import Results.EventResult;
+import Results.LoadResult;
+import Results.Results;
 
 import java.sql.SQLException;
 import java.util.ArrayList;

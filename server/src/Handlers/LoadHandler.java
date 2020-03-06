@@ -1,9 +1,9 @@
 package Handlers;
 
-import Request.ClearRequest;
-import Request.LoadRequest;
-import Result.ClearResult;
-import Result.Results;
+import Requests.ClearRequest;
+import Requests.LoadRequest;
+import Results.ClearResult;
+import Results.Results;
 import Services.ClearS;
 import Services.DataAccessException;
 import Services.LoadS;

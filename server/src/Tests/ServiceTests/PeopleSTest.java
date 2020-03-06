@@ -5,8 +5,8 @@ import DAOs.DAO;
 import DAOs.PersonDAO;
 import Models.AuthModel;
 import Models.PersonModel;
-import Request.PersonRequest;
-import Result.PersonResult;
+import Requests.PersonRequest;
+import Results.PersonResult;
 import Services.DataAccessException;
 import Services.PeopleS;
 import com.google.gson.Gson;
@@ -46,7 +46,7 @@ class PeopleSTest extends ServiceTest {
     }
     @Test
     public void testFindPersonMultiplePass(){
-        Result.PersonList results = null;
+        Results.PersonList results = null;
         try {
             String personID = "pers";
             String personID2 = "pers2";
@@ -59,7 +59,7 @@ class PeopleSTest extends ServiceTest {
             String authID = "test1234";
             authDao.insert(new AuthModel(authID,username));
             db.closeConnection(true);
-            results = (Result.PersonList) service.requestService(new PersonRequest(authID));
+            results = (Results.PersonList) service.requestService(new PersonRequest(authID));
         } catch (DataAccessException | SQLException e) {
             e.printStackTrace();
         }

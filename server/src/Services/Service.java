@@ -3,8 +3,8 @@ package Services;
 import DAOs.AuthDAO;
 import DAOs.DAO;
 import Models.AuthModel;
-import Request.Requests;
-import Result.Results;
+import Requests.Requests;
+import Results.Results;
 
 public abstract class Service {
     protected Database dbConnection;

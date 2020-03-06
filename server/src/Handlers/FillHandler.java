@@ -1,7 +1,7 @@
 package Handlers;
 
-import Request.FillRequest;
-import Result.Results;
+import Requests.FillRequest;
+import Results.Results;
 import Services.DataAccessException;
 import Services.FillS;
 import Services.Service;

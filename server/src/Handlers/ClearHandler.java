@@ -1,7 +1,7 @@
 package Handlers;
 
-import Request.ClearRequest;
-import Result.Results;
+import Requests.ClearRequest;
+import Results.Results;
 import Services.DataAccessException;
 import Services.ClearS;
 import Services.Service;

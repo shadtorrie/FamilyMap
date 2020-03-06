@@ -4,11 +4,11 @@ import DAOs.DAO;
 import DAOs.PersonDAO;
 import Models.Model;
 import Models.PersonModel;
-import Request.PersonRequest;
-import Request.Requests;
-import Result.PersonList;
-import Result.PersonResult;
-import Result.Results;
+import Requests.PersonRequest;
+import Requests.Requests;
+import Results.PersonList;
+import Results.PersonResult;
+import Results.Results;
 
 import java.util.ArrayList;
 

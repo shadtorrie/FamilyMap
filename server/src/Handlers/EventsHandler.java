@@ -1,7 +1,7 @@
 package Handlers;
 
-import Request.EventRequest;
-import Result.Results;
+import Requests.EventRequest;
+import Results.Results;
 import Services.DataAccessException;
 import Services.EventsS;
 import Services.Service;

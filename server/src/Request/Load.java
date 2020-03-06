@@ -1,8 +1,8 @@
 package Request;
 
-import Models.Event;
-import Models.Person;
-import Models.User;
+import ModelsServer.Event;
+import ModelsServer.Person;
+import ModelsServer.User;
 
 import java.util.ArrayList;
 

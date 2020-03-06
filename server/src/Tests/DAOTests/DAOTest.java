@@ -1,7 +1,8 @@
 package Tests.DAOTests;
 
 import DAOs.DAO;
-import Models.Model;
+import ModelsServer.Model;
+import ModelsServer.Person;
 import Services.DataAccessException;
 import Services.Database;
 import java.util.ArrayList;
@@ -12,6 +13,8 @@ public abstract class DAOTest {
     protected Database db;
     protected Model model;
     protected DAO Dao;
+    protected DAO Dao2;
+    protected Model model2;
 
     public Database getDb() {
         return db;
@@ -41,6 +44,10 @@ public abstract class DAOTest {
         try {
             db.openConnection();
             Dao.setDbConnection(db);
+            if(Dao2!=null){
+                Dao2.setDbConnection(db);
+                Dao2.insert(model2);
+            }
             Dao.insert(getModel());
             compareTest = Dao.find(model.getID());
         }
@@ -90,7 +97,12 @@ public abstract class DAOTest {
         try {
             db.openConnection();
             Dao.setDbConnection(db);
+            if(Dao2!=null){
+                Dao2.setDbConnection(db);
+                Dao2.insert(model2);
+            }
             Dao.insert(getModel());
+
             compareTest = Dao.find(model.getID());
         }
         catch(DataAccessException e){
@@ -120,13 +132,13 @@ public abstract class DAOTest {
     }
 
     public void clear() throws Exception {
-        ArrayList<Model> compareTest = null;
+        Model compareTest = new Person("test");
         try {
             db.openConnection();
             Dao.setDbConnection(db);
             Dao.insert(model);
             Dao.clear();
-            compareTest = Dao.find();
+            compareTest = Dao.find(model.getID());
         }
         catch(DataAccessException e){
             db.closeConnection(false);
@@ -134,7 +146,6 @@ public abstract class DAOTest {
         finally{
             db.closeConnection(true);
         }
-        assert compareTest != null;
-        assertEquals(0,compareTest.size());
+        assertNull(compareTest,"The model was not deleted.");
     }
 }

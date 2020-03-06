@@ -1,9 +1,9 @@
 package Result;
 
 public class Event extends Results {
-    private String username;
-    private String event_id;
-    private String person_id;
+    private String associatedUsername;
+    private String eventID;
+    private String personID;
     private float latitude;
     private float longitude;
     private String country;
@@ -11,6 +11,8 @@ public class Event extends Results {
     private String eventType;
     private int year;
     private boolean success;
+    private String message;
+
 
     /**
      *
@@ -18,7 +20,7 @@ public class Event extends Results {
      * @param success
      */
     public Event(String message, boolean success) {
-        this.username = message;
+        this.message =  message;
         this.success = success;
     }
 
@@ -26,48 +28,48 @@ public class Event extends Results {
      *
      * @return
      */
-    public String getUsername() {
-        return username;
+    public String getAssociatedUsername() {
+        return associatedUsername;
     }
 
     /**
      *
-     * @param username
+     * @param associatedUsername
      */
-    public void setUsername(String username) {
-        this.username = username;
-    }
-
-    /**
-     *
-     * @return
-     */
-    public String getEvent_id() {
-        return event_id;
-    }
-
-    /**
-     *
-     * @param event_id
-     */
-    public void setEvent_id(String event_id) {
-        this.event_id = event_id;
+    public void setAssociatedUsername(String associatedUsername) {
+        this.associatedUsername = associatedUsername;
     }
 
     /**
      *
      * @return
      */
-    public String getPerson_id() {
-        return person_id;
+    public String getEventID() {
+        return eventID;
     }
 
     /**
      *
-     * @param person_id
+     * @param eventID
      */
-    public void setPerson_id(String person_id) {
-        this.person_id = person_id;
+    public void setEventID(String eventID) {
+        this.eventID = eventID;
+    }
+
+    /**
+     *
+     * @return
+     */
+    public String getPersonID() {
+        return personID;
+    }
+
+    /**
+     *
+     * @param personID
+     */
+    public void setPersonID(String personID) {
+        this.personID = personID;
     }
 
     /**
@@ -196,9 +198,9 @@ public class Event extends Results {
      * @param success
      */
     public Event(String username, String event_id, String person_id, float latitude, float longitude, String country, String city, String eventType, int year, boolean success) {
-        this.username = username;
-        this.event_id = event_id;
-        this.person_id = person_id;
+        this.associatedUsername = username;
+        this.eventID = event_id;
+        this.personID = person_id;
         this.latitude = latitude;
         this.longitude = longitude;
         this.country = country;
@@ -206,5 +208,9 @@ public class Event extends Results {
         this.eventType = eventType;
         this.year = year;
         this.success = success;
+    }
+
+    public String getMessage() {
+        return message;
     }
 }

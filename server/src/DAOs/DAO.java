@@ -1,6 +1,6 @@
 package DAOs;
 
-import Models.Model;
+import ModelsServer.Model;
 import Services.DataAccessException;
 import Services.Database;
 
@@ -14,11 +14,11 @@ public abstract class DAO {
     }
     public DAO(){
     }
-//UUID can create string unique identifiers.
     public abstract Model insert(Model insertModel) throws DataAccessException, SQLException;
     public abstract Model find(String searchString) throws DataAccessException;
-    public abstract ArrayList<Model> find() throws DataAccessException;
+    public abstract ArrayList<Model> findMultiple(String username) throws DataAccessException;
     public abstract void clear() throws DataAccessException;
+    public abstract void delete(String ID) throws DataAccessException;
 
     public Database getDbConnection() {
         return dbConnection;
@@ -32,4 +32,6 @@ public abstract class DAO {
     public boolean equals(Object obj) {
         return super.equals(obj);
     }
+
+    public abstract void deleteByUsername(String username) throws DataAccessException;
 }

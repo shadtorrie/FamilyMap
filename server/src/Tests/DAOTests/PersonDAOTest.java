@@ -1,15 +1,11 @@
 package Tests.DAOTests;
 
 import DAOs.PersonDAO;
-import DAOs.UserDAO;
-import Models.Person;
-import Models.User;
+import ModelsServer.Person;
 import Services.Database;
 import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
-
-import static org.junit.jupiter.api.Assertions.*;
 
 class PersonDAOTest extends DAOTest{
     @BeforeEach
@@ -17,7 +13,7 @@ class PersonDAOTest extends DAOTest{
     public void setUp() throws Exception {
         setDb(new Database());
         setModel(new Person("1234a","shadtorrie","first","last",
-                'm',"12345a", "123456a","1234567a"));
+                "m","12345a", "123456a","1234567a"));
     }
     @AfterEach
     public void tearDown() throws Exception {

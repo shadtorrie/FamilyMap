@@ -1,7 +1,7 @@
 package Tests.DAOTests;
 
 import DAOs.UserDAO;
-import Models.User;
+import ModelsServer.User;
 import Services.Database;
 import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.BeforeEach;

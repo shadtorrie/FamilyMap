@@ -39,7 +39,7 @@ public class RegisterS extends Service {
             User result = (ModelsServer.User) dao.find(registerRequest.getUserName());
             if(result!= null ){
                 dbConnection.closeConnection(false);
-                return new Result.Register("Username already taken by another user",false);
+                return new Result.Register("Error: Username already taken by another user",false);
             }
 
             User userResultModel = (ModelsServer.User) dao.insert(new User(registerRequest.getUserName(),registerRequest.getPassword(),registerRequest.getEmail()));

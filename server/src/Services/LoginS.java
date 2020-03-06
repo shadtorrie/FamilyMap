@@ -37,21 +37,15 @@ public class LoginS extends Service {
             Login loginRequest = (Login) request;
             dbConnection.openConnection();
             DAO dao = new UserDAO(dbConnection);
-            User resultModel = (ModelsServer.User) dao.find(loginRequest.getUserName());
+            User resultModel = (ModelsServer.User) ((UserDAO)dao).findByUsernameAndPassword(loginRequest.getUserName(),loginRequest.getPassword());
             if(resultModel==null){
-                dbConnection.closeConnection(false);
-                return new Result.Login("Error: Request property missing or has invalid value",false);
-            }
-            dao=new PersonDAO(dbConnection);
-            ArrayList<Model> personResultModel = dao.findMultiple(resultModel.getID());
-            if(personResultModel.size()==0||personResultModel.get(0)==null){
                 dbConnection.closeConnection(false);
                 return new Result.Login("Error: Request property missing or has invalid value",false);
             }
             dao = new AuthDAO(dbConnection);
             Auth authModel = (Auth) dao.insert(new Auth(UUID.randomUUID().toString(),resultModel.getID()));
             dbConnection.closeConnection(true);
-            return new Result.Login(authModel.getID(),resultModel.getID(),personResultModel.get(0).getID(),true);
+            return new Result.Login(authModel.getID(),resultModel.getID(),resultModel.getPersonID(),true);
         }
         catch(DataAccessException | SQLException e){
             e.printStackTrace();

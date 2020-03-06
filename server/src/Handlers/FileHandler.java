@@ -32,10 +32,15 @@ public class FileHandler extends Handler {
                 String filePath = "web" + urlPath;
                 File file = new File(filePath);
                 if(!file.exists()){
+                    urlPath = "/HTML/404.html";
+                    filePath = "web" + urlPath;
+                    file = new File(filePath);
                     exchange.sendResponseHeaders(HttpURLConnection.HTTP_NOT_FOUND, 0);
                 }
+                else{
+                    exchange.sendResponseHeaders(HttpURLConnection.HTTP_OK, 0);
+                }
                 OutputStream respBody = exchange.getResponseBody();
-                exchange.sendResponseHeaders(HttpURLConnection.HTTP_OK, 0);
                 Files.copy(file.toPath(), respBody);
                 respBody.close();
                 success = true;

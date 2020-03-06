@@ -64,7 +64,7 @@ public class EventsS extends Service {
                 Person returnPerson = (Person) personDao.find(returnModel.getPersonID());
                 if(!returnPerson.getAssociatedUsername().equals(username)){
                     dbConnection.closeConnection(false);
-                    return new Result.Event("Requested event does not belong to this user",false);
+                    return new Result.Event("Error: Requested event does not belong to this user",false);
                 }
                 result = new Result.Event(returnPerson.getAssociatedUsername(),returnModel.getID(),returnModel.getPersonID(),
                         returnModel.getLatitude(),returnModel.getLongitude(),returnModel.getCountry(),returnModel.getCity(),

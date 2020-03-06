@@ -59,7 +59,7 @@ public class PeopleS extends Service {
                 ModelsServer.Person returnPerson = (ModelsServer.Person) personDao.find(returnModel.getID());
                 if(!returnPerson.getAssociatedUsername().equals(username)){
                     dbConnection.closeConnection(false);
-                    return new Result.Person("Requested person does not belong to this user",false);
+                    return new Result.Person("Error: Requested person does not belong to this user",false);
                 }
                 result = new Result.Person(returnPerson.getAssociatedUsername(), returnPerson.getID(),returnPerson.getFirstName(),
                         returnPerson.getLastName(),returnPerson.getGender(),returnPerson.getFatherID(),

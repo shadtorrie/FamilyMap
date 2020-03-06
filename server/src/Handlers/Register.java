@@ -39,18 +39,21 @@ public class Register extends Handler  {
                             registerBody.password, registerBody.email,
                             registerBody.firstName, registerBody.lastName,
                             registerBody.gender));
-                    exchange.sendResponseHeaders(HttpURLConnection.HTTP_OK, 0);
+                    if(respData.isSuccess()){
+                        exchange.sendResponseHeaders(HttpURLConnection.HTTP_OK, 0);
+                    }
+                    else{
+                        exchange.sendResponseHeaders(HttpURLConnection.HTTP_BAD_REQUEST, 0);
+                    }
                     success = true;
                 }
             }
             if (!success) {
                 exchange.sendResponseHeaders(HttpURLConnection.HTTP_BAD_REQUEST, 0);
-                exchange.getResponseBody().close();
             }
         }
         catch (IOException | DataAccessException e) {
             exchange.sendResponseHeaders(HttpURLConnection.HTTP_INTERNAL_ERROR, 0);
-            exchange.getResponseBody().close();
             e.printStackTrace();
         }
         OutputStream respBody = exchange.getResponseBody();

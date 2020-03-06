@@ -64,7 +64,7 @@ public class LoadS extends Service{
             for(User i :users) {
                 userDao.insert(i);
             }
-            Results result = new Result.Load("Successfully added",true);
+            Results result = new Result.Load("Successfully added "+users.size()+" users, "+people.size()+" persons, and "+events.size()+" events to the database.",true);
             dbConnection.closeConnection(true);
             return result;
         } catch (DataAccessException | SQLException e) {

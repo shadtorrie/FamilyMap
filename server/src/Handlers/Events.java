@@ -29,7 +29,7 @@ public class Events extends Handler {
                 String path=exchange.getRequestURI().getPath();
                 String eventID=path.substring(path.lastIndexOf("event")+"event".length());
                 if(eventID.length()>0){
-                    respData = service.requestService(new Event(eventID,authToken));
+                    respData = service.requestService(new Event(eventID.substring(1),authToken));
                     if(respData.isSuccess()) {
                         exchange.sendResponseHeaders(HttpURLConnection.HTTP_OK, 0);
                     }

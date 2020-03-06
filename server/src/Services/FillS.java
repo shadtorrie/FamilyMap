@@ -23,6 +23,7 @@ import java.util.UUID;
 public class FillS extends Service {
     private DAO eventDao;
     private DAO personDao;
+    private DAO userDao;
     private String username;
     private fNames fnames;
     private mNames mnames;
@@ -41,7 +42,7 @@ public class FillS extends Service {
         Fill fillRequest = (Fill) request;
         eventDao = new EventDAO(dbConnection);
         personDao = new PersonDAO(dbConnection);
-        DAO userDao = new UserDAO(dbConnection);
+        userDao = new UserDAO(dbConnection);
         try {
             dbConnection.openConnection();
             Results result = null;
@@ -121,6 +122,7 @@ public class FillS extends Service {
         if(genCount>0){
             createParents(person,event.getYear(),genCount);
         }
+        ((UserDAO)userDao).updatePersonID(username,person.getID());
         personDao.insert(person);
     }
 

@@ -5,6 +5,23 @@ public class User extends Model {
     private String email;
     private String userName;
 
+    public String getPersonID() {
+        return personID;
+    }
+
+    public void setPersonID(String personID) {
+        this.personID = personID;
+    }
+
+    private String personID;
+
+    public User(String userName,String password, String email,  String personID) {
+        this.password = password;
+        this.email = email;
+        this.userName = userName;
+        this.personID = personID;
+    }
+
     @Override
     public String getID(){
         return userName;

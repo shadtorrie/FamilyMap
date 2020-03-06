@@ -31,7 +31,7 @@ public class People extends Handler  {
                 String personID=path.substring(path.lastIndexOf("person")+"person".length());
 
                 if(personID.length()>0){
-                    respData = service.requestService(new Person(personID,authToken));
+                    respData = service.requestService(new Person(personID.substring(1),authToken));
                     if(respData.isSuccess()) {
                         exchange.sendResponseHeaders(HttpURLConnection.HTTP_OK, 0);
                     }

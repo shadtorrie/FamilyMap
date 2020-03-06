@@ -1,15 +1,16 @@
 CREATE TABLE Users(
 	username varchar(255)  PRIMARY KEY,
-	password varchar(255) , 
+	password varchar(255),
+	person varchar(255),
 	email varchar(255) 
 );
 
 CREATE TABLE Person(
 	person_id varchar(255)  PRIMARY KEY,
-	username varchar(255) ,
-	first_name varchar(255) ,
-	last_name varchar(255) ,
-	gender varchar(1) ,
+	username varchar(255),
+	first_name varchar(255),
+	last_name varchar(255),
+	gender varchar(1),
 	father_id varchar(255),
 	mother_id varchar(255),
 	spouse_id varchar(255)

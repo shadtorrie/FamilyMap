@@ -19,30 +19,27 @@ public class Register extends Handler  {
         String email = null;
         String firstName = null;
         String lastName = null;
-        char gender=0;
+        String gender;
     }
     @Override
     public void handle(HttpExchange exchange) throws IOException {
         boolean success = false;
-
+        Results respData = null;
+        Gson gson = new Gson();
         try {
             if (exchange.getRequestMethod().toLowerCase().equals("post")) {
                 InputStream requestBody = exchange.getRequestBody();
-                Gson gson = new Gson();
                 RegisterBody registerBody = gson.fromJson(new InputStreamReader(requestBody),RegisterBody.class);
                 if(registerBody.userName!=null&&registerBody.password!=null
                         &&registerBody.email!=null
                         &&registerBody.firstName!=null&&registerBody.lastName!=null
-                        &&registerBody.gender!=0) {
+                        &&registerBody.gender!=null) {
                     Service service = new RegisterS();
-                    Results respData = service.requestService(new Request.Register(registerBody.userName,
+                    respData = service.requestService(new Request.Register(registerBody.userName,
                             registerBody.password, registerBody.email,
                             registerBody.firstName, registerBody.lastName,
                             registerBody.gender));
                     exchange.sendResponseHeaders(HttpURLConnection.HTTP_OK, 0);
-                    OutputStream respBody = exchange.getResponseBody();
-                    respBody.write(gson.toJson(respData).getBytes(StandardCharsets.UTF_8));
-                    respBody.close();
                     success = true;
                 }
             }
@@ -56,5 +53,8 @@ public class Register extends Handler  {
             exchange.getResponseBody().close();
             e.printStackTrace();
         }
+        OutputStream respBody = exchange.getResponseBody();
+        respBody.write(gson.toJson(respData).getBytes(StandardCharsets.UTF_8));
+        respBody.close();
     }
 }

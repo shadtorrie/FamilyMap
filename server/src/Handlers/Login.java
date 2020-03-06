@@ -20,24 +20,22 @@ public class Login extends Handler  {
     @Override
     public void handle(HttpExchange exchange) throws IOException {
         boolean success = false;
-
+        Result.Login respData = null;
+        Gson gson = new Gson();
         try {
             if (exchange.getRequestMethod().toLowerCase().equals("post")) {
                 InputStream requestBody = exchange.getRequestBody();
-                Gson gson = new Gson();
                  LoginBody loginBody = gson.fromJson(new InputStreamReader(requestBody), LoginBody.class);
                 if(loginBody.userName!=null&&loginBody.password!=null) {
                     Service service = new LoginS();
-                    Result.Login respData = (Result.Login) service.requestService(new Request.Login(loginBody.userName,loginBody.password));
+                    respData = (Result.Login) service.requestService(new Request.Login(loginBody.userName,loginBody.password));
                     if(respData.isSuccess()){
                         exchange.sendResponseHeaders(HttpURLConnection.HTTP_OK, 0);
                     }
                     else{
                         exchange.sendResponseHeaders(HttpURLConnection.HTTP_BAD_REQUEST, 0);
                     }
-                    OutputStream respBody = exchange.getResponseBody();
-                    respBody.write(gson.toJson(respData).getBytes(StandardCharsets.UTF_8));
-                    respBody.close();
+
                     success = true;
                 }
             }
@@ -51,5 +49,8 @@ public class Login extends Handler  {
             exchange.getResponseBody().close();
             e.printStackTrace();
         }
+        OutputStream respBody = exchange.getResponseBody();
+        respBody.write(gson.toJson(respData).getBytes(StandardCharsets.UTF_8));
+        respBody.close();
     }
 }

@@ -3,7 +3,7 @@ package Request;
 public class Fill extends Requests {
     String userName;
     int genCount;
-    char gender = 0;
+    String gender;
     String firstName = null;
     String lastName = null;
 
@@ -15,11 +15,11 @@ public class Fill extends Requests {
         this.userName = userName;
     }
 
-    public char getGender() {
+    public String getGender() {
         return gender;
     }
 
-    public void setGender(char gender) {
+    public void setGender(String gender) {
         this.gender = gender;
     }
 
@@ -47,7 +47,7 @@ public class Fill extends Requests {
         this.genCount = genCount;
     }
 
-    public Fill(String username, int genCount, char gender, String firstName, String lastName) {
+    public Fill(String username, int genCount, String gender, String firstName, String lastName) {
         this.userName = username;
         this.genCount = genCount;
         this.gender = gender;

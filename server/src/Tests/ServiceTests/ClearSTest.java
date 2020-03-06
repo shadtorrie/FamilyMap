@@ -71,7 +71,7 @@ class ClearSTest extends ServiceTest {
             dao = new PersonDAO(db);
             String personID = "1234a";
             result = (Clear) clear(new Person(personID,"shadtorrie","first","last",
-                    'm',"12345a", "123456a","1234567a"),personID);
+                    "m","12345a", "123456a","1234567a"),personID);
         } catch (DataAccessException | SQLException e) {
             e.printStackTrace();
         }

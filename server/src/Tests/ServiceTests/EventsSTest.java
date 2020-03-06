@@ -38,7 +38,7 @@ class EventsSTest extends ServiceTest {
             String authID = "test1234";
             authDao.insert(new Auth(authID,username));
             DAO personDao = new PersonDAO(db);
-            personDao.insert(new Person(personID,username,"Torrie","Test",'M'));
+            personDao.insert(new Person(personID,username,"Torrie","Test","m"));
             db.closeConnection(true);
             results = (Result.Event) service.requestService(new Request.Event(eventID, authID));
         } catch (DataAccessException | SQLException e) {
@@ -64,7 +64,7 @@ class EventsSTest extends ServiceTest {
             String authID = "test1234";
             authDao.insert(new Auth(authID,username));
             DAO personDao = new PersonDAO(db);
-            personDao.insert(new Person(personID,username,"Torrie","Test",'M'));
+            personDao.insert(new Person(personID,username,"Torrie","Test","m"));
             db.closeConnection(true);
             results = (Result.EventList) service.requestService(new Request.Event(authID));
         } catch (DataAccessException | SQLException e) {
@@ -85,7 +85,7 @@ class EventsSTest extends ServiceTest {
             dao.insert(new Event(eventID, personID,username,12.1f,11.1f,"USA","Provo","grad",2022));
             String authID = "test1234";
             DAO personDao = new PersonDAO(db);
-            personDao.insert(new Person(personID,username,"Torrie","Test",'M'));
+            personDao.insert(new Person(personID,username,"Torrie","Test","m"));
             db.closeConnection(true);
             results = (Result.Event) service.requestService(new Request.Event(eventID, authID));
         } catch (DataAccessException | SQLException e) {
@@ -110,7 +110,7 @@ class EventsSTest extends ServiceTest {
         }
         assertNotNull(results,"Result was not received.");
         assertFalse(results.isSuccess(),"The event should not be found");
-        assertEquals("Invalid eventID parameter", results.getMessage(),"The error message was incorrect.");
+        assertEquals("Error: Invalid eventID parameter", results.getMessage(),"The error message was incorrect.");
     }
 
     @AfterEach

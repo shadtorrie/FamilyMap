@@ -30,7 +30,7 @@ public class Events extends Handler {
                 String eventID=path.substring(path.lastIndexOf("event")+"event".length());
                 if(eventID.length()>0){
                     respData = service.requestService(new Event(eventID,authToken));
-                    if(((Result.Event)respData).isSuccess()) {
+                    if(respData.isSuccess()) {
                         exchange.sendResponseHeaders(HttpURLConnection.HTTP_OK, 0);
                     }
                     else{
@@ -39,7 +39,7 @@ public class Events extends Handler {
                 }
                 else {
                     respData = service.requestService(new Event(authToken));
-                    if(((Result.EventList)respData).isSuccess()) {
+                    if(respData.isSuccess()) {
                         exchange.sendResponseHeaders(HttpURLConnection.HTTP_OK, 0);
                     }
                     else{

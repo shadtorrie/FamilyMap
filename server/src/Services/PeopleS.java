@@ -54,7 +54,7 @@ public class PeopleS extends Service {
                 ModelsServer.Person returnModel = (ModelsServer.Person) personDao.find(personRequest.getPersonID());
                 if(returnModel==null){
                     dbConnection.closeConnection(false);
-                    return new Result.Person("Invalid personID parameter",false);
+                    return new Result.Person("Error: Invalid personID parameter",false);
                 }
                 ModelsServer.Person returnPerson = (ModelsServer.Person) personDao.find(returnModel.getID());
                 if(!returnPerson.getAssociatedUsername().equals(username)){

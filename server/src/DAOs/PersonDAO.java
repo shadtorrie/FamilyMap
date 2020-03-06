@@ -42,7 +42,7 @@ public class PersonDAO extends DAO{
             stmt.setString(2,person.getAssociatedUsername());
             stmt.setString(3,person.getFirstName());
             stmt.setString(4,person.getLastName());
-            stmt.setInt(5,person.getGender());
+            stmt.setString(5,person.getGender());
             stmt.setString(6,person.getFatherID());
             stmt.setString(7,person.getMotherID());
             stmt.setString(8,person.getSpouseID());
@@ -72,7 +72,7 @@ public class PersonDAO extends DAO{
             if(result.next()){
                 person=new Person(result.getString("person_id"),result.getString("username"),
                         result.getString("first_name"),result.getString("last_name"),
-                        (char)result.getInt("gender"),result.getString("father_id"),
+                        result.getString("gender"),result.getString("father_id"),
                         result.getString("mother_id"),result.getString("spouse_id"));
                 return person;
             }
@@ -95,7 +95,7 @@ public class PersonDAO extends DAO{
             if(result.next()){
                 person=new Person(result.getString("person_id"),result.getString("username"),
                         result.getString("first_name"),result.getString("last_name"),
-                        (char)result.getInt("gender"),result.getString("father_id"),
+                        result.getString("gender"),result.getString("father_id"),
                         result.getString("mother_id"),result.getString("spouse_id"));
                 return person;
             }
@@ -119,7 +119,7 @@ public class PersonDAO extends DAO{
                 String personID = result.getString("person_id");
                 people.add(new Person(result.getString("person_id"),result.getString("username"),
                         result.getString("first_name"),result.getString("last_name"),
-                        (char)result.getInt("gender"),result.getString("father_id"),
+                        result.getString("gender"),result.getString("father_id"),
                         result.getString("mother_id"),result.getString("spouse_id")));
             }
         }

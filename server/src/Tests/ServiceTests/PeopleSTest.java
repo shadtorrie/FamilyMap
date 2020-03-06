@@ -30,7 +30,7 @@ class PeopleSTest extends ServiceTest {
         try {
             String personID = "pers";
             String username = "test1";
-            dao.insert(new Person(personID,username,"Shad","Torrie",'M'));
+            dao.insert(new Person(personID,username,"Shad","Torrie","m"));
             DAO authDao = new AuthDAO(db);
             String authID = "test1234";
             authDao.insert(new Auth(authID,username));
@@ -49,8 +49,8 @@ class PeopleSTest extends ServiceTest {
             String personID = "pers";
             String personID2 = "pers2";
             String username = "test1";
-            Person firstPerson = new Person(personID,username,"Shad","Torrie",'M');
-            Person secondPerson = new Person(personID2,username,"Shad","Torrie",'M');
+            Person firstPerson = new Person(personID,username,"Shad","Torrie","m");
+            Person secondPerson = new Person(personID2,username,"Shad","Torrie","m");
             dao.insert(firstPerson);
             dao.insert(secondPerson);
             DAO authDao = new AuthDAO(db);
@@ -71,7 +71,7 @@ class PeopleSTest extends ServiceTest {
         Result.Person results = null;
         try {
             String personID = "pers";
-            dao.insert(new Person(personID,"test","Shad","Torrie",'M'));
+            dao.insert(new Person(personID,"test","Shad","Torrie","m"));
             String authID = "test1234";
             String username = "test1";
             db.closeConnection(true);
@@ -98,7 +98,7 @@ class PeopleSTest extends ServiceTest {
         }
         assertNotNull(results,"Result was not received.");
         assertFalse(results.isSuccess(),"The person should not be found");
-        assertEquals("Invalid personID parameter",results.getMessage(),"The error message was incorrect.");
+        assertEquals("Error: Invalid personID parameter",results.getMessage(),"The error message was incorrect.");
     }
 
     @AfterEach

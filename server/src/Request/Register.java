@@ -6,9 +6,9 @@ public class Register extends Requests{
     private String email;
     private String firstName;
     private String lastName;
-    private char gender;
+    private String gender;
 
-    public Register(String username, String password, String email, String firstName, String lastName, char gender) {
+    public Register(String username, String password, String email, String firstName, String lastName, String gender) {
         this.userName = username;
         this.password = password;
         this.email = email;
@@ -57,11 +57,11 @@ public class Register extends Requests{
         this.lastName = lastName;
     }
 
-    public char getGender() {
+    public String getGender() {
         return gender;
     }
 
-    public void setGender(char gender) {
+    public void setGender(String gender) {
         this.gender = gender;
     }
 }

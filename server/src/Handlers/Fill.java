@@ -19,7 +19,7 @@ public class Fill extends Handler  {
     @Override
     public void handle(HttpExchange exchange) throws IOException {
         boolean success = false;
-
+        Results respData = null;
         try {
             if (exchange.getRequestMethod().toLowerCase().equals("post")) {
                 Service service = new FillS();
@@ -27,16 +27,11 @@ public class Fill extends Handler  {
                 String username= path.substring(path.indexOf('/',1)+1,path.lastIndexOf('/'));
                 String genCountString = path.substring(path.lastIndexOf('/')+1);
                 int genCount =4;
-                if(genCountString !=""){
+                if(!genCountString.equals("")){
                     genCount= Integer.parseInt(genCountString);
                 }
-                Results respData = null;
                 respData = service.requestService(new Request.Fill(username,genCount));
                 exchange.sendResponseHeaders(HttpURLConnection.HTTP_OK, 0);
-                OutputStream respBody = exchange.getResponseBody();
-                Gson gson = new Gson();
-                respBody.write(gson.toJson(respData).getBytes(StandardCharsets.UTF_8));
-                respBody.close();
                 success = true;
             }
 
@@ -50,5 +45,9 @@ public class Fill extends Handler  {
             exchange.getResponseBody().close();
             e.printStackTrace();
         }
+        OutputStream respBody = exchange.getResponseBody();
+        Gson gson = new Gson();
+        respBody.write(gson.toJson(respData).getBytes(StandardCharsets.UTF_8));
+        respBody.close();
     }
 }

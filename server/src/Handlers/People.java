@@ -32,7 +32,7 @@ public class People extends Handler  {
 
                 if(personID.length()>0){
                     respData = service.requestService(new Person(personID,authToken));
-                    if(((Result.Person)respData).isSuccess()) {
+                    if(respData.isSuccess()) {
                         exchange.sendResponseHeaders(HttpURLConnection.HTTP_OK, 0);
                     }
                     else{
@@ -41,7 +41,7 @@ public class People extends Handler  {
                 }
                 else {
                     respData = service.requestService(new Person(authToken));
-                    if(((Result.PersonList)respData).isSuccess()) {
+                    if(respData.isSuccess()) {
                         exchange.sendResponseHeaders(HttpURLConnection.HTTP_OK, 0);
                     }
                     else{

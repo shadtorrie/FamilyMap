@@ -32,7 +32,7 @@ public class RegisterS extends Service {
             DAO dao = new UserDAO(dbConnection);
             if(registerRequest.getUserName().length()==0||registerRequest.getPassword().length()==0
                     ||registerRequest.getEmail().length()==0||registerRequest.getFirstName().length()==0
-                    ||registerRequest.getLastName().length()==0||(Character.toLowerCase(registerRequest.getGender())!='m'&&Character.toLowerCase(registerRequest.getGender())!='f')){
+                    ||registerRequest.getLastName().length()==0|| !registerRequest.getGender().equals("m") && !registerRequest.getGender().equals("f")){
                 return new Result.Register("Error: Request property missing or has invalid value",false);
             }
 

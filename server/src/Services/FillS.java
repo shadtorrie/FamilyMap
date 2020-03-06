@@ -147,11 +147,10 @@ public class FillS extends Service {
         eventDao.insert(dadBirthEvent);
         //Marriage
         Location marriageLocation =locations.getRandom();
-        int marriageDate = birthOfChild-1;
         Event dadMarriage = new Event(UUID.randomUUID().toString(),dad.getID(),username,marriageLocation.latitude,marriageLocation.longitude,
-                marriageLocation.country,marriageLocation.city,"Marriage", marriageDate);
+                marriageLocation.country,marriageLocation.city,"Marriage", birthOfChild);
         Event momMarriage = new Event(UUID.randomUUID().toString(),mom.getID(),username,marriageLocation.latitude,marriageLocation.longitude,
-                marriageLocation.country,marriageLocation.city,"Marriage", marriageDate);
+                marriageLocation.country,marriageLocation.city,"Marriage", birthOfChild);
         eventDao.insert(dadMarriage);
         eventDao.insert(momMarriage);
         //Death
@@ -175,16 +174,16 @@ public class FillS extends Service {
 
     private Person createFemale() {
         FirstName firstName = fnames;
-        return new Person(UUID.randomUUID().toString(),username,firstName.getRandom(),snames.getRandom(),'f');
+        return new Person(UUID.randomUUID().toString(),username,firstName.getRandom(),snames.getRandom(),"f");
     }
 
     private Person createMale(String last_name) {
         FirstName firstName = mnames;
-        return new Person(UUID.randomUUID().toString(),username,firstName.getRandom(),last_name,'m');
+        return new Person(UUID.randomUUID().toString(),username,firstName.getRandom(),last_name,"m");
     }
     private Person createMale() {
         FirstName firstName = mnames;
-        return new Person(UUID.randomUUID().toString(),username,firstName.getRandom(),snames.getRandom(),'m');
+        return new Person(UUID.randomUUID().toString(),username,firstName.getRandom(),snames.getRandom(),"m");
     }
 
     private boolean isMale() {

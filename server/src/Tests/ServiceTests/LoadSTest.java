@@ -46,8 +46,8 @@ class LoadSTest extends ServiceTest {
     public void testLoadPeople(){
         Result.Load result = null;
         boolean success = false;
-        Person person1 = new Person("1234","shad","Torrie","Shad",'m');
-        Person person2 = new Person("12a345","shaddy","Torrie1","Shad1",'f');
+        Person person1 = new Person("1234","shad","Torrie","Shad","m");
+        Person person2 = new Person("12a345","shaddy","Torrie1","Shad1","f");
         try {
             people.add(person1);
             people.add(person2);

@@ -5,14 +5,14 @@ public class Person extends Results {
     private String personID;
     private String firstName;
     private String lastName;
-    private char gender;
+    private String gender;
     private String fatherID;
     private String motherID;
     private String spouseID;
     private boolean success;
     private String message;
 
-    public Person(String username, String person_id, String firstName, String lastName, char gender, boolean success) {
+    public Person(String username, String person_id, String firstName, String lastName, String gender, boolean success) {
         this.associatedUsername = username;
         this.personID = person_id;
         this.firstName = firstName;
@@ -98,7 +98,7 @@ public class Person extends Results {
      * get gender
      * @return
      */
-    public char getGender() {
+    public String getGender() {
         return gender;
     }
 
@@ -106,7 +106,7 @@ public class Person extends Results {
      * set gender
      * @param gender
      */
-    public void setGender(char gender) {
+    public void setGender(String gender) {
         this.gender = gender;
     }
 
@@ -186,7 +186,7 @@ public class Person extends Results {
      * @param spouse_id
      * @param success
      */
-    public Person(String username, String person_id, String firstName, String lastName, char gender, String father_id, String mother_id, String spouse_id, boolean success) {
+    public Person(String username, String person_id, String firstName, String lastName, String gender, String father_id, String mother_id, String spouse_id, boolean success) {
         this.associatedUsername = username;
         this.personID = person_id;
         this.firstName = firstName;

@@ -22,7 +22,8 @@ public class Load extends Handler {
     @Override
     public void handle(HttpExchange exchange) throws IOException {
         boolean success = false;
-
+        Results resultData = null;
+        Gson gson = new Gson();
         try {
             if (exchange.getRequestMethod().toLowerCase().equals("post")) {
                 Headers reqHeaders = exchange.getRequestHeaders();
@@ -34,14 +35,10 @@ public class Load extends Handler {
                 else{
                     InputStream reqBody = exchange.getRequestBody();
                     String request = super.readString(reqBody);
-                    Gson gson = new Gson();
                     Request.Load requestLoad = gson.fromJson(request, Request.Load.class);
                     LoadS loadService = new LoadS();
-                    Results resultData = loadService.requestService(requestLoad);
+                    resultData = loadService.requestService(requestLoad);
                     exchange.sendResponseHeaders(HttpURLConnection.HTTP_OK, 0);
-                    OutputStream respBody = exchange.getResponseBody();
-                    respBody.write(gson.toJson(resultData).getBytes(StandardCharsets.UTF_8));
-                    respBody.close();
                     success = true;
                 }
             }
@@ -55,5 +52,8 @@ public class Load extends Handler {
             exchange.getResponseBody().close();
             e.printStackTrace();
         }
+        OutputStream respBody = exchange.getResponseBody();
+        respBody.write(gson.toJson(resultData).getBytes(StandardCharsets.UTF_8));
+        respBody.close();
     }
 }

@@ -1,4 +1,5 @@
 package Result;
 
-public class Results {
+public abstract class Results {
+    public abstract boolean isSuccess() ;
 }

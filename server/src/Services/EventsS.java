@@ -58,7 +58,7 @@ public class EventsS extends Service {
                 ModelsServer.Event returnModel = (ModelsServer.Event) eventDao.find(eventRequest.getEventID());
                 if(returnModel==null){
                     dbConnection.closeConnection(false);
-                    return new Result.Event("Invalid eventID parameter",false);
+                    return new Result.Event("Error: Invalid eventID parameter",false);
                 }
                 DAO personDao = new PersonDAO(dbConnection);
                 Person returnPerson = (Person) personDao.find(returnModel.getPersonID());

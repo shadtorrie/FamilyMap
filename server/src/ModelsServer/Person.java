@@ -5,7 +5,7 @@ public class Person extends Model {
     private String associatedUsername;
     private String firstName;
     private String lastName;
-    private char gender;
+    private String gender;
     private String fatherID;
     private String motherID;
     private String spouseID;
@@ -26,7 +26,7 @@ public class Person extends Model {
      * @param last_name
      * @param gender
      */
-    public Person(String personID, String username, String first_name, String last_name, char gender) {
+    public Person(String personID, String username, String first_name, String last_name, String gender) {
         this.personID= personID;
         this.associatedUsername = username;
         this.firstName = first_name;
@@ -45,7 +45,7 @@ public class Person extends Model {
      * @param mother_id
      * @param spouse_id
      */
-    public Person(String personID, String username, String first_name, String last_name, char gender, String father_id, String mother_id, String spouse_id) {
+    public Person(String personID, String username, String first_name, String last_name, String gender, String father_id, String mother_id, String spouse_id) {
         this.personID= personID;
         this.associatedUsername = username;
         this.firstName = first_name;
@@ -108,7 +108,7 @@ public class Person extends Model {
      *
      * @return
      */
-    public char getGender() {
+    public String getGender() {
         return gender;
     }
 
@@ -116,7 +116,7 @@ public class Person extends Model {
      *
      * @param gender
      */
-    public void setGender(char gender) {
+    public void setGender(String gender) {
         this.gender = gender;
     }
 

@@ -64,7 +64,7 @@ public class LoadS extends Service{
             for(User i :users) {
                 userDao.insert(i);
             }
-            Results result = new Result.Load("Load successful",true);
+            Results result = new Result.Load("Successfully added",true);
             dbConnection.closeConnection(true);
             return result;
         } catch (DataAccessException | SQLException e) {

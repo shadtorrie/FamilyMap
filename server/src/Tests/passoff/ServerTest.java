@@ -1,4 +1,4 @@
-package passoff;
+package Tests.passoff;
 
 import client.Client;
 import client.Proxy;

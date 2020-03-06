@@ -1,11 +1,11 @@
 package Result;
 
 public class Clear extends Results {
-    private String message;
     private boolean success;
+    private String message;
 
     public Clear(String message, boolean success) {
-        this.message = message;
+        this.message =  message;
         this.success = success;
     }
 

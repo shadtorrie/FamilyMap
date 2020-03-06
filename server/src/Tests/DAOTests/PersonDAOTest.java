@@ -1,15 +1,11 @@
 package Tests.DAOTests;
 
 import DAOs.PersonDAO;
-import DAOs.UserDAO;
-import Models.Person;
-import Models.User;
+import ModelsServer.Person;
 import Services.Database;
 import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
-
-import static org.junit.jupiter.api.Assertions.*;
 
 class PersonDAOTest extends DAOTest{
     @BeforeEach

@@ -1,64 +1,65 @@
 package Result;
 
 public class Person extends Results {
-    private String username;
-    private String person_id;
+    private String associatedUsername;
+    private String personID;
     private String firstName;
     private String lastName;
     private char gender;
-    private String father_id;
-    private String mother_id;
-    private String spouse_id;
+    private String fatherID;
+    private String motherID;
+    private String spouseID;
     private boolean success;
+    private String message;
 
-    /**
-     * constructor without unnecessary feilds
-     * @param username
-     * @param person_id
-     * @param firstName
-     * @param lastName
-     * @param gender
-     * @param success
-     */
     public Person(String username, String person_id, String firstName, String lastName, char gender, boolean success) {
-        this.username = username;
-        this.person_id = person_id;
+        this.associatedUsername = username;
+        this.personID = person_id;
         this.firstName = firstName;
         this.lastName = lastName;
         this.gender = gender;
         this.success = success;
+
+    }
+
+    public Person(String message, boolean success) {
+        this.message =  message;
+        this.success = success;
+    }
+    public String getMessage() {
+        return message;
     }
 
     /**
      * get username
      * @return
      */
-    public String getUsername() {
-        return username;
+    public String getAssociatedUsername() {
+        return associatedUsername;
     }
 
     /**
      * set username
-     * @param username
+     * @param associatedUsername
      */
-    public void setUsername(String username) {
-        this.username = username;
+    public void setAssociatedUsername(String associatedUsername) {
+        this.associatedUsername = associatedUsername;
     }
 
     /**
      * get person id
      * @return
      */
-    public String getPerson_id() {
-        return person_id;
+    public String getPersonID() {
+        return personID;
     }
 
     /**
      * set person ID
-     * @param person_id
+     * @param personID
      */
-    public void setPerson_id(String person_id) {
-        this.person_id = person_id;
+    public void setPersonID(String personID) {
+        this.personID = personID;
     }
 
     /**
@@ -113,48 +114,48 @@ public class Person extends Results {
      * get father id
      * @return
      */
-    public String getFather_id() {
-        return father_id;
+    public String getFatherID() {
+        return fatherID;
     }
 
     /**
      * set father id
-     * @param father_id
+     * @param fatherID
      */
-    public void setFather_id(String father_id) {
-        this.father_id = father_id;
+    public void setFatherID(String fatherID) {
+        this.fatherID = fatherID;
     }
 
     /**
      * get mother id
      * @return
      */
-    public String getMother_id() {
-        return mother_id;
+    public String getMotherID() {
+        return motherID;
     }
 
     /**
      * set mother id
-     * @param mother_id
+     * @param motherID
      */
-    public void setMother_id(String mother_id) {
-        this.mother_id = mother_id;
+    public void setMotherID(String motherID) {
+        this.motherID = motherID;
     }
 
     /**
      * get spouse id
      * @return
      */
-    public String getSpouse_id() {
-        return spouse_id;
+    public String getSpouseID() {
+        return spouseID;
     }
 
     /**
      * set spouse id
-     * @param spouse_id
+     * @param spouseID
      */
-    public void setSpouse_id(String spouse_id) {
-        this.spouse_id = spouse_id;
+    public void setSpouseID(String spouseID) {
+        this.spouseID = spouseID;
     }
 
     /**
@@ -186,14 +187,14 @@ public class Person extends Results {
      * @param success
      */
     public Person(String username, String person_id, String firstName, String lastName, char gender, String father_id, String mother_id, String spouse_id, boolean success) {
-        this.username = username;
-        this.person_id = person_id;
+        this.associatedUsername = username;
+        this.personID = person_id;
         this.firstName = firstName;
         this.lastName = lastName;
         this.gender = gender;
-        this.father_id = father_id;
-        this.mother_id = mother_id;
-        this.spouse_id = spouse_id;
+        this.fatherID = father_id;
+        this.motherID = mother_id;
+        this.spouseID = spouse_id;
         this.success = success;
     }
 }

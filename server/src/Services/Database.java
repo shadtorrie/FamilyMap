@@ -17,9 +17,11 @@ public class Database {
      */
     public Connection openConnection() throws DataAccessException {
         try {
-            final String connectionURL = "jdbc:sqlite:familymap.sqlite";
-            connection = DriverManager.getConnection(connectionURL);
-            connection.setAutoCommit(false);
+            if(connection==null) {
+                final String connectionURL = "jdbc:sqlite:familymap.sqlite";
+                connection = DriverManager.getConnection(connectionURL);
+                connection.setAutoCommit(false);
+            }
         }
         catch (SQLException e){
             e.printStackTrace();

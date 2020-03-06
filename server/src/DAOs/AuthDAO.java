@@ -1,8 +1,7 @@
 package DAOs;
 
-import Models.Auth;
-import Models.Event;
-import Models.Model;
+import ModelsServer.Auth;
+import ModelsServer.Model;
 import Services.DataAccessException;
 import Services.Database;
 
@@ -40,7 +39,7 @@ public class AuthDAO extends DAO {
         String sql = "INSERT INTO Authorization_Token (auth_token,username) VALUES(?,?)";
         try (PreparedStatement stmt = super.getDbConnection().getPreparedStatement(sql)){
             stmt.setString(1,auth.getID());
-            stmt.setString(2,auth.getUsername());
+            stmt.setString(2,auth.getUserName());
 
             stmt.executeUpdate();
         }
@@ -48,7 +47,7 @@ public class AuthDAO extends DAO {
             e.printStackTrace();
             throw new DataAccessException("Unable to insert Authorization_Token.");
         }
-        return null;
+        return insertModel;
     }
 
     /**
@@ -77,11 +76,12 @@ public class AuthDAO extends DAO {
     }
 
     @Override
-    public ArrayList<Model> find() throws DataAccessException {
+    public ArrayList<Model> findMultiple(String username) throws DataAccessException {
         ArrayList<Model> auths = new ArrayList<>();
-        String sql = "SELECT * FROM Authorization_Token;";
+        String sql = "SELECT * FROM Authorization_Token WHERE username = ?;;";
         ResultSet result = null;
         try (PreparedStatement stmt = super.getDbConnection().getPreparedStatement(sql)){
+            stmt.setString(1,username);
             result=stmt.executeQuery();
             while(result.next()){
                 auths.add(new Auth(result.getString("auth_token"),result.getString("username")));
@@ -110,6 +110,11 @@ public class AuthDAO extends DAO {
 
     }
 
+    @Override
+    public void delete(String ID) throws DataAccessException {
+
+    }
+
     /**
      *
      * @param obj
@@ -119,4 +124,11 @@ public class AuthDAO extends DAO {
     public boolean equals(Object obj) {
         return super.equals(obj);
     }
+
+    @Override
+    public void deleteByUsername(String username) throws DataAccessException {
+
+    }
+
+
 }

@@ -1,7 +1,7 @@
 package DAOs;
 
-import Models.Model;
-import Models.User;
+import ModelsServer.Model;
+import ModelsServer.User;
 import Services.DataAccessException;
 import Services.Database;
 
@@ -34,12 +34,12 @@ public class UserDAO extends DAO {
     @Override
     public Model insert(Model insertModel) throws DataAccessException {
         if(insertModel.getClass()!= User.class){
-            return null;
+            throw new DataAccessException("Unable to insert user.");
         }
         User user = (User)insertModel;
         String sql = "INSERT INTO Users (username, password, email) VALUES(?,?,?)";
         try (PreparedStatement stmt = super.getDbConnection().getPreparedStatement(sql)){
-            stmt.setString(1,user.getID());
+            stmt.setString(1,user.getUserName());
             stmt.setString(2,user.getPassword());
             stmt.setString(3,user.getEmail());
             stmt.executeUpdate();
@@ -48,7 +48,7 @@ public class UserDAO extends DAO {
             e.printStackTrace();
             throw new DataAccessException("Unable to insert user.");
         }
-        return null;
+        return insertModel;
     }
 
     /**
@@ -78,11 +78,12 @@ public class UserDAO extends DAO {
     }
 
     @Override
-    public ArrayList<Model> find() throws DataAccessException {
+    public ArrayList<Model> findMultiple(String username) throws DataAccessException {
         ArrayList<Model> users = new ArrayList<>();
-        String sql = "SELECT * FROM Users;";
+        String sql = "SELECT * FROM Users WHERE username = ?;";
         ResultSet result = null;
         try (PreparedStatement stmt = super.getDbConnection().getPreparedStatement(sql)){
+            stmt.setString(1,username);
             result=stmt.executeQuery();
             while(result.next()){
                 users.add(new User(result.getString("username"),result.getString("password"),result.getString("email")));
@@ -106,8 +107,13 @@ public class UserDAO extends DAO {
         }
         catch(SQLException e){
             e.printStackTrace();
-            throw new DataAccessException("Unable to insert user.");
+            throw new DataAccessException("Unable to clear user table.");
         }
+
+    }
+
+    @Override
+    public void delete(String ID) throws DataAccessException {
 
     }
 
@@ -119,5 +125,18 @@ public class UserDAO extends DAO {
     @Override
     public boolean equals(Object obj) {
         return super.equals(obj);
+    }
+
+    @Override
+    public void deleteByUsername(String username) throws DataAccessException {
+        String sql = "DELETE FROM Users WHERE username = ?";
+        try (PreparedStatement stmt = super.getDbConnection().getPreparedStatement(sql)){
+            stmt.setString(1,username);
+            stmt.executeUpdate();
+        }
+        catch(SQLException e){
+            e.printStackTrace();
+            throw new DataAccessException("Unable to delete User from table.");
+        }
     }
 }

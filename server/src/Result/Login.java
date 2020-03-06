@@ -2,9 +2,10 @@ package Result;
 
 public class Login extends Results{
     private String authToken;
-    private String username;
-    private String person_id;
+    private String userName;
+    private String personID;
     private boolean success;
+    private String message;
 
     /**
      *
@@ -12,9 +13,10 @@ public class Login extends Results{
      * @param success
      */
     public Login(String message, boolean success) {
-        this.authToken = message;
+        this.message =  message;
         this.success = success;
     }
+
 
     /**
      *
@@ -25,8 +27,8 @@ public class Login extends Results{
      */
     public Login(String authToken, String username, String person_id, boolean success) {
         this.authToken = authToken;
-        this.username = username;
-        this.person_id = person_id;
+        this.userName = username;
+        this.personID = person_id;
         this.success = success;
     }
 
@@ -37,7 +39,9 @@ public class Login extends Results{
     public String getAuthToken() {
         return authToken;
     }
-
+    public String getMessage() {
+        return message;
+    }
     /**
      *
      * @param authToken
@@ -50,32 +54,32 @@ public class Login extends Results{
      *
      * @return
      */
-    public String getUsername() {
-        return username;
+    public String getUserName() {
+        return userName;
     }
 
     /**
      *
-     * @param username
+     * @param userName
      */
-    public void setUsername(String username) {
-        this.username = username;
+    public void setUserName(String userName) {
+        this.userName = userName;
     }
 
     /**
      *
      * @return
      */
-    public String getPerson_id() {
-        return person_id;
+    public String getPersonID() {
+        return personID;
     }
 
     /**
      *
-     * @param person_id
+     * @param personID
      */
-    public void setPerson_id(String person_id) {
-        this.person_id = person_id;
+    public void setPersonID(String personID) {
+        this.personID = personID;
     }
 
     /**

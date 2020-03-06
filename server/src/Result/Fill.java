@@ -1,11 +1,11 @@
 package Result;
 
 public class Fill extends Results {
-    private String message;
     private boolean success;
+    private String message;
 
     public Fill(String message, boolean success) {
-        this.message = message;
+        this.message =  message;
         this.success = success;
     }
 

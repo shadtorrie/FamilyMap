@@ -1,7 +1,7 @@
 package Request;
 
-public class Register {
-    private String username;
+public class Register extends Requests{
+    private String userName;
     private String password;
     private String email;
     private String firstName;
@@ -9,7 +9,7 @@ public class Register {
     private char gender;
 
     public Register(String username, String password, String email, String firstName, String lastName, char gender) {
-        this.username = username;
+        this.userName = username;
         this.password = password;
         this.email = email;
         this.firstName = firstName;
@@ -17,12 +17,12 @@ public class Register {
         this.gender = gender;
     }
 
-    public String getUsername() {
-        return username;
+    public String getUserName() {
+        return userName;
     }
 
-    public void setUsername(String username) {
-        this.username = username;
+    public void setUserName(String userName) {
+        this.userName = userName;
     }
 
     public String getPassword() {

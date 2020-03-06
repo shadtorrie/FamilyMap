@@ -1,7 +1,7 @@
 package Request;
 
 public class Login extends Requests {
-    private String username;
+    private String userName;
     private String password;
 
     /**
@@ -10,7 +10,7 @@ public class Login extends Requests {
      * @param password
      */
     public Login(String username, String password) {
-        this.username = username;
+        this.userName = username;
         this.password = password;
     }
 
@@ -18,16 +18,16 @@ public class Login extends Requests {
      *
      * @return
      */
-    public String getUsername() {
-        return username;
+    public String getUserName() {
+        return userName;
     }
 
     /**
      *
-     * @param username
+     * @param userName
      */
-    public void setUsername(String username) {
-        this.username = username;
+    public void setUserName(String userName) {
+        this.userName = userName;
     }
 
     /**

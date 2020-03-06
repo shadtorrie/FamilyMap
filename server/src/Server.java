@@ -27,12 +27,11 @@ public class Server {
         System.out.println("Creating contexts");
         server.createContext("/user/register", new Register());
         server.createContext("/user/login", new Login());
-        server.createContext("/clear", new Clear());
+        server.createContext("/clear", new ClearHandler());
         server.createContext("/fill", new Fill());
         server.createContext("/load", new Load());
         server.createContext("/person", new People());
         server.createContext("/event", new Events());
-        server.createContext("/user/login", new Login());
         server.createContext("/", new FileHandler());
         System.out.println("Starting server");
         server.start();

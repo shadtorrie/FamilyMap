@@ -1,8 +1,8 @@
 package Result;
 
 public class Load extends Results {
-    private String message;
     private boolean success;
+    private String message;
 
     /**
      * load constructor
@@ -10,7 +10,7 @@ public class Load extends Results {
      * @param success
      */
     public Load(String message, boolean success) {
-        this.message = message;
+        this.message =  message;
         this.success = success;
     }
 

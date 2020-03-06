@@ -1,37 +1,40 @@
 package Result;
 
-public class Register {
+public class Register extends Results{
     private String authToken;
-    private String username;
-    private String person_id;
+    private String userName;
+    private String personID;
     private boolean success;
+    private String message;
 
     public Register(String message, boolean success) {
-        this.authToken = message;
+        this.message =  message;
         this.success = success;
     }
 
     public Register(String authToken, String username, String person_id, boolean success) {
         this.authToken = authToken;
-        this.username = username;
-        this.person_id = person_id;
+        this.userName = username;
+        this.personID = person_id;
         this.success = success;
     }
-
+    public String getMessage(){
+        return message;
+    }
     public String getUsername() {
-        return username;
+        return userName;
     }
 
     public void setUsername(String username) {
-        this.username = username;
+        this.userName = username;
     }
 
-    public String getPerson_id() {
-        return person_id;
+    public String getPersonID() {
+        return personID;
     }
 
-    public void setPerson_id(String person_id) {
-        this.person_id = person_id;
+    public void setPersonID(String personID) {
+        this.personID = personID;
     }
 
     public boolean isSuccess() {

@@ -1,8 +1,7 @@
 package Tests.DAOTests;
 
 import DAOs.EventDAO;
-import Models.Event;
-import Models.User;
+import ModelsServer.Event;
 import Services.Database;
 import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.BeforeEach;
@@ -14,7 +13,7 @@ class EventDAOTest extends DAOTest {
     @Override
     public void setUp() throws Exception {
         setDb(new Database());
-        setModel(new Event("123A","test",123.1f,234.2f,"USA","Provo","Birth",1997));
+        setModel(new Event("123A","test","test",123.1f,234.2f,"USA","Provo","Birth",1997));
     }
     @AfterEach
     public void tearDown() throws Exception {

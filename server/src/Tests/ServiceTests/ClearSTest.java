@@ -1,11 +1,11 @@
 package Tests.ServiceTests;
 
 import DAOs.AuthDAO;
-import DAOs.DAO;
 import DAOs.PersonDAO;
-import ModelsServer.*;
-import Result.Clear;
-import Result.Results;
+import Models.*;
+import Requests.ClearRequest;
+import Results.ClearResult;
+import Results.Results;
 import Services.ClearS;
 import Services.DataAccessException;
 import org.junit.jupiter.api.AfterEach;
@@ -27,7 +27,7 @@ class ClearSTest extends ServiceTest {
         Model model = null;
         dao.insert(insertModel);
         db.closeConnection(true);
-        result = service.requestService(new Request.Clear());
+        result = service.requestService(new ClearRequest());
         db.openConnection();
         model = dao.find(searchID);
         assertNull(model,insertModel.getClass().toString()+" was not removed");
@@ -35,12 +35,12 @@ class ClearSTest extends ServiceTest {
     }
     @Test
     public void testClearEvent(){
-        Result.Clear result = null;
+        ClearResult result = null;
         try {
             dao = new AuthDAO(db);
             String authID = "test1234";
             String username = "test1";
-            result = (Clear) clear(new Auth(authID,username),authID);
+            result = (ClearResult) clear(new AuthModel(authID,username),authID);
         } catch (DataAccessException | SQLException e) {
             e.printStackTrace();
         }
@@ -51,12 +51,12 @@ class ClearSTest extends ServiceTest {
 
     @Test
     public void testClearAuth(){
-        Result.Clear result = null;
+        ClearResult result = null;
         try {
             dao = new AuthDAO(db);
             String authID = "test1234";
             String username = "test1";
-            result = (Clear) clear(new Auth(authID,username),authID);
+            result = (ClearResult) clear(new AuthModel(authID,username),authID);
         } catch (DataAccessException | SQLException e) {
             e.printStackTrace();
         }
@@ -66,11 +66,11 @@ class ClearSTest extends ServiceTest {
     }
     @Test
     public void testClearPerson(){
-        Result.Clear result = null;
+        ClearResult result = null;
         try {
             dao = new PersonDAO(db);
             String personID = "1234a";
-            result = (Clear) clear(new Person(personID,"shadtorrie","first","last",
+            result = (ClearResult) clear(new PersonModel(personID,"shadtorrie","first","last",
                     "m","12345a", "123456a","1234567a"),personID);
         } catch (DataAccessException | SQLException e) {
             e.printStackTrace();
@@ -81,11 +81,11 @@ class ClearSTest extends ServiceTest {
     }
     @Test
     public void testClearUser(){
-        Result.Clear result = null;
+        ClearResult result = null;
         try {
             dao = new PersonDAO(db);
             String username = "1234a";
-            result = (Clear) clear(new User(username,"test","shad.torrie@gmail.com"),username);
+            result = (ClearResult) clear(new UserModel(username,"test","shad.torrie@gmail.com"),username);
         } catch (DataAccessException | SQLException e) {
             e.printStackTrace();
         }
@@ -95,10 +95,10 @@ class ClearSTest extends ServiceTest {
     }
     @Test
     public void testClearEmpty(){
-        Result.Clear result = null;
+        ClearResult result = null;
         try {
             db.closeConnection(true);
-            result = (Clear) service.requestService(new Request.Clear());
+            result = (ClearResult) service.requestService(new ClearRequest());
         } catch (DataAccessException e) {
             e.printStackTrace();
         }

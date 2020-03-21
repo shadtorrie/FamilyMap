@@ -3,11 +3,10 @@ package Tests.ServiceTests;
 import DAOs.EventDAO;
 import DAOs.PersonDAO;
 import DAOs.UserDAO;
-import Handlers.Events;
-import ModelsServer.Model;
-import ModelsServer.User;
-import Request.Fill;
-import Result.Results;
+import Models.Model;
+import Models.UserModel;
+import Requests.FillRequest;
+import Results.FillResult;
 import Services.DataAccessException;
 import Services.FillS;
 import org.junit.jupiter.api.AfterEach;
@@ -30,11 +29,11 @@ class FillSTest extends ServiceTest {
     public void testFillZeroGenerations() {
         String username="test";
         int genCount=0;
-        Result.Fill result = null;
+        FillResult result = null;
         try {
-            dao.insert(new User(username,"test","shad"));
+            dao.insert(new UserModel(username,"test","shad"));
             db.closeConnection(true);
-            result = (Result.Fill) service.requestService(new Fill(username,genCount));
+            result = (FillResult) service.requestService(new FillRequest(username,genCount));
         } catch (DataAccessException | SQLException e) {
             e.printStackTrace();
         }
@@ -63,10 +62,10 @@ class FillSTest extends ServiceTest {
     public void testFillFailInvalidUsername() {
         String username="test";
         int genCount=0;
-        Result.Fill result = null;
+        FillResult result = null;
         try {
             db.closeConnection(true);
-            result = (Result.Fill) service.requestService(new Fill(username,genCount));
+            result = (FillResult) service.requestService(new FillRequest(username,genCount));
         } catch (DataAccessException e) {
             e.printStackTrace();
         }
@@ -95,11 +94,11 @@ class FillSTest extends ServiceTest {
     public void testFillFailInvalidGenCount() {
         String username="test";
         int genCount=-1;
-        Result.Fill result = null;
+        FillResult result = null;
         try {
-            dao.insert(new User(username,"test","shad"));
+            dao.insert(new UserModel(username,"test","shad"));
             db.closeConnection(true);
-            result = (Result.Fill) service.requestService(new Fill(username,genCount));
+            result = (FillResult) service.requestService(new FillRequest(username,genCount));
         } catch (DataAccessException | SQLException e) {
             e.printStackTrace();
         }
@@ -127,11 +126,11 @@ class FillSTest extends ServiceTest {
     public void testFillPass() {
         String username="test";
         int genCount=2;
-        Result.Fill result = null;
+        FillResult result = null;
         try {
-            dao.insert(new User(username,"test","shad"));
+            dao.insert(new UserModel(username,"test","shad"));
             db.closeConnection(true);
-            result = (Result.Fill) service.requestService(new Fill(username,genCount));
+            result = (FillResult) service.requestService(new FillRequest(username,genCount));
         } catch (DataAccessException | SQLException e) {
             e.printStackTrace();
         }

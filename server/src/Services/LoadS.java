@@ -4,23 +4,24 @@ import DAOs.DAO;
 import DAOs.EventDAO;
 import DAOs.PersonDAO;
 import DAOs.UserDAO;
-import ModelsServer.Event;
-import ModelsServer.Model;
-import ModelsServer.Person;
-import ModelsServer.User;
-import Request.Load;
-import Request.Requests;
-import Result.Results;
+import Models.EventModel;
+import Models.PersonModel;
+import Models.UserModel;
+import Requests.LoadRequest;
+import Requests.Requests;
+import Results.EventResult;
+import Results.LoadResult;
+import Results.Results;
 
 import java.sql.SQLException;
 import java.util.ArrayList;
 
 public class LoadS extends Service{
-    private ArrayList<User> users;
-    private ArrayList<Person> persons;
-    private ArrayList<Event> events;
+    private ArrayList<UserModel> users;
+    private ArrayList<PersonModel> persons;
+    private ArrayList<EventModel> events;
 
-    public LoadS(ArrayList<User> users, ArrayList<Person> persons, ArrayList<Event> events) throws DataAccessException {
+    public LoadS(ArrayList<UserModel> users, ArrayList<PersonModel> persons, ArrayList<EventModel> events) throws DataAccessException {
         super();
         this.users = users;
         this.persons = persons;
@@ -42,29 +43,29 @@ public class LoadS extends Service{
      */
     @Override
     public Results requestService(Requests request) {
-        if(request.getClass()!= Load.class){
+        if(request.getClass()!= LoadRequest.class){
             return null;
         }
-        Load loadRequest = (Load) request;
+        LoadRequest loadRequest = (LoadRequest) request;
         dbConnection = new Database();
         try {
             dbConnection.openConnection();
             DAO eventDao = new EventDAO(dbConnection);
-            ArrayList<Event> events = loadRequest.getEvents();
-            for(Event i :events) {
+            ArrayList<EventModel> events = loadRequest.getEvents();
+            for(EventModel i :events) {
                 eventDao.insert(i);
             }
             DAO personDao = new PersonDAO(dbConnection);
-            ArrayList<Person> people = loadRequest.getPersons();
-            for(Person i :people) {
+            ArrayList<PersonModel> people = loadRequest.getPersons();
+            for(PersonModel i :people) {
                  personDao.insert(i);
             }
             DAO userDao = new UserDAO(dbConnection);
-            ArrayList<User> users = loadRequest.getUsers();
-            for(User i :users) {
+            ArrayList<UserModel> users = loadRequest.getUsers();
+            for(UserModel i :users) {
                 userDao.insert(i);
             }
-            Results result = new Result.Load("Successfully added "+users.size()+" users, "+people.size()+" persons, and "+events.size()+" events to the database.",true);
+            Results result = new LoadResult("Successfully added "+users.size()+" users, "+people.size()+" persons, and "+events.size()+" events to the database.",true);
             dbConnection.closeConnection(true);
             return result;
         } catch (DataAccessException | SQLException e) {
@@ -74,7 +75,7 @@ public class LoadS extends Service{
                 ex.printStackTrace();
             }
             e.printStackTrace();
-            return new Result.Event("Event does not exist",false);
+            return new EventResult("Event does not exist",false);
         }
     }
 

@@ -1,7 +1,7 @@
 package Tests.DAOTests;
 
 import DAOs.UserDAO;
-import ModelsServer.User;
+import Models.UserModel;
 import Services.Database;
 import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.BeforeEach;
@@ -12,7 +12,7 @@ class UserDAOTest extends DAOTest{
     @Override
     public void setUp() throws Exception {
         setDb(new Database());
-        setModel(new User("testUser","Password123","test@gmail.com"));
+        setModel(new UserModel("testUser","Password123","test@gmail.com"));
     }
     @AfterEach
     public void tearDown() throws Exception {

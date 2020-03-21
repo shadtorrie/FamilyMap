@@ -3,13 +3,16 @@ package Services;
 import DAOs.DAO;
 import DAOs.PersonDAO;
 import DAOs.UserDAO;
-import ModelsServer.Person;
-import ModelsServer.User;
-import Request.Fill;
-import Request.Login;
-import Request.Register;
-import Request.Requests;
-import Result.Results;
+import Models.PersonModel;
+import Models.UserModel;
+import Requests.FillRequest;
+import Requests.LoginRequest;
+import Requests.RegisterRequest;
+import Requests.Requests;
+import Results.FillResult;
+import Results.LoginResult;
+import Results.RegisterResult;
+import Results.Results;
 
 import java.sql.SQLException;
 
@@ -24,46 +27,46 @@ public class RegisterS extends Service {
     @Override
     public Results requestService(Requests request) {
         try{
-            if(!request.getClass().equals(Register.class)){
+            if(!request.getClass().equals(RegisterRequest.class)){
                 throw new DataAccessException();
             }
-            Register registerRequest = (Register) request;
+            RegisterRequest registerRequest = (RegisterRequest) request;
             dbConnection.openConnection();
             DAO dao = new UserDAO(dbConnection);
             if(registerRequest.getUserName().length()==0||registerRequest.getPassword().length()==0
                     ||registerRequest.getEmail().length()==0||registerRequest.getFirstName().length()==0
                     ||registerRequest.getLastName().length()==0|| !registerRequest.getGender().equals("m") && !registerRequest.getGender().equals("f")){
-                return new Result.Register("Error: Request property missing or has invalid value",false);
+                return new RegisterResult("Error: Request property missing or has invalid value",false);
             }
 
-            User result = (ModelsServer.User) dao.find(registerRequest.getUserName());
+            UserModel result = (UserModel) dao.find(registerRequest.getUserName());
             if(result!= null ){
                 dbConnection.closeConnection(false);
-                return new Result.Register("Error: Username already taken by another user",false);
+                return new RegisterResult("Error: Username already taken by another user",false);
             }
 
-            User userResultModel = (ModelsServer.User) dao.insert(new User(registerRequest.getUserName(),registerRequest.getPassword(),registerRequest.getEmail()));
+            UserModel userResultModel = (UserModel) dao.insert(new UserModel(registerRequest.getUserName(),registerRequest.getPassword(),registerRequest.getEmail()));
             if(userResultModel==null){
                 dbConnection.closeConnection(false);
-                return new Result.Register("Error: Request property missing or has invalid value",false);
+                return new RegisterResult("Error: Request property missing or has invalid value",false);
             }
             dbConnection.closeConnection(true);
             Service fillService = new FillS();
-            Result.Fill fillResult = (Result.Fill) fillService.requestService(new Fill(userResultModel.getID(),4,registerRequest.getGender(),registerRequest.getFirstName(),registerRequest.getLastName()));
+            FillResult fillResult = (FillResult) fillService.requestService(new FillRequest(userResultModel.getID(),4,registerRequest.getGender(),registerRequest.getFirstName(),registerRequest.getLastName()));
             if(!fillResult.isSuccess()){
-                return new Result.Register("Internal server error",false);
+                return new RegisterResult("Internal server error",false);
             }
             dbConnection.openConnection();
             PersonDAO personDao=new PersonDAO(dbConnection);
-            Person personResultModel = (Person) personDao.find(userResultModel.getID(),registerRequest.getFirstName(),registerRequest.getLastName());
+            PersonModel personResultModel = (PersonModel) personDao.find(userResultModel.getID(),registerRequest.getFirstName(),registerRequest.getLastName());
             if(personResultModel==null){
                 dbConnection.closeConnection(false);
-                return new Result.Register("Internal server error",false);
+                return new RegisterResult("Internal server error",false);
             }
             dbConnection.closeConnection(true);
             Service loginService = new LoginS();
-            Result.Login loginResult = (Result.Login) loginService.requestService(new Login(userResultModel.getID(),userResultModel.getPassword()));
-            return new Result.Register(loginResult.getAuthToken(),userResultModel.getID(),personResultModel.getID(),true);
+            LoginResult loginResult = (LoginResult) loginService.requestService(new LoginRequest(userResultModel.getID(),userResultModel.getPassword()));
+            return new RegisterResult(loginResult.getAuthToken(),userResultModel.getID(),personResultModel.getID(),true);
         }
         catch(DataAccessException | SQLException e){
             e.printStackTrace();
@@ -72,7 +75,7 @@ public class RegisterS extends Service {
             } catch (DataAccessException ex) {
                 ex.printStackTrace();
             }
-            return new Result.Register("Internal server error",false);
+            return new RegisterResult("Internal server error",false);
         }
     }
 }

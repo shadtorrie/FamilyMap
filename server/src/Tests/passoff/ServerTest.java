@@ -12,14 +12,17 @@ import java.io.FileReader;
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.InputStreamReader;
-import java.util.ArrayList;
 import java.util.Scanner;
 import java.util.logging.Logger;
 import logs.InitLogs;
 import models.Event;
 import models.Person;
 import models.User;
-import org.junit.jupiter.api.*;
+import org.junit.jupiter.api.Assertions;
+import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.DisplayName;
+import org.junit.jupiter.api.Test;
+import org.junit.jupiter.api.TestInfo;
 import request.FillRequest;
 import request.LoadRequest;
 import request.LoginRequest;
@@ -598,6 +601,7 @@ public class ServerTest {
             Assertions.fail("passoffFiles/LoadData.json not found in project root directory");
         }
     }
+
     @Test
     @DisplayName("Clear Test")
     public void testClear(TestInfo paramTestInfo) throws Client.ServerConnectionException {

@@ -116,7 +116,6 @@ public class PersonDAO extends DAO{
             stmt.setString(1,username);
             result=stmt.executeQuery();
             while(result.next()){
-                String personID = result.getString("person_id");
                 people.add(new PersonModel(result.getString("person_id"),result.getString("username"),
                         result.getString("first_name"),result.getString("last_name"),
                         result.getString("gender"),result.getString("father_id"),
@@ -150,12 +149,7 @@ public class PersonDAO extends DAO{
     public void delete(String ID) throws DataAccessException {
 
     }
-
-    /**
-     *
-     * @param obj
-     * @return
-     */
+    
     @Override
     public boolean equals(Object obj) {
         return super.equals(obj);

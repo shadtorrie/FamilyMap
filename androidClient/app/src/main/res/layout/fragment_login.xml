@@ -1,0 +1,228 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context=".Login"
+    android:orientation="vertical">
+
+    <TextView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:textAppearance="?android:attr/textAppearanceSmall"
+        android:text="@string/title"
+        android:layout_margin="5dp"
+        android:padding="5dp"
+        android:id="@+id/titleTextView" />
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:rowCount="6"
+        android:columnCount="2"
+        android:verticalSpacing="0dp"
+        android:horizontalSpacing="0dp"
+        android:useDefaultMargins="false"
+        android:orientation="vertical">
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:rowCount="6"
+            android:columnCount="2"
+            android:verticalSpacing="0dp"
+            android:horizontalSpacing="0dp"
+            android:useDefaultMargins="false"
+            android:orientation="horizontal">
+
+            <TextView
+                android:textAppearance="?android:attr/textAppearanceSmall"
+                android:text="@string/server_host"
+                android:id="@+id/serverHostView"
+                android:layout_margin="0dp"
+                android:padding="0dp"
+                android:layout_height="wrap_content"
+                android:layout_width="wrap_content" />
+
+            <EditText
+                android:id="@+id/serverHost"
+                android:layout_margin="0dp"
+                android:inputType="numberDecimal"
+                android:padding="0dp"
+                android:textAppearance="?android:attr/textAppearanceSmall"
+                android:layout_height="wrap_content"
+                android:layout_width="fill_parent" />
+        </LinearLayout>
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:rowCount="6"
+            android:columnCount="2"
+            android:verticalSpacing="0dp"
+            android:horizontalSpacing="0dp"
+            android:useDefaultMargins="false"
+            android:orientation="horizontal">
+            <TextView
+                android:textAppearance="?android:attr/textAppearanceSmall"
+                android:text="@string/server_port"
+                android:id="@+id/serverPortView"
+                android:layout_margin="0dp"
+                android:padding="0dp"
+                android:layout_height="wrap_content"
+                android:layout_width="wrap_content" />
+
+            <EditText
+                android:id="@+id/serverPort"
+                android:layout_height="wrap_content"
+                android:layout_margin="0dp"
+                android:layout_weight="1"
+                android:inputType="number"
+                android:padding="0dp"
+                android:textAppearance="?android:attr/textAppearanceSmall"
+                android:layout_row="0"
+                android:layout_width="wrap_content" />
+        </LinearLayout>
+
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:rowCount="6"
+            android:columnCount="2"
+            android:verticalSpacing="0dp"
+            android:horizontalSpacing="0dp"
+            android:useDefaultMargins="false"
+            android:orientation="horizontal">
+            <TextView
+                android:textAppearance="?android:attr/textAppearanceSmall"
+                android:text="@string/user_name"
+                android:id="@+id/usernameView"
+                android:layout_margin="0dp"
+                android:padding="0dp"
+                android:layout_height="wrap_content"
+                android:layout_width="wrap_content" />
+            <EditText
+                android:id="@+id/username"
+                android:layout_width="fill_parent"
+                android:layout_height="wrap_content"
+                android:layout_margin="0dp"
+                android:layout_weight="1"
+                android:inputType="text"
+                android:padding="0dp"
+                android:textAppearance="?android:attr/textAppearanceSmall" />
+        </LinearLayout>
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:rowCount="6"
+            android:columnCount="2"
+            android:verticalSpacing="0dp"
+            android:horizontalSpacing="0dp"
+            android:useDefaultMargins="false"
+            android:orientation="horizontal">
+        <TextView
+            android:textAppearance="?android:attr/textAppearanceSmall"
+            android:text="@string/password"
+            android:id="@+id/passwordView"
+            android:layout_margin="0dp"
+            android:padding="0dp"
+            android:layout_height="wrap_content"
+            android:layout_width="wrap_content" />
+
+
+        <EditText
+            android:id="@+id/password"
+            android:layout_width="fill_parent"
+            android:layout_height="wrap_content"
+            android:layout_margin="0dp"
+            android:layout_weight="1"
+            android:inputType="textPassword"
+            android:padding="0dp"
+            android:textAppearance="?android:attr/textAppearanceSmall" />
+        </LinearLayout>
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:rowCount="6"
+            android:columnCount="2"
+            android:verticalSpacing="0dp"
+            android:horizontalSpacing="0dp"
+            android:useDefaultMargins="false"
+            android:orientation="horizontal">
+        <TextView
+            android:textAppearance="?android:attr/textAppearanceSmall"
+            android:text="@string/first_name"
+            android:id="@+id/firstNameView"
+            android:layout_margin="0dp"
+            android:padding="0dp"
+            android:layout_height="wrap_content"
+            android:layout_width="wrap_content"/>
+
+        <EditText
+            android:id="@+id/firstName"
+            android:layout_width="fill_parent"
+            android:layout_height="wrap_content"
+            android:layout_margin="0dp"
+            android:layout_weight="1"
+            android:inputType="text"
+            android:padding="0dp"
+            android:textAppearance="?android:attr/textAppearanceSmall" />
+        </LinearLayout>
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:rowCount="6"
+            android:columnCount="2"
+            android:verticalSpacing="0dp"
+            android:horizontalSpacing="0dp"
+            android:useDefaultMargins="false"
+            android:orientation="horizontal">
+            <TextView
+                android:textAppearance="?android:attr/textAppearanceSmall"
+                android:text="@string/last_name"
+                android:id="@+id/lastNameView"
+                android:layout_margin="0dp"
+                android:padding="0dp"
+                android:layout_height="wrap_content"
+                android:layout_width="wrap_content"/>
+
+            <EditText
+                android:id="@+id/lastName"
+                android:layout_width="333dp"
+                android:layout_height="wrap_content"
+                android:layout_margin="0dp"
+                android:layout_weight="1"
+                android:inputType="text"
+                android:padding="0dp"
+                android:textAppearance="?android:attr/textAppearanceSmall" />
+        </LinearLayout>
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:rowCount="6"
+            android:columnCount="2"
+            android:verticalSpacing="0dp"
+            android:horizontalSpacing="0dp"
+            android:useDefaultMargins="false"
+            android:orientation="horizontal">
+            <TextView
+                android:textAppearance="?android:attr/textAppearanceSmall"
+                android:text="@string/email"
+                android:id="@+id/emailView"
+                android:layout_margin="0dp"
+                android:padding="0dp"
+                android:layout_height="wrap_content"
+                android:layout_width="wrap_content"/>
+
+            <EditText
+                android:id="@+id/email"
+                android:layout_width="fill_parent"
+                android:layout_height="wrap_content"
+                android:layout_margin="0dp"
+                android:layout_weight="1"
+                android:inputType="textEmailAddress"
+                android:padding="0dp"
+                android:textAppearance="?android:attr/textAppearanceSmall" />
+        </LinearLayout>
+
+    </LinearLayout>
+
+</LinearLayout>

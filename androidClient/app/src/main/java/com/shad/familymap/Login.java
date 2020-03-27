@@ -109,7 +109,8 @@ public class Login extends Fragment implements RequestTask.Listener {
                 url = new URL(baseURL+"/user/register");
             }
             URL personUrl = new URL(baseURL+"/person");
-            task.execute(url,personUrl);
+            URL eventUrl = new URL(baseURL+"/event");
+            task.execute(url,personUrl,eventUrl);
         }
         catch (MalformedURLException e) {
             Log.e("MainActivity", e.getMessage(), e);

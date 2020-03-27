@@ -1,9 +1,7 @@
 package Data;
 
 import android.annotation.TargetApi;
-import android.app.Person;
 import android.os.Build;
-import android.util.Log;
 
 import com.google.gson.Gson;
 
@@ -16,13 +14,16 @@ import java.net.URL;
 import java.nio.charset.StandardCharsets;
 import java.util.ArrayList;
 
-import Data.Exceptions.LoginFailedException;
-import Data.Exceptions.RegisterFailedException;
+import Data.Exceptions.RequestFailedException;
 import Models.AuthModel;
+import Models.EventModel;
 import Models.PersonModel;
+import Requests.EventRequest;
 import Requests.LoginRequest;
 import Requests.PersonRequest;
 import Requests.RegisterRequest;
+import Results.EventListResult;
+import Results.EventResult;
 import Results.LoginResult;
 import Results.PersonList;
 import Results.PersonResult;
@@ -30,7 +31,7 @@ import Results.RegisterResult;
 
 public class Proxy {
     @TargetApi(Build.VERSION_CODES.KITKAT)
-    public void request(LoginRequest request, URL url) throws LoginFailedException, IOException {
+    public void request(LoginRequest request, URL url) throws RequestFailedException, IOException {
         HttpURLConnection connection = (HttpURLConnection) url.openConnection();
         connection.setRequestMethod("POST");
         OutputStream outputStream = connection.getOutputStream();
@@ -44,15 +45,22 @@ public class Proxy {
             LoginResult loginResult = gson.fromJson(requestString, LoginResult.class);
             if(loginResult.isSuccess()){
                 AuthModel authModel = new AuthModel(loginResult.getAuthToken(),loginResult.getUserName());
+                ModelData.setFirstPerson(new PersonModel(loginResult.getPersonID()));
                 ModelData.setAuthentication(authModel);
             }
             else {
-                throw new LoginFailedException(loginResult.getMessage());
+                throw new RequestFailedException(loginResult.getMessage());
             }
+        }
+        else{
+            InputStream responseBody = connection.getErrorStream();
+            String requestString = readString(responseBody);
+            LoginResult loginResult = gson.fromJson(requestString, LoginResult.class);
+            throw new RequestFailedException(loginResult.getMessage());
         }
     }
     @TargetApi(Build.VERSION_CODES.KITKAT)
-    public void request(RegisterRequest request, URL url) throws RegisterFailedException, IOException {
+    public void request(RegisterRequest request, URL url) throws RequestFailedException, IOException {
         HttpURLConnection connection = (HttpURLConnection) url.openConnection();
         connection.setRequestMethod("POST");
         OutputStream outputStream = connection.getOutputStream();
@@ -70,8 +78,14 @@ public class Proxy {
                 ModelData.setAuthentication(authModel);
             }
             else {
-                throw new RegisterFailedException(registerResult.getMessage());
+                throw new RequestFailedException(registerResult.getMessage());
             }
+        }
+        else{
+            InputStream responseBody = connection.getErrorStream();
+            String requestString = readString(responseBody);
+            LoginResult loginResult = gson.fromJson(requestString, LoginResult.class);
+            throw new RequestFailedException(loginResult.getMessage());
         }
     }
     private String readString(InputStream is) throws IOException {
@@ -86,7 +100,7 @@ public class Proxy {
     }
 
     @TargetApi(Build.VERSION_CODES.KITKAT)
-    public void request(PersonRequest request, URL url) throws RegisterFailedException, IOException {
+    public void request(PersonRequest request, URL url) throws  IOException, RequestFailedException {
         HttpURLConnection connection = (HttpURLConnection) url.openConnection();
         connection.setRequestMethod("GET");
         Gson gson = new Gson();
@@ -100,6 +114,9 @@ public class Proxy {
             if (personList.isSuccess()) {
                 ArrayList<PersonResult> people = personList.getData();
                 String firstPerson = ModelData.getFirstPerson().getID();
+                if(people.size()==0){
+                    throw new RequestFailedException("No events found");
+                }
                 for(PersonResult i : people){
                     if(i.getPersonID().equals(firstPerson)){
                         ModelData.setFirstPerson(new PersonModel(i.getPersonID(),
@@ -113,8 +130,47 @@ public class Proxy {
                     }
                 }
             } else {
-                throw new RegisterFailedException(personList.getData().get(0).getMessage());
+                throw new RequestFailedException(personList.getData().get(0).getMessage());
             }
+        }
+        else{
+            InputStream responseBody = connection.getErrorStream();
+            String requestString = readString(responseBody);
+            LoginResult loginResult = gson.fromJson(requestString, LoginResult.class);
+            throw new RequestFailedException(loginResult.getMessage());
+        }
+    }
+    @TargetApi(Build.VERSION_CODES.KITKAT)
+    public void request(EventRequest request, URL url) throws  IOException, RequestFailedException {
+        HttpURLConnection connection = (HttpURLConnection) url.openConnection();
+        connection.setRequestMethod("GET");
+        Gson gson = new Gson();
+        connection.setRequestProperty("Authorization",request.getAuthentication());
+        connection.connect();
+        if (connection.getResponseCode() == HttpURLConnection.HTTP_OK) {
+            // Get response body input stream
+            InputStream responseBody = connection.getInputStream();
+            String requestString = readString(responseBody);
+            EventListResult eventList = gson.fromJson(requestString, EventListResult.class);
+            if (eventList.isSuccess()) {
+                ArrayList<EventResult> events = eventList.getData();
+                if(events.size()==0){
+                    throw new RequestFailedException("No events found");
+                }
+                for(EventResult i : events){
+                    ModelData.insertEvent(new EventModel(i.getEventID(),i.getPersonID(),
+                            i.getAssociatedUsername(),i.getLatitude(),i.getLongitude(),
+                            i.getCountry(),i.getCity(),i.getEventType(),i.getYear()));
+                }
+            } else {
+                throw new RequestFailedException(eventList.getData().get(0).getMessage());
+            }
+        }
+        else{
+            InputStream responseBody = connection.getErrorStream();
+            String requestString = readString(responseBody);
+            LoginResult loginResult = gson.fromJson(requestString, LoginResult.class);
+            throw new RequestFailedException(loginResult.getMessage());
         }
     }
 }

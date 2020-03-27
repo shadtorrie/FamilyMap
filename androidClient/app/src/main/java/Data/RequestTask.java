@@ -4,10 +4,7 @@ import android.os.AsyncTask;
 
 import java.net.URL;
 
-import Data.Exceptions.LoginFailedException;
-import Data.Exceptions.RegisterFailedException;
 import Requests.*;
-import Results.PersonResult;
 
 public class RequestTask extends AsyncTask<URL,Integer,String> {
     private Requests request;
@@ -31,18 +28,21 @@ public class RequestTask extends AsyncTask<URL,Integer,String> {
             for (URL i : urls) {
                 if (i.getPath().contains("login")) {
                     proxy.request((LoginRequest) request, i);
-                    returnString.append("Sign in Successful for: ");
-                    personRequest = new PersonRequest(ModelData.getAuthentication().getID());
+                    returnString.append("Sign in successful for: ");
                 }
                 else if (i.getPath().contains("register")) {
                     proxy.request((RegisterRequest) request, i);
-                    returnString.append( "Register passed");
-                    personRequest = new PersonRequest(ModelData.getAuthentication().getID());
+                    returnString.append( "Registration successful for: ");
                 }
                 else if(i.getPath().contains("person")){
+                    personRequest = new PersonRequest(ModelData.getAuthentication().getID());
                     proxy.request(personRequest,i);
                     returnString.append(ModelData.getFirstPerson().getFirstName())
                             .append(" ").append(ModelData.getFirstPerson().getLastName());
+                }
+                else if(i.getPath().contains("event")){
+                    EventRequest eventRequest= new EventRequest(ModelData.getAuthentication().getID());
+                    proxy.request(eventRequest,i);
                 }
             }
         }

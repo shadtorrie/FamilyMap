@@ -3,6 +3,7 @@ package Data;
 import java.util.ArrayList;
 
 import Models.AuthModel;
+import Models.EventModel;
 import Models.PersonModel;
 
 public class ModelData {
@@ -10,6 +11,7 @@ public class ModelData {
     private PersonModel firstPerson;
     private AuthModel authentication;
     private ArrayList<PersonModel> people;
+    private ArrayList<EventModel> events;
 
     public static ArrayList<PersonModel> getPeople() {
         return instance.people;
@@ -21,7 +23,16 @@ public class ModelData {
     public static PersonModel getPerson(int index){
         return instance.people.get(index);
     }
+    public static ArrayList<EventModel> getEvents() {
+        return instance.events;
+    }
 
+    public static void insertEvent(EventModel event) {
+        instance.events.add(event);
+    }
+    public static EventModel getEvent(int index){
+        return instance.events.get(index);
+    }
     public static PersonModel getFirstPerson() {
         return instance.firstPerson;
     }
@@ -44,6 +55,7 @@ public class ModelData {
 
     public ModelData() {
         people = new ArrayList<>();
+        events = new ArrayList<>();
     }
 
     private static void initializer() {

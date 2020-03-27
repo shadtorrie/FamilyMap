@@ -4,13 +4,14 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     tools:context=".Login"
-    android:orientation="vertical">
+    android:orientation="vertical"
+    android:layout_gravity="center">
 
     <TextView
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:textAppearance="?android:attr/textAppearanceSmall"
-        android:text="@string/title"
+        android:text="@string/app_name"
         android:layout_margin="5dp"
         android:padding="5dp"
         android:id="@+id/titleTextView" />
@@ -45,8 +46,10 @@
             <EditText
                 android:id="@+id/serverHost"
                 android:layout_margin="0dp"
-                android:inputType="numberDecimal"
+                android:inputType="number"
+                android:digits="0123456789."
                 android:padding="0dp"
+                android:text="192.168.0.169"
                 android:textAppearance="?android:attr/textAppearanceSmall"
                 android:layout_height="wrap_content"
                 android:layout_width="fill_parent" />
@@ -77,6 +80,7 @@
                 android:inputType="number"
                 android:padding="0dp"
                 android:textAppearance="?android:attr/textAppearanceSmall"
+                android:text="5316"
                 android:layout_row="0"
                 android:layout_width="wrap_content" />
         </LinearLayout>
@@ -186,7 +190,7 @@
 
             <EditText
                 android:id="@+id/lastName"
-                android:layout_width="333dp"
+                android:layout_width="fill_parent"
                 android:layout_height="wrap_content"
                 android:layout_margin="0dp"
                 android:layout_weight="1"
@@ -222,7 +226,57 @@
                 android:padding="0dp"
                 android:textAppearance="?android:attr/textAppearanceSmall" />
         </LinearLayout>
-
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:rowCount="6"
+            android:columnCount="2"
+            android:verticalSpacing="0dp"
+            android:horizontalSpacing="0dp"
+            android:useDefaultMargins="false"
+            android:orientation="horizontal">
+            <TextView
+                android:textAppearance="?android:attr/textAppearanceSmall"
+                android:text="@string/gender"
+                android:id="@+id/gender"
+                android:layout_margin="0dp"
+                android:padding="0dp"
+                android:layout_height="wrap_content"
+                android:layout_width="wrap_content"/>
+            <RadioGroup
+                android:id="@+id/radio_group"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="horizontal">
+                <RadioButton android:id="@+id/radio_male"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="@string/male"
+                    android:checked="true"
+                    />
+                <RadioButton android:id="@+id/radio_female"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="@string/female"
+                    />
+            </RadioGroup>
+        </LinearLayout>
+        <LinearLayout
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal"
+            android:layout_gravity="center">
+            <Button
+                android:id="@+id/button_login"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="@string/signIn" />
+            <Button
+                android:id="@+id/button_register"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="@string/register" />
+        </LinearLayout>
     </LinearLayout>
 
 </LinearLayout>

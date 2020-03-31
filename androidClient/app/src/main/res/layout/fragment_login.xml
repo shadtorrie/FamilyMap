@@ -7,14 +7,7 @@
     android:orientation="vertical"
     android:layout_gravity="center">
 
-    <TextView
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:textAppearance="?android:attr/textAppearanceSmall"
-        android:text="@string/app_name"
-        android:layout_margin="5dp"
-        android:padding="5dp"
-        android:id="@+id/titleTextView" />
+
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
@@ -270,12 +263,14 @@
                 android:id="@+id/button_login"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="@string/signIn" />
+                android:text="@string/signIn"
+                android:backgroundTint="@color/colorPrimary"/>
             <Button
                 android:id="@+id/button_register"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="@string/register" />
+                android:text="@string/register"
+                android:backgroundTint="@color/colorPrimary"/>
         </LinearLayout>
     </LinearLayout>
 

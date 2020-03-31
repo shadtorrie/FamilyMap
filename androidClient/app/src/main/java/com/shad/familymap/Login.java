@@ -5,6 +5,8 @@ import android.content.Context;
 import android.net.Uri;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
+import android.text.Editable;
+import android.text.TextWatcher;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -17,6 +19,7 @@ import android.widget.Toast;
 
 import java.net.MalformedURLException;
 import java.net.URL;
+import java.util.ArrayList;
 
 import Data.RequestTask;
 import Requests.*;
@@ -78,15 +81,72 @@ public class Login extends Fragment implements RequestTask.Listener {
             public void onClick(View v) {
                 LoginRequest loginRequest = getLoginRequest();
                 request(loginRequest);
-                //Toast.makeText(getActivity(), loginRequest.getUserName() + " signed in", Toast.LENGTH_SHORT).show();
             }
         });
+        mLoginButton.setEnabled(false);
+        final ArrayList<EditText> enableLoginButtonTexts = new ArrayList<>();
+        enableLoginButtonTexts.add(server_host);
+        enableLoginButtonTexts.add(server_port);
+        enableLoginButtonTexts.add(username);
+        enableLoginButtonTexts.add(password);
+        for(EditText i : enableLoginButtonTexts){
+            i.addTextChangedListener(new TextWatcher() {
+                @Override
+                public void beforeTextChanged(CharSequence s, int start, int count, int after) {
+
+                }
+
+                @Override
+                public void onTextChanged(CharSequence s, int start, int before, int count) {
+                    boolean enableButton =true;
+                    for(EditText i:enableLoginButtonTexts){
+                        enableButton = enableButton&&(i.getText().toString().length()!=0);
+                    }
+                    mLoginButton.setEnabled(enableButton);
+                }
+
+                @Override
+                public void afterTextChanged(Editable s) {
+
+                }
+            });
+        }
         mRegisterButton= v.findViewById((R.id.button_register));
+        mRegisterButton.setEnabled(false);
+        final ArrayList<EditText> enableRegisterButtonTexts = new ArrayList<>();
+        enableRegisterButtonTexts.add(server_host);
+        enableRegisterButtonTexts.add(server_port);
+        enableRegisterButtonTexts.add(username);
+        enableRegisterButtonTexts.add(password);
+        enableRegisterButtonTexts.add(firstName);
+        enableRegisterButtonTexts.add(lastName);
+        enableRegisterButtonTexts.add(email);
+        for(EditText i : enableRegisterButtonTexts){
+            i.addTextChangedListener(new TextWatcher() {
+                @Override
+                public void beforeTextChanged(CharSequence s, int start, int count, int after) {
+
+                }
+
+                @Override
+                public void onTextChanged(CharSequence s, int start, int before, int count) {
+                    boolean enableButton =true;
+                    for(EditText i:enableRegisterButtonTexts){
+                        enableButton = enableButton&&(i.getText().toString().length()!=0);
+                    }
+                    mRegisterButton.setEnabled(enableButton);
+                }
+
+                @Override
+                public void afterTextChanged(Editable s) {
+
+                }
+            });
+        }
         mRegisterButton.setOnClickListener(new View.OnClickListener() {
             public void onClick(View v) {
                 RegisterRequest registerRequest = getRegisterRequest();
                 request(registerRequest);
-                //Toast.makeText(getActivity(), registerRequest.getUserName() + " registered " + registerRequest.getGender(), Toast.LENGTH_SHORT).show();
             }
         });
         return v;
@@ -119,11 +179,11 @@ public class Login extends Fragment implements RequestTask.Listener {
 
     @Override
     public void onError(Error e) {
-        Toast.makeText(getActivity(), e.getMessage(), Toast.LENGTH_SHORT).show();
+        Toast.makeText(getActivity(), e.getMessage(), Toast.LENGTH_LONG).show();
     }
 
     @Override
     public void onPostExecute(String message) {
-        Toast.makeText(getActivity(), message, Toast.LENGTH_SHORT).show();
+        Toast.makeText(getActivity(), message, Toast.LENGTH_LONG).show();
     }
 }

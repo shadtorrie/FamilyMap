@@ -38,7 +38,7 @@ public class LoginS extends Service {
             UserModel resultModel = (UserModel) ((UserDAO)dao).findByUsernameAndPassword(loginRequest.getUserName(),loginRequest.getPassword());
             if(resultModel==null){
                 dbConnection.closeConnection(false);
-                return new LoginResult("Error: Request property missing or has invalid value",false);
+                return new LoginResult("Error: Invalid Username and/or password",false);
             }
             dao = new AuthDAO(dbConnection);
             AuthModel authModel = (AuthModel) dao.insert(new AuthModel(UUID.randomUUID().toString(),resultModel.getID()));

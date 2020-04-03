@@ -1,8 +1,5 @@
 package com.shad.familymap;
 
-import android.app.DownloadManager;
-import android.content.Context;
-import android.net.Uri;
 import android.os.Bundle;
 import android.text.Editable;
 import android.text.TextWatcher;
@@ -12,12 +9,9 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.EditText;
-import android.widget.RadioButton;
 import android.widget.RadioGroup;
 import android.widget.Toast;
-
 import androidx.fragment.app.Fragment;
-
 import java.net.MalformedURLException;
 import java.net.URL;
 import java.util.ArrayList;
@@ -43,13 +37,8 @@ public class Login extends Fragment implements RequestTask.Listener {
     private String gender ="m";
     private LoginListener listener;
 
-    public void setListener(LoginListener listener) {
-        this.listener = listener;
-    }
-
     public Login(LoginListener listener) {
         this.listener=listener;
-        // Required empty public constructor
     }
     @Override
     public void onCreate(Bundle savedInstanceState) {
@@ -64,6 +53,7 @@ public class Login extends Fragment implements RequestTask.Listener {
                              Bundle savedInstanceState) {
         // Inflate the layout for this fragment
         View v = inflater.inflate(R.layout.fragment_login, container, false);
+
         server_host = v.findViewById(R.id.serverHost);
         server_port = v.findViewById(R.id.serverPort);
         username = v.findViewById(R.id.username);
@@ -72,6 +62,7 @@ public class Login extends Fragment implements RequestTask.Listener {
         lastName= v.findViewById(R.id.lastName);
         email= v.findViewById(R.id.email);
         mRadioGroupGender = v.findViewById(R.id.radio_group);
+
         mRadioGroupGender.setOnCheckedChangeListener(new RadioGroup.OnCheckedChangeListener(){
             @Override
             public void onCheckedChanged(RadioGroup group, int checkedId) {
@@ -91,7 +82,7 @@ public class Login extends Fragment implements RequestTask.Listener {
                 LoginRequest loginRequest = getLoginRequest();
                 request(loginRequest);
                 if(ModelData.loggedIn()){
-                    listener.enableMap();
+                    listener.login();
                 }
             }
         });
@@ -197,11 +188,12 @@ public class Login extends Fragment implements RequestTask.Listener {
     @Override
     public void onPostExecute(String message) {
         Toast.makeText(getActivity(), message, Toast.LENGTH_LONG).show();
-        if(ModelData.loggedIn()){
-            listener.enableMap();
+        if(message.contains("successful")){
+            listener.login();
         }
     }
     public interface LoginListener {
-        public void enableMap();
+        public void login();
+        public void changeSubTitle(String newTitle);
     }
 }

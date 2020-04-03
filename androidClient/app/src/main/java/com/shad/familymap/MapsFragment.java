@@ -17,6 +17,12 @@ import com.google.android.gms.maps.model.MarkerOptions;
 
 public class MapsFragment extends Fragment implements OnMapReadyCallback, GoogleMap.OnMapLoadedCallback {
     private GoogleMap map;
+    private Login.LoginListener listener;
+
+    public MapsFragment(Login.LoginListener listener) {
+        this.listener = listener;
+    }
+
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -27,7 +33,7 @@ public class MapsFragment extends Fragment implements OnMapReadyCallback, Google
         View view = layoutInflater.inflate(R.layout.maps_fragment, container, false);
         SupportMapFragment mapFragment = (SupportMapFragment) getChildFragmentManager().findFragmentById(R.id.map);
         mapFragment.getMapAsync(this);
-
+        listener.changeSubTitle("Map");
         return view;
     }
 

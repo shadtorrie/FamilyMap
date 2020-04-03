@@ -4,7 +4,6 @@ import android.app.DownloadManager;
 import android.content.Context;
 import android.net.Uri;
 import android.os.Bundle;
-import android.support.v4.app.Fragment;
 import android.text.Editable;
 import android.text.TextWatcher;
 import android.util.Log;
@@ -17,10 +16,13 @@ import android.widget.RadioButton;
 import android.widget.RadioGroup;
 import android.widget.Toast;
 
+import androidx.fragment.app.Fragment;
+
 import java.net.MalformedURLException;
 import java.net.URL;
 import java.util.ArrayList;
 
+import Data.ModelData;
 import Data.RequestTask;
 import Requests.*;
 
@@ -39,7 +41,14 @@ public class Login extends Fragment implements RequestTask.Listener {
     private Button mRegisterButton;
     private RadioGroup mRadioGroupGender;
     private String gender ="m";
-    public Login() {
+    private LoginListener listener;
+
+    public void setListener(LoginListener listener) {
+        this.listener = listener;
+    }
+
+    public Login(LoginListener listener) {
+        this.listener=listener;
         // Required empty public constructor
     }
     @Override
@@ -81,6 +90,9 @@ public class Login extends Fragment implements RequestTask.Listener {
             public void onClick(View v) {
                 LoginRequest loginRequest = getLoginRequest();
                 request(loginRequest);
+                if(ModelData.loggedIn()){
+                    listener.enableMap();
+                }
             }
         });
         mLoginButton.setEnabled(false);
@@ -185,5 +197,11 @@ public class Login extends Fragment implements RequestTask.Listener {
     @Override
     public void onPostExecute(String message) {
         Toast.makeText(getActivity(), message, Toast.LENGTH_LONG).show();
+        if(ModelData.loggedIn()){
+            listener.enableMap();
+        }
+    }
+    public interface LoginListener {
+        public void enableMap();
     }
 }

@@ -9,7 +9,7 @@ import Models.PersonModel;
 public class ModelData {
     private static ModelData instance;
     private PersonModel firstPerson;
-    private AuthModel authentication;
+    private AuthModel authentication=null;
     private ArrayList<PersonModel> people;
     private ArrayList<EventModel> events;
 
@@ -47,6 +47,9 @@ public class ModelData {
 
     public static void setAuthentication(AuthModel authentication) {
         instance.authentication = authentication;
+    }
+    public static boolean loggedIn(){
+        return instance.authentication!=null;
     }
 
     static{

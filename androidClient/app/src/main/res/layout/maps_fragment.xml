@@ -9,15 +9,39 @@
         class="com.google.android.gms.maps.SupportMapFragment"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_above="@id/mapTextView"/>
-
-    <TextView
-        android:id="@+id/mapTextView"
+        android:layout_above="@id/EventBar"/>
+    <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_margin="8dp"
-        android:text="test"
+        android:clickable="true"
+        android:focusable="true"
+        android:id="@+id/EventBar"
+        android:orientation="horizontal"
         android:layout_alignParentBottom="true"
-        android:textAlignment="center"/>
+        >
+        <TextView
+            android:id="@+id/gender"
+            android:layout_width="wrap_content"
+            android:layout_height="fill_parent"
+            android:text="Male"/>
+        <LinearLayout
+            android:layout_width="fill_parent"
+            android:layout_height="wrap_content"
+            android:orientation="vertical">
+            <TextView
+                android:id="@+id/name"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="Shad Torrie"
+                android:textAlignment="center"/>
+            <TextView
+                android:id="@+id/descriptionAndDate"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="Birth Logan utah(1997)"
+                android:textAlignment="center"/>
+
+        </LinearLayout>
+    </LinearLayout>
 
 </RelativeLayout>

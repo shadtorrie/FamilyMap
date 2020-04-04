@@ -160,6 +160,7 @@ public class Login extends Fragment implements RequestTask.Listener {
     LoginRequest getLoginRequest(){
         return new LoginRequest(username.getText().toString(),password.getText().toString());
     }
+
     void request(Requests request){
         try {
             RequestTask task = new RequestTask(request,this);
@@ -187,9 +188,11 @@ public class Login extends Fragment implements RequestTask.Listener {
 
     @Override
     public void onPostExecute(String message) {
-        Toast.makeText(getActivity(), message, Toast.LENGTH_LONG).show();
         if(message.contains("successful")){
             listener.login();
+        }
+        else{
+            Toast.makeText(getActivity(), message, Toast.LENGTH_LONG).show();
         }
     }
     public interface LoginListener {

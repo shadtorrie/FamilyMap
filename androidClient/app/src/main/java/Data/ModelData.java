@@ -1,6 +1,10 @@
 package Data;
 
+import com.google.android.gms.maps.model.BitmapDescriptorFactory;
+
 import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.Map;
 
 import Models.AuthModel;
 import Models.EventModel;
@@ -10,28 +14,30 @@ public class ModelData {
     private static ModelData instance;
     private PersonModel firstPerson;
     private AuthModel authentication=null;
-    private ArrayList<PersonModel> people;
-    private ArrayList<EventModel> events;
+    private HashMap<String,PersonModel> people;
+    private HashMap<String,EventModel> events;
+    private static ArrayList<Float> colors;
+    private HashMap<String, Float> colorByEventType;
 
-    public static ArrayList<PersonModel> getPeople() {
+    public static HashMap<String,PersonModel> getPeople() {
         return instance.people;
     }
 
     public static void insertPerson(PersonModel person) {
-        instance.people.add(person);
+        instance.people.put(person.getID(),person);
     }
-    public static PersonModel getPerson(int index){
-        return instance.people.get(index);
+    public static PersonModel getPerson(String key){
+        return instance.people.get(key);
     }
-    public static ArrayList<EventModel> getEvents() {
+    public static HashMap<String,EventModel> getEvents() {
         return instance.events;
     }
 
     public static void insertEvent(EventModel event) {
-        instance.events.add(event);
+        instance.events.put(event.getID(),event);
     }
-    public static EventModel getEvent(int index){
-        return instance.events.get(index);
+    public static EventModel getEvent(String key){
+        return instance.events.get(key);
     }
     public static PersonModel getFirstPerson() {
         return instance.firstPerson;
@@ -57,11 +63,33 @@ public class ModelData {
     }
 
     public ModelData() {
-        people = new ArrayList<>();
-        events = new ArrayList<>();
+        people = new HashMap<>();
+        events = new HashMap<>();
     }
 
     private static void initializer() {
         instance = new ModelData();
+        instance.colorByEventType = new HashMap<>();
+        colors = new ArrayList<>();
+        colors.add(BitmapDescriptorFactory.HUE_AZURE);
+        colors.add(BitmapDescriptorFactory.HUE_BLUE);
+        colors.add(BitmapDescriptorFactory.HUE_ORANGE);
+        colors.add(BitmapDescriptorFactory.HUE_ROSE);
+        colors.add(BitmapDescriptorFactory.HUE_CYAN);
+        colors.add(BitmapDescriptorFactory.HUE_RED);
+        colors.add(BitmapDescriptorFactory.HUE_MAGENTA);
+        colors.add(BitmapDescriptorFactory.HUE_GREEN);
+        colors.add(BitmapDescriptorFactory.HUE_VIOLET);
+        colors.add(BitmapDescriptorFactory.HUE_YELLOW);
+    }
+
+    public static float getIconColor(String eventType) {
+        if(instance.colorByEventType.containsKey(eventType)){
+            return instance.colorByEventType.get(eventType);
+        }
+        else{
+            instance.colorByEventType.put(eventType,colors.get((instance.colorByEventType.size()+1)%colors.size()));
+            return instance.colorByEventType.get(eventType);
+        }
     }
 }

@@ -4,8 +4,14 @@ import android.content.Intent;
 import android.os.Bundle;
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.appcompat.view.menu.MenuBuilder;
+import androidx.appcompat.widget.SearchView;
+import androidx.appcompat.widget.Toolbar;
 import androidx.fragment.app.Fragment;
 import android.view.LayoutInflater;
+import android.view.Menu;
+import android.view.MenuInflater;
+import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.LinearLayout;
@@ -37,6 +43,7 @@ public class MapsFragment extends Fragment implements OnMapReadyCallback, Google
     private TextView gender;
     private TextView name;
     private TextView eventInfoData;
+    private Toolbar mActionBarToolbar;
     private LinearLayout eventLayout;
     public static final String PERSON_ID ="com.shad.familymap.person_id";
 
@@ -59,6 +66,10 @@ public class MapsFragment extends Fragment implements OnMapReadyCallback, Google
         name= view.findViewById(R.id.name);
         eventInfoData= view.findViewById(R.id.descriptionAndDate);
         eventLayout = view.findViewById(R.id.EventBar);
+        mActionBarToolbar = view.findViewById(R.id.toolbar);
+        ((AppCompatActivity)listener).setSupportActionBar(mActionBarToolbar);
+        ((AppCompatActivity)listener).getSupportActionBar().setTitle("Family Map");
+        setHasOptionsMenu(true);
         eventLayout.setOnClickListener(new View.OnClickListener() {
             public void onClick(View v) {
                 Intent intent = new Intent((AppCompatActivity)listener, Person.class);
@@ -66,9 +77,35 @@ public class MapsFragment extends Fragment implements OnMapReadyCallback, Google
                 startActivity(intent);
             }
         });
+
         return view;
     }
 
+    @Override
+    public void onCreateOptionsMenu(@NonNull Menu menu, @NonNull MenuInflater inflater) {
+        inflater.inflate(R.menu.menu_item,menu);
+        MenuItem searchItem = menu.findItem(R.id.search);
+        SearchView searchView = (SearchView) searchItem.getActionView();
+        Toast.makeText(getActivity(), "menu", Toast.LENGTH_LONG).show();
+        super.onCreateOptionsMenu(menu,inflater);
+    }
+    @Override
+    public boolean onOptionsItemSelected(MenuItem item) {
+        switch (item.getItemId()) {
+            case R.id.action_settings:
+                //Intent intent = new Intent((AppCompatActivity)listener, Settings.class);
+                //startActivity(intent);
+                return true;
+
+            case R.id.search:
+
+                return true;
+
+            default:
+                return super.onOptionsItemSelected(item);
+
+        }
+    }
     @Override
     public void onMapReady(GoogleMap googleMap) {
         map = googleMap;

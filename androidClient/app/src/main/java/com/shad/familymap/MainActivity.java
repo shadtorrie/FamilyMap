@@ -31,9 +31,6 @@ public class MainActivity extends AppCompatActivity   implements Login.LoginList
                     .add(R.id.LoginFrameLayout, loginFragment)
                     .commit();
         }
-        mActionBarToolbar = findViewById(R.id.toolbar);
-        setSupportActionBar(mActionBarToolbar);
-        getSupportActionBar().setTitle("Family Map");
         if(ModelData.loggedIn()){
             login();
         }
@@ -56,14 +53,6 @@ public class MainActivity extends AppCompatActivity   implements Login.LoginList
         }
     }
 
-    @Override
-    public void changeSubTitle(String newSubTitle) {
-        if(getSupportActionBar()==null){
-            mActionBarToolbar = findViewById(R.id.toolbar);
-            setSupportActionBar(mActionBarToolbar);
-        }
-        getSupportActionBar().setTitle("Family Map: " +newSubTitle);
-    }
 
     @Override
     public void onPointerCaptureChanged(boolean hasCapture) {

@@ -11,6 +11,10 @@ import android.widget.Button;
 import android.widget.EditText;
 import android.widget.RadioGroup;
 import android.widget.Toast;
+
+import androidx.appcompat.app.ActionBar;
+import androidx.appcompat.app.AppCompatActivity;
+import androidx.appcompat.widget.Toolbar;
 import androidx.fragment.app.Fragment;
 import java.net.MalformedURLException;
 import java.net.URL;
@@ -36,6 +40,7 @@ public class Login extends Fragment implements RequestTask.Listener {
     private RadioGroup mRadioGroupGender;
     private String gender ="m";
     private LoginListener listener;
+    private Toolbar mActionBarToolbar;
 
     public Login(LoginListener listener) {
         this.listener=listener;
@@ -62,7 +67,9 @@ public class Login extends Fragment implements RequestTask.Listener {
         lastName= v.findViewById(R.id.lastName);
         email= v.findViewById(R.id.email);
         mRadioGroupGender = v.findViewById(R.id.radio_group);
-
+        mActionBarToolbar = v.findViewById(R.id.toolbar);
+        ((AppCompatActivity)listener).setSupportActionBar(mActionBarToolbar);
+        ((AppCompatActivity)listener).getSupportActionBar().setTitle("Family Map");
         mRadioGroupGender.setOnCheckedChangeListener(new RadioGroup.OnCheckedChangeListener(){
             @Override
             public void onCheckedChanged(RadioGroup group, int checkedId) {
@@ -128,7 +135,6 @@ public class Login extends Fragment implements RequestTask.Listener {
             i.addTextChangedListener(new TextWatcher() {
                 @Override
                 public void beforeTextChanged(CharSequence s, int start, int count, int after) {
-
                 }
 
                 @Override
@@ -197,6 +203,5 @@ public class Login extends Fragment implements RequestTask.Listener {
     }
     public interface LoginListener {
         public void login();
-        public void changeSubTitle(String newTitle);
     }
 }

@@ -5,6 +5,8 @@ import com.google.android.gms.maps.model.BitmapDescriptorFactory;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Map;
+import java.util.SortedMap;
+import java.util.TreeMap;
 
 import Models.AuthModel;
 import Models.EventModel;
@@ -18,6 +20,13 @@ public class ModelData {
     private HashMap<String,EventModel> events;
     private static ArrayList<Float> colors;
     private HashMap<String, Float> colorByEventType;
+    private boolean lifeLines = true;
+    private boolean familyLines = true;
+    private boolean spouseLines = true;
+    private boolean fathersSide = true;
+    private boolean mothersSide = true;
+    private boolean maleEvents = true;
+    private boolean femaleEvents = true;
 
     public static HashMap<String,PersonModel> getPeople() {
         return instance.people;
@@ -91,5 +100,78 @@ public class ModelData {
             instance.colorByEventType.put(eventType,colors.get((instance.colorByEventType.size()+1)%colors.size()));
             return instance.colorByEventType.get(eventType);
         }
+    }
+
+    public static PersonModel getPersonChild(String id) {
+        for(HashMap.Entry<String,PersonModel> i: getPeople().entrySet()) {
+            if(i.getValue().getFatherID()!=null&&i.getValue().getFatherID().equals(id) ){
+                return i.getValue();
+            }
+            if(i.getValue().getMotherID()!=null&&i.getValue().getMotherID().equals(id)){
+                return i.getValue();
+            }
+        }
+        return null;
+    }
+
+    public static String getEventString(String id) {
+        EventModel currentEvent = getEvent(id);
+        if(currentEvent==null){
+            return null;
+        }
+        return currentEvent.getEventType()+": "+currentEvent.getCity()+", "+currentEvent.getCountry()+" ("+currentEvent.getYear()+")";
+    }
+    public static String getPersonFullName(String id){
+        PersonModel currentPerson = getPerson(id);
+        if(currentPerson==null){
+            return null;
+        }
+        return currentPerson.getFirstName()+" "+currentPerson.getLastName();
+    }
+
+    public static TreeMap<Integer,String> getPersonsEvents(String id) {
+        TreeMap<Integer,String> events = new TreeMap<>();
+        for(HashMap.Entry<String,EventModel> i: getEvents().entrySet()) {
+            if(i.getValue().getPersonID().equals(id)){
+                int year = i.getValue().getYear();
+                if(i.getValue().getEventType().toLowerCase().equals("birth")){
+                    year=0;
+                }
+                else if(i.getValue().getEventType().toLowerCase().equals("death")){
+                    year=99999999;
+                }
+                else if(events.containsKey(year)){
+                    String previousEvent = events.get(year);
+                    EventModel previousEventModel = getEvent(previousEvent);
+                    int compare =i.getValue().getEventType().compareToIgnoreCase(previousEventModel.getEventType());
+                    if(compare>0){
+                        year++;
+                    }
+                }
+                events.put(year,i.getValue().getID());
+            }
+        }
+        return events;
+    }
+
+    public static HashMap<String, String> getRelatives(PersonModel person) {
+        HashMap<String,String> relatives= new HashMap<>();
+        PersonModel father= getPerson(person.getFatherID());
+        PersonModel mother = getPerson(person.getMotherID());
+        PersonModel spouse = getPerson(person.getSpouseID());
+        PersonModel child = getPersonChild(person.getID());
+        if(father!=null){
+            relatives.put("Father",father.getID());
+        }
+        if(mother!=null){
+            relatives.put("Mother",mother.getID());
+        }
+        if(spouse!=null){
+            relatives.put("Spouse",spouse.getID());
+        }
+        if(child!=null){
+            relatives.put("Child",child.getID());
+        }
+        return relatives;
     }
 }

@@ -22,25 +22,22 @@
         <TextView
             android:id="@+id/gender"
             android:layout_width="wrap_content"
-            android:layout_height="fill_parent"
-            android:text="Male"/>
+            android:layout_height="fill_parent" />
         <LinearLayout
             android:layout_width="fill_parent"
             android:layout_height="wrap_content"
             android:orientation="vertical">
             <TextView
                 android:id="@+id/name"
+                android:text="@string/noMarkerMessage"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:text="Shad Torrie"
                 android:textAlignment="center"/>
             <TextView
                 android:id="@+id/descriptionAndDate"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:text="Birth Logan utah(1997)"
                 android:textAlignment="center"/>
-
         </LinearLayout>
     </LinearLayout>
 

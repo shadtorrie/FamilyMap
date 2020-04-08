@@ -122,6 +122,7 @@ public class Proxy {
                         ModelData.setFirstPerson(new PersonModel(i.getPersonID(),
                                 i.getAssociatedUsername(),i.getFirstName(),i.getLastName(),
                                 i.getGender(),i.getFatherID(),i.getMotherID(),i.getSpouseID()));
+                        ModelData.insertPerson(ModelData.getFirstPerson());
                     }
                     else{
                         ModelData.insertPerson(new PersonModel(i.getPersonID(),

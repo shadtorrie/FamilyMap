@@ -10,6 +10,8 @@ import androidx.appcompat.app.AppCompatActivity;
 import android.os.Build;
 import android.os.Bundle;
 
+import Data.ModelData;
+
 
 public class MainActivity extends AppCompatActivity   implements Login.LoginListener{
     Login loginFragment;
@@ -32,6 +34,9 @@ public class MainActivity extends AppCompatActivity   implements Login.LoginList
         mActionBarToolbar = findViewById(R.id.toolbar);
         setSupportActionBar(mActionBarToolbar);
         getSupportActionBar().setTitle("Family Map");
+        if(ModelData.loggedIn()){
+            login();
+        }
 
     }
     @Override

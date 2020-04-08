@@ -1,7 +1,9 @@
 package com.shad.familymap;
 
+import android.content.Intent;
 import android.os.Bundle;
 import androidx.annotation.NonNull;
+import androidx.appcompat.app.AppCompatActivity;
 import androidx.fragment.app.Fragment;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -36,6 +38,7 @@ public class MapsFragment extends Fragment implements OnMapReadyCallback, Google
     private TextView name;
     private TextView eventInfoData;
     private LinearLayout eventLayout;
+    public static final String PERSON_ID ="com.shad.familymap.person_id";
 
     public MapsFragment(Login.LoginListener listener) {
         this.listener = listener;
@@ -58,7 +61,9 @@ public class MapsFragment extends Fragment implements OnMapReadyCallback, Google
         eventLayout = view.findViewById(R.id.EventBar);
         eventLayout.setOnClickListener(new View.OnClickListener() {
             public void onClick(View v) {
-                Toast.makeText(getActivity(), currentPerson.getLastName(), Toast.LENGTH_LONG).show();
+                Intent intent = new Intent((AppCompatActivity)listener, Person.class);
+                intent.putExtra(PERSON_ID, currentPerson.getID());
+                startActivity(intent);
             }
         });
         return view;
@@ -95,8 +100,8 @@ public class MapsFragment extends Fragment implements OnMapReadyCallback, Google
         String eventID =(String)marker.getTag();
         currentEvent= ModelData.getEvent(eventID);
         currentPerson = ModelData.getPerson(currentEvent.getPersonID());
-        String stringName =currentPerson.getFirstName()+" "+currentPerson.getLastName();
-        String stringEventInfoDate = currentEvent.getEventType()+": "+currentEvent.getCity()+", "+currentEvent.getCountry()+" ("+currentEvent.getYear()+")";
+        String stringName =ModelData.getPersonFullName(currentPerson.getID());
+        String stringEventInfoDate = ModelData.getEventString(currentEvent.getID());
         gender.setText(currentPerson.getGender());
         name.setText(stringName);
         eventInfoData.setText(stringEventInfoDate);

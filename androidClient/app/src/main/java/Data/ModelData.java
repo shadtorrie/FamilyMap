@@ -8,8 +8,6 @@ import com.google.android.gms.maps.model.PolylineOptions;
 
 import java.util.ArrayList;
 import java.util.HashMap;
-import java.util.Map;
-import java.util.SortedMap;
 import java.util.TreeMap;
 
 import Models.AuthModel;

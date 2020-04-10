@@ -2,8 +2,6 @@ package com.shad.familymap;
 
 
 import androidx.annotation.RequiresApi;
-import androidx.appcompat.widget.Toolbar;
-import androidx.fragment.app.Fragment;
 import androidx.fragment.app.FragmentManager;
 import androidx.appcompat.app.AppCompatActivity;
 
@@ -16,7 +14,6 @@ import Data.ModelData;
 public class MainActivity extends AppCompatActivity   implements Login.LoginListener{
     Login loginFragment;
     MapsFragment mMapsFragment;
-    private Toolbar mActionBarToolbar;
 
     @RequiresApi(api = Build.VERSION_CODES.LOLLIPOP)
     @Override

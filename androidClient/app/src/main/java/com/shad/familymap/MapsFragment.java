@@ -1,10 +1,11 @@
 package com.shad.familymap;
 
 import android.content.Intent;
+import android.os.Build;
 import android.os.Bundle;
 import androidx.annotation.NonNull;
+import androidx.annotation.RequiresApi;
 import androidx.appcompat.app.AppCompatActivity;
-import androidx.appcompat.view.menu.MenuBuilder;
 import androidx.appcompat.widget.SearchView;
 import androidx.appcompat.widget.Toolbar;
 import androidx.fragment.app.Fragment;
@@ -16,13 +17,9 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.LinearLayout;
 import android.widget.TextView;
-import android.widget.Toast;
-
-import com.google.android.gms.maps.CameraUpdateFactory;
 import com.google.android.gms.maps.GoogleMap;
 import com.google.android.gms.maps.OnMapReadyCallback;
 import com.google.android.gms.maps.SupportMapFragment;
-import com.google.android.gms.maps.model.BitmapDescriptor;
 import com.google.android.gms.maps.model.BitmapDescriptorFactory;
 import com.google.android.gms.maps.model.LatLng;
 import com.google.android.gms.maps.model.Marker;
@@ -32,6 +29,7 @@ import com.google.android.gms.maps.model.PolylineOptions;
 
 import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.Objects;
 import java.util.TreeMap;
 
 import Data.ModelData;
@@ -49,11 +47,11 @@ public class MapsFragment extends Fragment implements OnMapReadyCallback, Google
     private TextView eventInfoData;
     private Toolbar mActionBarToolbar;
     private LinearLayout eventLayout;
-    public static final String PERSON_ID ="com.shad.familymap.person_id";
+    static final String PERSON_ID ="com.shad.familymap.person_id";
     private ArrayList<Polyline> lines = new ArrayList<>();
     private ArrayList<Marker> markers = new ArrayList<>();
 
-    public MapsFragment(Login.LoginListener listener) {
+    MapsFragment(Login.LoginListener listener) {
         this.listener = listener;
     }
 
@@ -61,6 +59,7 @@ public class MapsFragment extends Fragment implements OnMapReadyCallback, Google
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
     }
+    @RequiresApi(api = Build.VERSION_CODES.KITKAT)
     @Override
     public View onCreateView(@NonNull LayoutInflater layoutInflater, ViewGroup container, Bundle savedInstanceState) {
         super.onCreateView(layoutInflater, container, savedInstanceState);
@@ -74,7 +73,7 @@ public class MapsFragment extends Fragment implements OnMapReadyCallback, Google
         eventLayout = view.findViewById(R.id.EventBar);
         mActionBarToolbar = view.findViewById(R.id.toolbar);
         ((AppCompatActivity)listener).setSupportActionBar(mActionBarToolbar);
-        ((AppCompatActivity)listener).getSupportActionBar().setTitle("Family Map");
+        Objects.requireNonNull(((AppCompatActivity) listener).getSupportActionBar()).setTitle("Family Map");
         setHasOptionsMenu(true);
         eventLayout.setOnClickListener(new View.OnClickListener() {
             public void onClick(View v) {
@@ -108,7 +107,7 @@ public class MapsFragment extends Fragment implements OnMapReadyCallback, Google
     }
 
     @Override
-    public boolean onOptionsItemSelected(MenuItem item) {
+    public boolean onOptionsItemSelected(@NonNull MenuItem item) {
         switch (item.getItemId()) {
             case R.id.action_settings:
                 Intent intent = new Intent((AppCompatActivity)listener, Settings.class);

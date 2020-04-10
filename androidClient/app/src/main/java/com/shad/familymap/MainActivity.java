@@ -47,10 +47,10 @@ public class MainActivity extends AppCompatActivity   implements Login.LoginList
             mMapsFragment = new MapsFragment(this);
             Bundle args = new Bundle();
             mMapsFragment.setArguments(args);
-            fm.beginTransaction()
-                    .add(R.id.mapFrameLayout, mMapsFragment)
-                    .commit();
         }
+        fm.beginTransaction()
+                .add(R.id.mapFrameLayout, mMapsFragment)
+                .commit();
     }
 
     @Override

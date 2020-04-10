@@ -1,6 +1,10 @@
 package Data;
 
+import com.google.android.gms.maps.GoogleMap;
 import com.google.android.gms.maps.model.BitmapDescriptorFactory;
+import com.google.android.gms.maps.model.LatLng;
+import com.google.android.gms.maps.model.Polyline;
+import com.google.android.gms.maps.model.PolylineOptions;
 
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -19,6 +23,7 @@ public class ModelData {
     private HashMap<String,PersonModel> people;
     private HashMap<String,EventModel> events;
     private static ArrayList<Float> colors;
+    private static ArrayList<Integer> lineColors;
     private HashMap<String, Float> colorByEventType;
     private boolean lifeLines = true;
     private boolean familyLines = true;
@@ -27,6 +32,8 @@ public class ModelData {
     private boolean mothersSide = true;
     private boolean maleEvents = true;
     private boolean femaleEvents = true;
+    private HashMap<String, Integer> colorByLineType;
+
 
     public static boolean isLifeLines() {
         return instance.lifeLines;
@@ -136,6 +143,12 @@ public class ModelData {
     private static void initializer() {
         instance = new ModelData();
         instance.colorByEventType = new HashMap<>();
+        instance.colorByLineType = new HashMap<>();
+        lineColors = new ArrayList<>();
+        lineColors.add(0xff388E3C);
+        lineColors.add(0xff388E3C);
+        lineColors.add(0xffF57F17);
+        lineColors.add(0xffF92374);
         colors = new ArrayList<>();
         colors.add(BitmapDescriptorFactory.HUE_AZURE);
         colors.add(BitmapDescriptorFactory.HUE_BLUE);
@@ -234,5 +247,89 @@ public class ModelData {
 
     public static void logout() {
         initializer();
+    }
+
+    public static EventModel getSpouseFirstEvent(String person_id) {
+        String spouseId=getPerson(person_id).getSpouseID();
+        if(spouseId==null){
+            return null;
+        }
+        return getFirstEvent(spouseId);
+    }
+
+    private static EventModel getFirstEvent(String personId) {
+        EventModel returnEvent = null;
+        for(HashMap.Entry<String,EventModel> i: getEvents().entrySet()) {
+            EventModel currentEvent = i.getValue();
+            if(currentEvent.getPersonID().equals(personId)){
+                if(currentEvent.getEventType().equalsIgnoreCase("birth")){
+                    return currentEvent;
+                }
+                else if(returnEvent==null){
+                    returnEvent=currentEvent;
+                }
+                else if(returnEvent.getYear()>currentEvent.getYear()){
+                    returnEvent=currentEvent;
+                }
+
+            }
+        }
+        return returnEvent;
+    }
+
+    public static int getLineColor(String lineType) {
+        if(instance.colorByLineType.containsKey(lineType)){
+            return instance.colorByLineType.get(lineType);
+        }
+        else{
+            instance.colorByLineType.put(lineType,lineColors.get((instance.colorByLineType.size()+1)%lineColors.size()));
+            return instance.colorByLineType.get(lineType);
+        }
+
+    }
+
+    public static void getFamilyLines(EventModel childEvent, ArrayList<Polyline> familyLines, int thickness, GoogleMap map) {
+        boolean doFather=true;
+        boolean doMother=true;
+        if(childEvent.getPersonID().equals(getFirstPerson().getID())){
+            if(!isFathersSide()){
+                doFather=false;
+            }
+            if(!isMothersSide()){
+                doMother=false;
+            }
+        }
+        if(!isMaleEvents()){
+            doFather=false;
+        }
+        if(!isFemaleEvents()){
+            doMother=false;
+        }
+        String father=getPerson(childEvent.getPersonID()).getFatherID();
+        if(doFather&&father!= null){
+            EventModel fatherEvent = getFirstEvent(father);
+            Polyline fatherLine =map.addPolyline( new PolylineOptions()
+                    .add(
+                            new LatLng(childEvent.getLatitude(), childEvent.getLongitude()),
+                            new LatLng(fatherEvent.getLatitude(),fatherEvent.getLongitude())
+                    )
+                    .color(ModelData.getLineColor("family")));
+            fatherLine.setWidth(thickness);
+            familyLines.add(fatherLine);
+            getFamilyLines(fatherEvent,familyLines,thickness-3,map);
+        }
+        String mother=getPerson(childEvent.getPersonID()).getMotherID();
+        if(doMother&&mother!= null){
+            EventModel motherEvent = getFirstEvent(mother);
+            Polyline motherLine =map.addPolyline( new PolylineOptions()
+                    .add(
+                            new LatLng(childEvent.getLatitude(), childEvent.getLongitude()),
+                            new LatLng(motherEvent.getLatitude(),motherEvent.getLongitude())
+                    )
+                    .color(ModelData.getLineColor("family")));
+            motherLine.setWidth(thickness);
+            familyLines.add(motherLine);
+            getFamilyLines(motherEvent,familyLines,thickness-3,map);
+        }
     }
 }

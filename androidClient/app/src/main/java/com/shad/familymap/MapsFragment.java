@@ -27,8 +27,12 @@ import com.google.android.gms.maps.model.BitmapDescriptorFactory;
 import com.google.android.gms.maps.model.LatLng;
 import com.google.android.gms.maps.model.Marker;
 import com.google.android.gms.maps.model.MarkerOptions;
+import com.google.android.gms.maps.model.Polyline;
+import com.google.android.gms.maps.model.PolylineOptions;
 
+import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.TreeMap;
 
 import Data.ModelData;
 import Models.EventModel;
@@ -46,6 +50,7 @@ public class MapsFragment extends Fragment implements OnMapReadyCallback, Google
     private Toolbar mActionBarToolbar;
     private LinearLayout eventLayout;
     public static final String PERSON_ID ="com.shad.familymap.person_id";
+    private ArrayList<Polyline> lines = new ArrayList<>();
 
     public MapsFragment(Login.LoginListener listener) {
         this.listener = listener;
@@ -151,7 +156,45 @@ public class MapsFragment extends Fragment implements OnMapReadyCallback, Google
         gender.setText(currentPerson.getGender());
         name.setText(stringName);
         eventInfoData.setText(stringEventInfoDate);
-
+        for(Polyline i :lines){
+            i.remove();
+        }
+        lines.clear();
+        if(ModelData.isSpouseLines()){
+            EventModel spouseEvent =ModelData.getSpouseFirstEvent(currentEvent.getPersonID());
+            if(spouseEvent!=null){
+                lines.add(map.addPolyline(new PolylineOptions()
+                        .add(
+                                new LatLng(currentEvent.getLatitude(), currentEvent.getLongitude()),
+                                new LatLng(spouseEvent.getLatitude(),spouseEvent.getLongitude())
+                        )
+                        .color(ModelData.getLineColor("spouse"))
+                ));
+            }
+        }
+        if(ModelData.isFamilyLines()){
+            ModelData.getFamilyLines(currentEvent,lines,12,map);
+        }
+        if(ModelData.isLifeLines()){
+            TreeMap<Integer,String> lifeEvents= ModelData.getPersonsEvents(currentEvent.getPersonID());
+            EventModel previousEvent = null;
+            for(TreeMap.Entry<Integer,String> j:lifeEvents.entrySet()){
+                if(previousEvent==null){
+                    previousEvent=ModelData.getEvent(j.getValue());
+                }
+                else{
+                    EventModel thisEvent = ModelData.getEvent(j.getValue());
+                    lines.add(map.addPolyline(new PolylineOptions()
+                            .add(
+                                    new LatLng(previousEvent.getLatitude(), previousEvent.getLongitude()),
+                                    new LatLng(thisEvent.getLatitude(),thisEvent.getLongitude())
+                            )
+                            .color(ModelData.getLineColor("life"))
+                    ));
+                    previousEvent=thisEvent;
+                }
+            }
+        }
         return true;
     }
 }

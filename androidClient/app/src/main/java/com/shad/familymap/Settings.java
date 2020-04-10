@@ -43,35 +43,35 @@ public class Settings extends AppCompatActivity {
             }
         });
         Switch spouseLines = (Switch) findViewById(R.id.spouseSwitch);
-        spouseLines.setChecked(ModelData.isFamilyLines());
+        spouseLines.setChecked(ModelData.isSpouseLines());
         spouseLines.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
             public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
                 ModelData.setSpouseLines(isChecked);
             }
         });
         Switch fatherSide = (Switch) findViewById(R.id.fathersSwitch);
-        fatherSide.setChecked(ModelData.isFamilyLines());
+        fatherSide.setChecked(ModelData.isFathersSide());
         fatherSide.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
             public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
                 ModelData.setFathersSide(isChecked);
             }
         });
         Switch motherSide = (Switch) findViewById(R.id.motherSwitch);
-        motherSide.setChecked(ModelData.isFamilyLines());
+        motherSide.setChecked(ModelData.isMothersSide());
         motherSide.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
             public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
                 ModelData.setMothersSide(isChecked);
             }
         });
         Switch maleEvents = (Switch) findViewById(R.id.maleSwitch);
-        maleEvents.setChecked(ModelData.isFamilyLines());
+        maleEvents.setChecked(ModelData.isMaleEvents());
         maleEvents.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
             public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
                 ModelData.setMaleEvents(isChecked);
             }
         });
         Switch femaleEvents = (Switch) findViewById(R.id.femaleEvents);
-        femaleEvents.setChecked(ModelData.isFamilyLines());
+        femaleEvents.setChecked(ModelData.isFemaleEvents());
         femaleEvents.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
             public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
                 ModelData.setFemaleEvents(isChecked);

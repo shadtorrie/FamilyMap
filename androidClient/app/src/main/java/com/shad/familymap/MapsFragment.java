@@ -86,15 +86,15 @@ public class MapsFragment extends Fragment implements OnMapReadyCallback, Google
         inflater.inflate(R.menu.menu_item,menu);
         MenuItem searchItem = menu.findItem(R.id.search);
         SearchView searchView = (SearchView) searchItem.getActionView();
-        Toast.makeText(getActivity(), "menu", Toast.LENGTH_LONG).show();
+
         super.onCreateOptionsMenu(menu,inflater);
     }
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
         switch (item.getItemId()) {
             case R.id.action_settings:
-                //Intent intent = new Intent((AppCompatActivity)listener, Settings.class);
-                //startActivity(intent);
+                Intent intent = new Intent((AppCompatActivity)listener, Settings.class);
+                startActivity(intent);
                 return true;
 
             case R.id.search:

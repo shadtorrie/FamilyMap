@@ -28,6 +28,63 @@ public class ModelData {
     private boolean maleEvents = true;
     private boolean femaleEvents = true;
 
+    public static boolean isLifeLines() {
+        return instance.lifeLines;
+    }
+
+    public static  void setLifeLines(boolean lifeLines) {
+        instance.lifeLines = lifeLines;
+    }
+
+    public static boolean isFamilyLines() {
+        return instance.familyLines;
+    }
+
+    public static void setFamilyLines(boolean familyLines) {
+        instance.familyLines = familyLines;
+    }
+
+    public static boolean isSpouseLines() {
+        return instance.spouseLines;
+    }
+
+    public static void setSpouseLines(boolean spouseLines) {
+        instance.spouseLines = spouseLines;
+    }
+
+    public static boolean isFathersSide() {
+        return instance.fathersSide;
+    }
+
+    public static void setFathersSide(boolean fathersSide) {
+        instance.fathersSide = fathersSide;
+    }
+
+    public static boolean isMothersSide() {
+        return instance.mothersSide;
+    }
+
+    public static void setMothersSide(boolean mothersSide) {
+        instance.mothersSide = mothersSide;
+    }
+
+    public static boolean isMaleEvents() {
+        return instance.maleEvents;
+    }
+
+    public static void setMaleEvents(boolean maleEvents) {
+        instance.maleEvents = maleEvents;
+    }
+
+    public static boolean isFemaleEvents() {
+        return instance.femaleEvents;
+    }
+
+    public static void setFemaleEvents(boolean femaleEvents) {
+        instance.femaleEvents = femaleEvents;
+    }
+
+
     public static HashMap<String,PersonModel> getPeople() {
         return instance.people;
     }

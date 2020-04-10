@@ -103,6 +103,32 @@ public class ModelData {
         return instance.people.get(key);
     }
     public static HashMap<String,EventModel> getEvents() {
+        HashMap<String,EventModel> returnEvents= new HashMap<>();
+        PersonModel firstPerson = getFirstPerson();
+        if((isFemaleEvents()&&firstPerson.getGender().equalsIgnoreCase("f"))||(isMaleEvents()&&firstPerson.getGender().equalsIgnoreCase("m"))){
+            getPersonsEvents(firstPerson.getID(),returnEvents);
+        }
+        if(isMothersSide()&&firstPerson.getMotherID()!=null){
+            getPersonAndAncestorEvents(firstPerson.getMotherID(),returnEvents);
+        }
+        if(isFathersSide()&&firstPerson.getFatherID()!=null){
+            getPersonAndAncestorEvents(firstPerson.getFatherID(),returnEvents);
+        }
+        return returnEvents;
+    }
+    public static void getPersonAndAncestorEvents(String personID,HashMap<String,EventModel> events){
+        PersonModel currentPerson = getPerson(personID);
+        if((isFemaleEvents()&&currentPerson.getGender().equalsIgnoreCase("f"))||(isMaleEvents()&&currentPerson.getGender().equalsIgnoreCase("m"))){
+            getPersonsEvents(currentPerson.getID(),events);
+        }
+        if(currentPerson.getMotherID()!=null){
+            getPersonAndAncestorEvents(currentPerson.getMotherID(),events);
+        }
+        if(currentPerson.getFatherID()!=null){
+            getPersonAndAncestorEvents(currentPerson.getFatherID(),events);
+        }
+    }
+    public static HashMap<String,EventModel> getAllEvents() {
         return instance.events;
     }
 
@@ -197,6 +223,13 @@ public class ModelData {
             return null;
         }
         return currentPerson.getFirstName()+" "+currentPerson.getLastName();
+    }
+    public static void getPersonsEvents(String id,HashMap<String,EventModel> events) {
+        for(HashMap.Entry<String,EventModel> i: getAllEvents().entrySet()) {
+            if(i.getValue().getPersonID().equals(id)){
+                events.put(i.getValue().getID(),i.getValue());
+            }
+        }
     }
 
     public static TreeMap<Integer,String> getPersonsEvents(String id) {

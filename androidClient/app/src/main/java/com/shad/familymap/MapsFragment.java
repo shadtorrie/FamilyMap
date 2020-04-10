@@ -51,6 +51,7 @@ public class MapsFragment extends Fragment implements OnMapReadyCallback, Google
     private LinearLayout eventLayout;
     public static final String PERSON_ID ="com.shad.familymap.person_id";
     private ArrayList<Polyline> lines = new ArrayList<>();
+    private ArrayList<Marker> markers = new ArrayList<>();
 
     public MapsFragment(Login.LoginListener listener) {
         this.listener = listener;
@@ -101,6 +102,9 @@ public class MapsFragment extends Fragment implements OnMapReadyCallback, Google
         if(!ModelData.loggedIn()){
             listener.logout();
         }
+        else if(map!=null){
+            generateEventsOnMap();
+        }
     }
 
     @Override
@@ -128,11 +132,15 @@ public class MapsFragment extends Fragment implements OnMapReadyCallback, Google
     }
 
     private void generateEventsOnMap() {
+        for(Marker i:markers){
+            i.remove();
+        }
         for(HashMap.Entry<String,EventModel> i: ModelData.getEvents().entrySet()){
             LatLng nextEvent = new LatLng(i.getValue().getLatitude(),i.getValue().getLongitude());
             Marker marker = map.addMarker(new MarkerOptions().position(nextEvent));
             marker.setTag(i.getKey());
             marker.setIcon(BitmapDescriptorFactory.defaultMarker(ModelData.getIconColor(i.getValue().getEventType())));
+            markers.add(marker);
         }
         map.setOnMarkerClickListener(this);
     }

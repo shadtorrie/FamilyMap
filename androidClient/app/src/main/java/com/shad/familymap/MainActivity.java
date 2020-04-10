@@ -31,9 +31,6 @@ public class MainActivity extends AppCompatActivity   implements Login.LoginList
                     .add(R.id.LoginFrameLayout, loginFragment)
                     .commit();
         }
-        mActionBarToolbar = findViewById(R.id.toolbar);
-        setSupportActionBar(mActionBarToolbar);
-        getSupportActionBar().setTitle("Family Map");
         if(ModelData.loggedIn()){
             login();
         }
@@ -50,20 +47,28 @@ public class MainActivity extends AppCompatActivity   implements Login.LoginList
             mMapsFragment = new MapsFragment(this);
             Bundle args = new Bundle();
             mMapsFragment.setArguments(args);
-            fm.beginTransaction()
-                    .add(R.id.mapFrameLayout, mMapsFragment)
-                    .commit();
         }
+        fm.beginTransaction()
+                .add(R.id.mapFrameLayout, mMapsFragment)
+                .commit();
     }
 
     @Override
-    public void changeSubTitle(String newSubTitle) {
-        if(getSupportActionBar()==null){
-            mActionBarToolbar = findViewById(R.id.toolbar);
-            setSupportActionBar(mActionBarToolbar);
+    public void logout() {
+        FragmentManager fm = getSupportFragmentManager();
+        fm.beginTransaction()
+                .remove(mMapsFragment)
+                .commit();
+        if (loginFragment == null) {
+            loginFragment = new Login(this);
+            Bundle args = new Bundle();
+            loginFragment.setArguments(args);
         }
-        getSupportActionBar().setTitle("Family Map: " +newSubTitle);
+        fm.beginTransaction()
+                .add(R.id.LoginFrameLayout, loginFragment)
+                .commit();
     }
+
 
     @Override
     public void onPointerCaptureChanged(boolean hasCapture) {

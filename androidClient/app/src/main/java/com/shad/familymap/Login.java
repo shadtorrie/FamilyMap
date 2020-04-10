@@ -203,5 +203,7 @@ public class Login extends Fragment implements RequestTask.Listener {
     }
     public interface LoginListener {
         public void login();
+
+        void logout();
     }
 }

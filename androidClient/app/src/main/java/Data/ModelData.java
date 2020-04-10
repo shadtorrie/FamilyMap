@@ -231,4 +231,8 @@ public class ModelData {
         }
         return relatives;
     }
+
+    public static void logout() {
+        initializer();
+    }
 }

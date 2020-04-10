@@ -89,6 +89,15 @@ public class MapsFragment extends Fragment implements OnMapReadyCallback, Google
 
         super.onCreateOptionsMenu(menu,inflater);
     }
+
+    @Override
+    public void onResume() {
+        super.onResume();
+        if(!ModelData.loggedIn()){
+            listener.logout();
+        }
+    }
+
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
         switch (item.getItemId()) {

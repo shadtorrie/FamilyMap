@@ -53,6 +53,22 @@ public class MainActivity extends AppCompatActivity   implements Login.LoginList
         }
     }
 
+    @Override
+    public void logout() {
+        FragmentManager fm = getSupportFragmentManager();
+        fm.beginTransaction()
+                .remove(mMapsFragment)
+                .commit();
+        if (loginFragment == null) {
+            loginFragment = new Login(this);
+            Bundle args = new Bundle();
+            loginFragment.setArguments(args);
+        }
+        fm.beginTransaction()
+                .add(R.id.LoginFrameLayout, loginFragment)
+                .commit();
+    }
+
 
     @Override
     public void onPointerCaptureChanged(boolean hasCapture) {

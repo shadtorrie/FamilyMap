@@ -1,12 +1,14 @@
 package com.shad.familymap;
 
 import android.content.Intent;
+import android.graphics.drawable.Drawable;
 import android.os.Bundle;
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.view.menu.MenuBuilder;
 import androidx.appcompat.widget.SearchView;
 import androidx.appcompat.widget.Toolbar;
+import androidx.core.widget.ImageViewCompat;
 import androidx.fragment.app.Fragment;
 import android.view.LayoutInflater;
 import android.view.Menu;
@@ -14,9 +16,13 @@ import android.view.MenuInflater;
 import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.TextView;
-import android.widget.Toast;
+import com.joanzapata.iconify.IconDrawable;
+import com.joanzapata.iconify.fonts.FontAwesomeIcons;
+
+
 
 import com.google.android.gms.maps.CameraUpdateFactory;
 import com.google.android.gms.maps.GoogleMap;
@@ -44,7 +50,7 @@ public class MapsFragment extends Fragment implements OnMapReadyCallback, Google
     private Login.LoginListener listener;
     private EventModel currentEvent;
     private PersonModel currentPerson;
-    private TextView gender;
+    private ImageView gender;
     private TextView name;
     private TextView eventInfoData;
     private Toolbar mActionBarToolbar;
@@ -91,8 +97,9 @@ public class MapsFragment extends Fragment implements OnMapReadyCallback, Google
     public void onCreateOptionsMenu(@NonNull Menu menu, @NonNull MenuInflater inflater) {
         inflater.inflate(R.menu.menu_item,menu);
         MenuItem searchItem = menu.findItem(R.id.search);
-        SearchView searchView = (SearchView) searchItem.getActionView();
-
+        searchItem.setIcon( new IconDrawable(getActivity(),FontAwesomeIcons.fa_search).sizeDp(30).color(R.color.male));
+        MenuItem settingsItem = menu.findItem(R.id.action_settings);
+        settingsItem.setIcon( new IconDrawable(getActivity(),FontAwesomeIcons.fa_gear).sizeDp(30).color(R.color.male));
         super.onCreateOptionsMenu(menu,inflater);
     }
 
@@ -161,7 +168,18 @@ public class MapsFragment extends Fragment implements OnMapReadyCallback, Google
         currentPerson = ModelData.getPerson(currentEvent.getPersonID());
         String stringName =ModelData.getPersonFullName(currentPerson.getID());
         String stringEventInfoDate = ModelData.getEventString(currentEvent.getID());
-        gender.setText(currentPerson.getGender());
+        FontAwesomeIcons icon =null;
+        int color = 0;
+        if(currentPerson.getGender().equalsIgnoreCase("m")){
+            icon=FontAwesomeIcons.fa_male;
+            color = R.color.male;
+        }
+        else{
+            icon=FontAwesomeIcons.fa_female;
+            color = R.color.female;
+        }
+        Drawable genderIcon = new IconDrawable(getActivity(),icon).sizeDp(40).colorRes(color);
+        gender.setImageDrawable(genderIcon);
         name.setText(stringName);
         eventInfoData.setText(stringEventInfoDate);
         for(Polyline i :lines){

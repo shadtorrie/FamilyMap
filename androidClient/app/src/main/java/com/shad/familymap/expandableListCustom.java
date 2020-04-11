@@ -1,12 +1,20 @@
 package com.shad.familymap;
 
 import android.content.Context;
+import android.graphics.Color;
+import android.graphics.ColorFilter;
 import android.graphics.Typeface;
+import android.graphics.drawable.Drawable;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.BaseExpandableListAdapter;
+import android.widget.ImageView;
 import android.widget.TextView;
+
+import com.joanzapata.iconify.IconDrawable;
+import com.joanzapata.iconify.fonts.FontAwesomeIcons;
+
 import java.util.HashMap;
 import java.util.TreeMap;
 
@@ -119,16 +127,29 @@ public class expandableListCustom extends BaseExpandableListAdapter {
         final String childID=(String) getChild(groupPosition,childPosition);
         final String firstTextFeild;
         final String secondTextFeild;
+        final FontAwesomeIcons icon;
+        final int color;
         if(childID==null){
             return null;
         }
         if(groupPosition==0){
             firstTextFeild=ModelData.getEventString(childID);
             secondTextFeild=ModelData.getPersonFullName(currentPerson.getID());
-        }
+            icon=FontAwesomeIcons.fa_map_marker;
+            color=Color.HSVToColor(new float[]{ModelData.getIconColor(ModelData.getEvent(childID).getEventType()),1.f,1.f});
+    }
         else{
             firstTextFeild= ModelData.getPersonFullName(childID);
+
             secondTextFeild=getPersonKey(childID);
+            if(ModelData.getPerson(childID).getGender().equalsIgnoreCase("m")){
+                icon=FontAwesomeIcons.fa_male;
+                color=R.color.male;
+            }
+            else{
+                icon=FontAwesomeIcons.fa_female;
+                color=R.color.female;
+            }
         }
         if (convertView == null) {
             LayoutInflater layoutInflater = (LayoutInflater) this.context
@@ -141,6 +162,9 @@ public class expandableListCustom extends BaseExpandableListAdapter {
         TextView secondItemTextView = (TextView) convertView
                 .findViewById(R.id.secondItem);
         secondItemTextView.setText(secondTextFeild);
+        Drawable genderIcon = new IconDrawable(convertView.getContext(),icon).sizeDp(30).color(color);
+        ImageView iconImage = convertView.findViewById(R.id.icon);
+        iconImage.setImageDrawable(genderIcon);
         return convertView;
     }
 

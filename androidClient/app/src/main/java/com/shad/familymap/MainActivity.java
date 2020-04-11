@@ -4,7 +4,8 @@ package com.shad.familymap;
 import androidx.annotation.RequiresApi;
 import androidx.fragment.app.FragmentManager;
 import androidx.appcompat.app.AppCompatActivity;
-
+import com.joanzapata.iconify.Iconify;
+import com.joanzapata.iconify.fonts.FontAwesomeModule;
 import android.os.Build;
 import android.os.Bundle;
 
@@ -21,6 +22,7 @@ public class MainActivity extends AppCompatActivity   implements Login.LoginList
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
         FragmentManager fm = getSupportFragmentManager();
+        Iconify.with(new FontAwesomeModule());
         loginFragment = (Login)fm.findFragmentById(R.id.LoginFrameLayout);
         if (loginFragment == null) {
             loginFragment = new Login(this);

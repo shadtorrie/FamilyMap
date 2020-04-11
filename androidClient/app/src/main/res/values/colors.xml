@@ -3,4 +3,7 @@
     <color name="colorPrimary">#008577</color>
     <color name="colorPrimaryDark">#00574B</color>
     <color name="colorAccent">#D81B60</color>
+    <color name="female">#ffc0cb</color>
+    <color name="male">#0000ff</color>
+    <color name="white">#ffffffff</color>
 </resources>

@@ -20,6 +20,7 @@ import android.view.ViewGroup;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.joanzapata.iconify.IconDrawable;
 import com.joanzapata.iconify.fonts.FontAwesomeIcons;
@@ -87,9 +88,14 @@ public class MapsFragment extends Fragment implements OnMapReadyCallback, Google
         setHasOptionsMenu(true);
         eventLayout.setOnClickListener(new View.OnClickListener() {
             public void onClick(View v) {
-                Intent intent = new Intent((AppCompatActivity)listener, Person.class);
-                intent.putExtra(PERSON_ID, currentPerson.getID());
-                startActivity(intent);
+                if(currentPerson==null){
+                    Toast.makeText(getActivity(), "Select an Event", Toast.LENGTH_LONG).show();
+                }
+                else {
+                    Intent intent = new Intent((AppCompatActivity) listener, Person.class);
+                    intent.putExtra(PERSON_ID, currentPerson.getID());
+                    startActivity(intent);
+                }
             }
         });
 

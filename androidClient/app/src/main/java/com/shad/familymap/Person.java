@@ -2,6 +2,7 @@ package com.shad.familymap;
 
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.Toolbar;
+import androidx.core.app.NavUtils;
 
 import android.content.Intent;
 import android.os.Bundle;
@@ -49,6 +50,8 @@ public class Person extends AppCompatActivity {
             public boolean onChildClick(ExpandableListView parent, View v, int groupPosition, int childPosition, long id) {
                 String childID=(String)(listAdapter.getChild(groupPosition,childPosition));
                 if(groupPosition==0){
+                    ModelData.setCurrentEvent(childID);
+                    NavUtils.navigateUpFromSameTask(Person.this);
                     return true;
                 }
                 else {

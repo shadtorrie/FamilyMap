@@ -8,6 +8,7 @@ import com.google.android.gms.maps.model.PolylineOptions;
 
 import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.Map;
 import java.util.TreeMap;
 
 import Models.AuthModel;
@@ -31,6 +32,7 @@ public class ModelData {
     private boolean maleEvents = true;
     private boolean femaleEvents = true;
     private HashMap<String, Integer> colorByLineType;
+    private String currentEvent;
 
 
     public static boolean isLifeLines() {
@@ -362,5 +364,13 @@ public class ModelData {
             familyLines.add(motherLine);
             getFamilyLines(motherEvent,familyLines,thickness-3,map);
         }
+    }
+
+    public static String getCurrentEvent() {
+        return instance.currentEvent;
+    }
+
+    public static void setCurrentEvent(String currentEvent) {
+        instance.currentEvent = currentEvent;
     }
 }

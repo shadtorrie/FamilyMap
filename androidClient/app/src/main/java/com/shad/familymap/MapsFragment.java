@@ -118,6 +118,16 @@ public class MapsFragment extends Fragment implements OnMapReadyCallback, Google
         if(!ModelData.loggedIn()){
             listener.logout();
         }
+        if(ModelData.getCurrentEvent()!=null){
+            String currentEvent=ModelData.getCurrentEvent();
+            for(Marker i:markers){
+                if(i.getTag()==currentEvent){
+                    onMarkerClick(i);
+                    map.animateCamera(CameraUpdateFactory.newLatLng(i.getPosition()), 250, null);
+                }
+            }
+            ModelData.setCurrentEvent(null);
+        }
         else if(map!=null){
             generateEventsOnMap();
         }
@@ -132,7 +142,6 @@ public class MapsFragment extends Fragment implements OnMapReadyCallback, Google
                 return true;
 
             case R.id.search:
-
                 return true;
 
             default:

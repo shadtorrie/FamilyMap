@@ -33,6 +33,7 @@ class SearchAdapter extends RecyclerView.Adapter<SearchAdapter.MyViewHolder> imp
     @Override
     public boolean onQueryTextSubmit(String query) {
         foundItems=ModelData.search(query);
+        notifyDataSetChanged();
         return false;
     }
 

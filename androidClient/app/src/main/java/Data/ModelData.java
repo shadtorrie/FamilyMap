@@ -13,6 +13,7 @@ import java.util.TreeMap;
 
 import Models.AuthModel;
 import Models.EventModel;
+import Models.Model;
 import Models.PersonModel;
 
 public class ModelData {
@@ -372,5 +373,37 @@ public class ModelData {
 
     public static void setCurrentEvent(String currentEvent) {
         instance.currentEvent = currentEvent;
+    }
+
+    public static ArrayList<Model> search(String query) {
+        ArrayList<Model> returnList=new ArrayList<>();
+        HashMap<String,PersonModel> people = instance.people;
+        HashMap<String,EventModel> events = instance.events;
+        String lowerQuery =query.toLowerCase();
+        for(HashMap.Entry<String,EventModel> i: events.entrySet()) {
+            EventModel currentEvent=i.getValue();
+            if(currentEvent.getEventType().toLowerCase().contains(lowerQuery)){
+                returnList.add(currentEvent);
+            }
+            else if(currentEvent.getCity().toLowerCase().contains(lowerQuery)){
+                returnList.add(currentEvent);
+            }
+            else if(currentEvent.getCountry().toLowerCase().contains(lowerQuery)){
+                returnList.add(currentEvent);
+            }
+            else if(Integer.toString(currentEvent.getYear()).contains(lowerQuery)){
+                returnList.add(currentEvent);
+            }
+        }
+        for(HashMap.Entry<String,PersonModel> i :people.entrySet()){
+            PersonModel currentPerson =i.getValue();
+            if(currentPerson.getLastName().toLowerCase().contains(lowerQuery)){
+                returnList.add(currentPerson);
+            }
+            else if(currentPerson.getFirstName().toLowerCase().contains(lowerQuery)){
+                returnList.add(currentPerson);
+            }
+        }
+        return returnList;
     }
 }

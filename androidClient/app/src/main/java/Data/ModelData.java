@@ -202,12 +202,12 @@ public class ModelData {
     }
 
     public static float getIconColor(String eventType) {
-        if(instance.colorByEventType.containsKey(eventType)){
-            return instance.colorByEventType.get(eventType);
+        if(instance.colorByEventType.containsKey(eventType.toLowerCase())){
+            return instance.colorByEventType.get(eventType.toLowerCase());
         }
         else{
-            instance.colorByEventType.put(eventType,colors.get((instance.colorByEventType.size()+1)%colors.size()));
-            return instance.colorByEventType.get(eventType);
+            instance.colorByEventType.put(eventType.toLowerCase(),colors.get((instance.colorByEventType.size()+1)%colors.size()));
+            return instance.colorByEventType.get(eventType.toLowerCase());
         }
     }
 
@@ -392,7 +392,7 @@ public class ModelData {
         HashMap<String,PersonModel> people = instance.people;
         HashMap<String,EventModel> events = instance.events;
         String lowerQuery =query.toLowerCase();
-        for(HashMap.Entry<String,EventModel> i: events.entrySet()) {
+        for(HashMap.Entry<String,EventModel> i: getEvents().entrySet()) {
             EventModel currentEvent=i.getValue();
             if(currentEvent.getEventType().toLowerCase().contains(lowerQuery)){
                 returnList.add(currentEvent);

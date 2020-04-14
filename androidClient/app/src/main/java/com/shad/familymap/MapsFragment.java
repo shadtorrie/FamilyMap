@@ -118,6 +118,7 @@ public class MapsFragment extends Fragment implements OnMapReadyCallback, Google
         }
         else if(map!=null){
             generateEventsOnMap();
+
         }
     }
 
@@ -166,6 +167,18 @@ public class MapsFragment extends Fragment implements OnMapReadyCallback, Google
             marker.setTag(i.getKey());
             marker.setIcon(BitmapDescriptorFactory.defaultMarker(ModelData.getIconColor(i.getValue().getEventType())));
             markers.add(marker);
+        }
+        for(Polyline i:lines){
+            i.remove();
+        }
+        lines.clear();
+        if(currentEvent!=null){
+            for(Marker i:markers){
+                if(i.getTag()!=null&&i.getTag().equals(currentEvent.getID())){
+                    onMarkerClick(i);
+                    map.animateCamera(CameraUpdateFactory.newLatLng(i.getPosition()), 250, null);
+                }
+            }
         }
         map.setOnMarkerClickListener(this);
     }

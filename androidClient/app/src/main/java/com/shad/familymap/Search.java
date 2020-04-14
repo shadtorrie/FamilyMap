@@ -45,6 +45,7 @@ public class Search extends AppCompatActivity implements SearchAdapter.ItemClick
         mAdapter = new SearchAdapter();
         recyclerView.setAdapter(mAdapter);
         mSearchView.setOnQueryTextListener(mAdapter);
+        mSearchView.setIconified(false);
         mAdapter.setClickListener(this);
     }
 

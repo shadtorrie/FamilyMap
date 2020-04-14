@@ -190,7 +190,7 @@ public class Login extends Fragment implements RequestTask.Listener {
 
     @Override
     public void onPostExecute(String message) {
-        if(message.contains("successful")){
+        if(ModelData.loggedIn()){
             listener.login();
         }
         else{

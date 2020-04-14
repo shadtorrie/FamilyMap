@@ -51,7 +51,8 @@ public class Person extends AppCompatActivity {
                 String childID=(String)(listAdapter.getChild(groupPosition,childPosition));
                 if(groupPosition==0){
                     ModelData.setCurrentEvent(childID);
-                    NavUtils.navigateUpFromSameTask(Person.this);
+                    Intent intent = new Intent(Person.this, EventActivity.class);
+                    startActivity(intent);
                     return true;
                 }
                 else {

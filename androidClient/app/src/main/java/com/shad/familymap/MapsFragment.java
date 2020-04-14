@@ -56,7 +56,6 @@ public class MapsFragment extends Fragment implements OnMapReadyCallback, Google
     private ImageView gender;
     private TextView name;
     private TextView eventInfoData;
-    private Toolbar mActionBarToolbar;
     private LinearLayout eventLayout;
     static final String PERSON_ID ="com.shad.familymap.person_id";
     private ArrayList<Polyline> lines = new ArrayList<>();
@@ -82,10 +81,9 @@ public class MapsFragment extends Fragment implements OnMapReadyCallback, Google
         name= view.findViewById(R.id.name);
         eventInfoData= view.findViewById(R.id.descriptionAndDate);
         eventLayout = view.findViewById(R.id.EventBar);
-        mActionBarToolbar = view.findViewById(R.id.toolbar);
-        ((AppCompatActivity)listener).setSupportActionBar(mActionBarToolbar);
-        Objects.requireNonNull(((AppCompatActivity) listener).getSupportActionBar()).setTitle("Family Map");
-        setHasOptionsMenu(true);
+        if(ModelData.getCurrentEvent()==null){
+            setHasOptionsMenu(true);
+        }
         eventLayout.setOnClickListener(new View.OnClickListener() {
             public void onClick(View v) {
                 if(currentPerson==null){
@@ -98,7 +96,6 @@ public class MapsFragment extends Fragment implements OnMapReadyCallback, Google
                 }
             }
         });
-
         return view;
     }
 
@@ -118,16 +115,6 @@ public class MapsFragment extends Fragment implements OnMapReadyCallback, Google
         if(!ModelData.loggedIn()){
             listener.logout();
             map=null;
-        }
-        if(ModelData.getCurrentEvent()!=null){
-            String currentEvent=ModelData.getCurrentEvent();
-            for(Marker i:markers){
-                if(i.getTag()==currentEvent){
-                    onMarkerClick(i);
-                    map.animateCamera(CameraUpdateFactory.newLatLng(i.getPosition()), 250, null);
-                }
-            }
-            ModelData.setCurrentEvent(null);
         }
         else if(map!=null){
             generateEventsOnMap();
@@ -157,6 +144,16 @@ public class MapsFragment extends Fragment implements OnMapReadyCallback, Google
         map = googleMap;
         map.setOnMapLoadedCallback(this);
         generateEventsOnMap();
+        if(ModelData.getCurrentEvent()!=null){
+            String currentEvent=ModelData.getCurrentEvent();
+            for(Marker i:markers){
+                if(i.getTag()==currentEvent){
+                    onMarkerClick(i);
+                    map.animateCamera(CameraUpdateFactory.newLatLng(i.getPosition()), 250, null);
+                }
+            }
+            ModelData.setCurrentEvent(null);
+        }
     }
 
     private void generateEventsOnMap() {

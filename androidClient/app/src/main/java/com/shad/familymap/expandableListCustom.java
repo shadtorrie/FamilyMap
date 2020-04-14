@@ -162,9 +162,9 @@ public class expandableListCustom extends BaseExpandableListAdapter {
         TextView secondItemTextView = (TextView) convertView
                 .findViewById(R.id.secondItem);
         secondItemTextView.setText(secondTextFeild);
-        Drawable genderIcon = new IconDrawable(convertView.getContext(),icon).sizeDp(30).color(color);
+        Drawable iconDrawable = new IconDrawable(convertView.getContext(),icon).sizeDp(30).color(color);
         ImageView iconImage = convertView.findViewById(R.id.icon);
-        iconImage.setImageDrawable(genderIcon);
+        iconImage.setImageDrawable(iconDrawable);
         return convertView;
     }
 

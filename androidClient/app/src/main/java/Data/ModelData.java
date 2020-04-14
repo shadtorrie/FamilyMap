@@ -13,6 +13,7 @@ import java.util.TreeMap;
 
 import Models.AuthModel;
 import Models.EventModel;
+import Models.Model;
 import Models.PersonModel;
 
 public class ModelData {
@@ -107,6 +108,18 @@ public class ModelData {
         PersonModel firstPerson = getFirstPerson();
         if((isFemaleEvents()&&firstPerson.getGender().equalsIgnoreCase("f"))||(isMaleEvents()&&firstPerson.getGender().equalsIgnoreCase("m"))){
             getPersonsEvents(firstPerson.getID(),returnEvents);
+        }
+        if(firstPerson.getSpouseID()!=null){
+            PersonModel spouse = getPerson(firstPerson.getSpouseID());
+            if(((isFemaleEvents()&&spouse.getGender().equalsIgnoreCase("f"))||(isMaleEvents()&&spouse.getGender().equalsIgnoreCase("m")))){
+                getPersonsEvents(spouse.getID(),returnEvents);
+            }
+            if(isMothersSide()&&spouse.getMotherID()!=null){
+                getPersonAndAncestorEvents(firstPerson.getMotherID(),returnEvents);
+            }
+            if(isFathersSide()&&spouse.getFatherID()!=null){
+                getPersonAndAncestorEvents(firstPerson.getFatherID(),returnEvents);
+            }
         }
         if(isMothersSide()&&firstPerson.getMotherID()!=null){
             getPersonAndAncestorEvents(firstPerson.getMotherID(),returnEvents);
@@ -246,7 +259,7 @@ public class ModelData {
                 else if(events.containsKey(year)){
                     String previousEvent = events.get(year);
                     EventModel previousEventModel = getEvent(previousEvent);
-                    int compare =i.getValue().getEventType().compareToIgnoreCase(previousEventModel.getEventType());
+                    int compare =i.getValue().getEventType().compareTo(previousEventModel.getEventType());
                     if(compare>0){
                         year++;
                     }
@@ -372,5 +385,37 @@ public class ModelData {
 
     public static void setCurrentEvent(String currentEvent) {
         instance.currentEvent = currentEvent;
+    }
+
+    public static ArrayList<Model> search(String query) {
+        ArrayList<Model> returnList=new ArrayList<>();
+        HashMap<String,PersonModel> people = instance.people;
+        HashMap<String,EventModel> events = instance.events;
+        String lowerQuery =query.toLowerCase();
+        for(HashMap.Entry<String,EventModel> i: events.entrySet()) {
+            EventModel currentEvent=i.getValue();
+            if(currentEvent.getEventType().toLowerCase().contains(lowerQuery)){
+                returnList.add(currentEvent);
+            }
+            else if(currentEvent.getCity().toLowerCase().contains(lowerQuery)){
+                returnList.add(currentEvent);
+            }
+            else if(currentEvent.getCountry().toLowerCase().contains(lowerQuery)){
+                returnList.add(currentEvent);
+            }
+            else if(Integer.toString(currentEvent.getYear()).contains(lowerQuery)){
+                returnList.add(currentEvent);
+            }
+        }
+        for(HashMap.Entry<String,PersonModel> i :people.entrySet()){
+            PersonModel currentPerson =i.getValue();
+            if(currentPerson.getLastName().toLowerCase().contains(lowerQuery)){
+                returnList.add(currentPerson);
+            }
+            else if(currentPerson.getFirstName().toLowerCase().contains(lowerQuery)){
+                returnList.add(currentPerson);
+            }
+        }
+        return returnList;
     }
 }

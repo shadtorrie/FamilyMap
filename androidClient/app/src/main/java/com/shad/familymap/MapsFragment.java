@@ -117,6 +117,7 @@ public class MapsFragment extends Fragment implements OnMapReadyCallback, Google
         super.onResume();
         if(!ModelData.loggedIn()){
             listener.logout();
+            map=null;
         }
         if(ModelData.getCurrentEvent()!=null){
             String currentEvent=ModelData.getCurrentEvent();
@@ -142,6 +143,8 @@ public class MapsFragment extends Fragment implements OnMapReadyCallback, Google
                 return true;
 
             case R.id.search:
+                Intent intentSearch = new Intent((AppCompatActivity)listener, Search.class);
+                startActivity(intentSearch);
                 return true;
 
             default:

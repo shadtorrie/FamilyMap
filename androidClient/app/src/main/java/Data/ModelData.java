@@ -109,6 +109,18 @@ public class ModelData {
         if((isFemaleEvents()&&firstPerson.getGender().equalsIgnoreCase("f"))||(isMaleEvents()&&firstPerson.getGender().equalsIgnoreCase("m"))){
             getPersonsEvents(firstPerson.getID(),returnEvents);
         }
+        if(firstPerson.getSpouseID()!=null){
+            PersonModel spouse = getPerson(firstPerson.getSpouseID());
+            if(((isFemaleEvents()&&spouse.getGender().equalsIgnoreCase("f"))||(isMaleEvents()&&spouse.getGender().equalsIgnoreCase("m")))){
+                getPersonsEvents(spouse.getID(),returnEvents);
+            }
+            if(isMothersSide()&&spouse.getMotherID()!=null){
+                getPersonAndAncestorEvents(firstPerson.getMotherID(),returnEvents);
+            }
+            if(isFathersSide()&&spouse.getFatherID()!=null){
+                getPersonAndAncestorEvents(firstPerson.getFatherID(),returnEvents);
+            }
+        }
         if(isMothersSide()&&firstPerson.getMotherID()!=null){
             getPersonAndAncestorEvents(firstPerson.getMotherID(),returnEvents);
         }

@@ -2,6 +2,7 @@ package com.shad.familymap;
 
 
 import androidx.annotation.RequiresApi;
+import androidx.appcompat.widget.Toolbar;
 import androidx.fragment.app.FragmentManager;
 import androidx.appcompat.app.AppCompatActivity;
 import com.joanzapata.iconify.Iconify;
@@ -9,12 +10,15 @@ import com.joanzapata.iconify.fonts.FontAwesomeModule;
 import android.os.Build;
 import android.os.Bundle;
 
+import java.util.Objects;
+
 import Data.ModelData;
 
 
 public class MainActivity extends AppCompatActivity   implements Login.LoginListener{
     Login loginFragment;
     MapsFragment mMapsFragment;
+    private Toolbar mActionBarToolbar;
 
     @RequiresApi(api = Build.VERSION_CODES.LOLLIPOP)
     @Override
@@ -23,6 +27,9 @@ public class MainActivity extends AppCompatActivity   implements Login.LoginList
         setContentView(R.layout.activity_main);
         FragmentManager fm = getSupportFragmentManager();
         Iconify.with(new FontAwesomeModule());
+        mActionBarToolbar = findViewById(R.id.toolbar);
+        setSupportActionBar(mActionBarToolbar);
+        getSupportActionBar().setTitle("Family Map");
         loginFragment = (Login)fm.findFragmentById(R.id.LoginFrameLayout);
         if (loginFragment == null) {
             loginFragment = new Login(this);

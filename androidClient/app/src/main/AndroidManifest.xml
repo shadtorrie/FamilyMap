@@ -19,13 +19,23 @@
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
         android:theme="@style/AppTheme.NoActionBar">
-        <activity android:name=".Search"
+        <activity android:name=".EventActivity"
             android:parentActivityName=".MainActivity">
 
             <!-- Parent activity meta-data to support 4.0 and lower -->
             <meta-data
                 android:name="android.support.PARENT_ACTIVITY"
-                android:value="com.shad.familymap.MainActivity" /></activity>
+                android:value="com.shad.familymap.MainActivity" />
+        </activity>
+        <activity
+            android:name=".Search"
+            android:parentActivityName=".MainActivity">
+
+            <!-- Parent activity meta-data to support 4.0 and lower -->
+            <meta-data
+                android:name="android.support.PARENT_ACTIVITY"
+                android:value="com.shad.familymap.MainActivity" />
+        </activity>
         <activity
             android:name=".Settings"
             android:parentActivityName=".MainActivity">

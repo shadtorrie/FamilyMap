@@ -58,7 +58,8 @@ public class Search extends AppCompatActivity implements SearchAdapter.ItemClick
         }
         else if(model instanceof EventModel){
             ModelData.setCurrentEvent(model.getID());
-            NavUtils.navigateUpFromSameTask(this);
+            Intent intent = new Intent(this, EventActivity.class);
+            startActivity(intent);
         }
     }
 }

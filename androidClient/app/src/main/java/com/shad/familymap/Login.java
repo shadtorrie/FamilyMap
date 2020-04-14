@@ -40,7 +40,6 @@ public class Login extends Fragment implements RequestTask.Listener {
     private RadioGroup mRadioGroupGender;
     private String gender ="m";
     private LoginListener listener;
-    private Toolbar mActionBarToolbar;
 
     public Login(LoginListener listener) {
         this.listener=listener;
@@ -67,9 +66,6 @@ public class Login extends Fragment implements RequestTask.Listener {
         lastName= v.findViewById(R.id.lastName);
         email= v.findViewById(R.id.email);
         mRadioGroupGender = v.findViewById(R.id.radio_group);
-        mActionBarToolbar = v.findViewById(R.id.toolbar);
-        ((AppCompatActivity)listener).setSupportActionBar(mActionBarToolbar);
-        ((AppCompatActivity)listener).getSupportActionBar().setTitle("Family Map");
         mRadioGroupGender.setOnCheckedChangeListener(new RadioGroup.OnCheckedChangeListener(){
             @Override
             public void onCheckedChanged(RadioGroup group, int checkedId) {

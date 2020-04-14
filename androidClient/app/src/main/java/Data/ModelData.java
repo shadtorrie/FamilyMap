@@ -247,7 +247,7 @@ public class ModelData {
                 else if(events.containsKey(year)){
                     String previousEvent = events.get(year);
                     EventModel previousEventModel = getEvent(previousEvent);
-                    int compare =i.getValue().getEventType().compareToIgnoreCase(previousEventModel.getEventType());
+                    int compare =i.getValue().getEventType().compareTo(previousEventModel.getEventType());
                     if(compare>0){
                         year++;
                     }

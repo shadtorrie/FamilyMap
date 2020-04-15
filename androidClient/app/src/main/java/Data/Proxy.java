@@ -33,6 +33,7 @@ public class Proxy {
     @TargetApi(Build.VERSION_CODES.KITKAT)
     public void request(LoginRequest request, URL url) throws RequestFailedException, IOException {
         HttpURLConnection connection = (HttpURLConnection) url.openConnection();
+        connection.setDoOutput(true);
         connection.setRequestMethod("POST");
         OutputStream outputStream = connection.getOutputStream();
         Gson gson = new Gson();
@@ -63,6 +64,7 @@ public class Proxy {
     public void request(RegisterRequest request, URL url) throws RequestFailedException, IOException {
         HttpURLConnection connection = (HttpURLConnection) url.openConnection();
         connection.setRequestMethod("POST");
+        connection.setDoOutput(true);
         OutputStream outputStream = connection.getOutputStream();
         Gson gson = new Gson();
         outputStream.write(gson.toJson(request).getBytes(StandardCharsets.UTF_8));
@@ -103,6 +105,7 @@ public class Proxy {
     public void request(PersonRequest request, URL url) throws  IOException, RequestFailedException {
         HttpURLConnection connection = (HttpURLConnection) url.openConnection();
         connection.setRequestMethod("GET");
+        connection.setDoOutput(true);
         Gson gson = new Gson();
         connection.setRequestProperty("Authorization",request.getAuthentication());
         connection.connect();
@@ -145,6 +148,7 @@ public class Proxy {
     public void request(EventRequest request, URL url) throws  IOException, RequestFailedException {
         HttpURLConnection connection = (HttpURLConnection) url.openConnection();
         connection.setRequestMethod("GET");
+        connection.setDoOutput(true);
         Gson gson = new Gson();
         connection.setRequestProperty("Authorization",request.getAuthentication());
         connection.connect();

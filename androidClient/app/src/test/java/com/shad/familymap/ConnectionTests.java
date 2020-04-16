@@ -2,13 +2,8 @@ package com.shad.familymap;
 
 import org.junit.*;
 import org.junit.Before;
-
-import java.io.IOException;
-import java.net.MalformedURLException;
 import java.net.URL;
 import java.util.UUID;
-
-import Data.Exceptions.RequestFailedException;
 import Data.ModelData;
 import Data.Proxy;
 import Models.PersonModel;
@@ -18,7 +13,7 @@ import static org.junit.Assert.*;
 
 public class ConnectionTests {
     Proxy mProxy;
-    private static String baseURL ="http://192.168.0.22:5316";
+    private static String baseURL ="http://192.168.0.61:5316";
     private static String username=UUID.randomUUID().toString();
     private static String password=UUID.randomUUID().toString();
     private static String email="test@gmail.com";
@@ -28,6 +23,7 @@ public class ConnectionTests {
     @Before
     public void setup(){
         mProxy=new Proxy();
+        ModelData.logout();
     }
     @Test
     public void LoginTest() {
@@ -47,7 +43,6 @@ public class ConnectionTests {
     @Test
     public void registerTest() {
         try {
-
             RegisterRequest request=new RegisterRequest(username,password,email,firstName,lastName,gender);
             URL url= new URL(baseURL+"/user/register");
             mProxy.request(request,url);
@@ -58,16 +53,25 @@ public class ConnectionTests {
         assertTrue(ModelData.loggedIn());
         assertNotNull(ModelData.getAuthentication());
         assertNotNull(ModelData.getFirstPerson());
-        ModelData.logout();
+    }
+    @Test
+    public void registerFailTest() {
+        try {
+            RegisterRequest request=new RegisterRequest(username,password,email,firstName,lastName,gender);
+            URL url= new URL(baseURL+"/user/register");
+            mProxy.request(request,url);
+        } catch (Exception e) {
+            assertEquals("Error: Username already taken by another user",e.getMessage());
+
+        }
         assertFalse(ModelData.loggedIn());
         assertNull(ModelData.getAuthentication());
         assertNull(ModelData.getFirstPerson());
     }
+
     @Test
     public void personTest() {
-        if(!ModelData.loggedIn()){
-            LoginTest();
-        }
+        LoginTest();
         try {
             PersonRequest request=new PersonRequest(ModelData.getFirstPerson().getID(),ModelData.getAuthentication().getID());
             URL url= new URL(baseURL+"/person");
@@ -86,10 +90,20 @@ public class ConnectionTests {
         assertEquals(31,ModelData.getPeople().size());
     }
     @Test
-    public void EventTest() {
-        if(!ModelData.loggedIn()){
-            LoginTest();
+    public void personFailTest() {
+        try {
+            PersonRequest request=new PersonRequest(UUID.randomUUID().toString(),UUID.randomUUID().toString());
+            URL url= new URL(baseURL+"/person");
+            mProxy.request(request,url);
+        } catch (Exception e) {
+            assertEquals("Error: Invalid auth token",e.getMessage());
         }
+        assertNull(ModelData.getFirstPerson());
+        assertEquals(0,ModelData.getPeople().size());
+    }
+    @Test
+    public void EventTest() {
+        LoginTest();
         try {
             EventRequest request=new EventRequest(ModelData.getAuthentication().getID());
             URL url= new URL(baseURL+"/event");
